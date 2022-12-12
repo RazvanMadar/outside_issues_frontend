@@ -1,0 +1,26 @@
+.date-format {
+  display: flex;
+  flex-direction: column;
+  width: 2.5rem;
+  height: 3.5rem;
+  border: 1px solid #ececec;
+  background-color: #2a2a2a;
+  color: white;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-month-format {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+.date-year-format {
+  font-size: 0.6rem;
+}
+
+.date-day-format {
+  font-size: 1rem;
+  font-weight: bold;
+}

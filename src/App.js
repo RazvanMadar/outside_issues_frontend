@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import Home from "./pages/Home";
+import NewLayout from "./components/layout/NewLayout";
+import Issues from "./pages/Issues";
+import IssuesMap from "./pages/IssuesMap";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import AddIssuePage from "./pages/AddIssuePage";
+import LoginB from "./components/bootstrap_login/LoginB";
+import IssueMapOSM from "./pages/IssueMapOSM";
+import Navbar3 from "./components/layout/Navbar3";
+import Navbar from "./components/layout/Navbar";
 
 function App() {
+  const url = "http://localhost:8080/api/issues";
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <NewLayout>
+    // <Router> trebuie sters daca revin la <NewLayout >
+    <Router>
+      <Navbar3 />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/issues" element={<Issues state={url} />} />
+        <Route path="/add-issue" element={<AddIssuePage />} />
+        <Route path="/map" element={<IssueMapOSM />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/loginB" element={<LoginB />} />
+      </Routes>
+    </Router>
+    // </NewLayout>
   );
 }
 
