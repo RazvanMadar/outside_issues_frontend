@@ -1,16 +1,13 @@
 import "./App.css";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
-import NewLayout from "./components/layout/NewLayout";
 import Issues from "./pages/Issues";
-import IssuesMap from "./pages/IssuesMap";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import AddIssuePage from "./pages/AddIssuePage";
 import LoginB from "./components/bootstrap_login/LoginB";
 import IssueMapOSM from "./pages/IssueMapOSM";
 import Navbar3 from "./components/layout/Navbar3";
-import Navbar from "./components/layout/Navbar";
 
 function App() {
   const url = "http://localhost:8080/api/issues";

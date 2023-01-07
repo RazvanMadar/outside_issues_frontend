@@ -4,7 +4,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import classes from "./AddMapIssue.module.css";
 import AddForm from "./AddForm";
 
-const AddMapIssue = () => {
+const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ const AddMapIssue = () => {
           Report issue
         </Button>
       )}
-      {isShown && <AddForm passIsShown={setIsShown} />}
+      {isShown && <AddForm passIsShown={setIsShown} passIsIssueAdded={passIsIssueAdded} markerPosition={markerPosition}/>}
     </div>
   );
 };

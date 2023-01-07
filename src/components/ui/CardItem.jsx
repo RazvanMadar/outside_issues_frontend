@@ -8,6 +8,9 @@ import DateFormat from "../layout/DateFormat";
 
 const CardItem = (props) => {
   console.log(props.issue);
+
+  // USE Heart checkbox for likes   ->   https://mui.com/material-ui/react-checkbox/
+
   const [likes, setLikes] = useState(props.issue.likesNumber);
   const [dislikes, setDislikes] = useState(props.issue.dislikesNumber);
 

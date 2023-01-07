@@ -11,16 +11,18 @@ const center = {
 
 const flagIcon = createIcon(marker);
 
-const DraggableMarker = () => {
+const DraggableMarker = ({passMarkerPosition}) => {
   const currentLocation = useGeoLocation();
   const [position, setPosition] = useState(center);
   const markerRef = useRef(null);
+
   const eventHandlers = useMemo(
     () => ({
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
           setPosition(marker.getLatLng());
+          passMarkerPosition(marker.getLatLng());
           console.log(marker.getLatLng());
         }
       },

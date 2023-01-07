@@ -1,79 +1,82 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import classes from "./ImageBox.module.css";
 import BackspaceIcon from "@mui/icons-material/Backspace";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 // luata de pe git -> https://www.youtube.com/watch?v=PDtW-XAshqs
-const ImageBox = () => {
-  const [selectedImages, setSelectedImages] = useState([]);
+const ImageBox = ({passIsPhoto}) => {
+    const [selectedImages, setSelectedImages] = useState([]);
 
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
+    const onSelectFile = (event) => {
+        const selectedFiles = event.target.files;
+        const selectedFilesArray = Array.from(selectedFiles);
+        passIsPhoto((previousImages) => previousImages.concat(selectedFilesArray));
 
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
+        const imagesArray = selectedFilesArray.map((file) => {
+            return URL.createObjectURL(file);
+        });
 
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+        setSelectedImages((previousImages) => previousImages.concat(imagesArray));
 
-    // FOR BUG IN CHROME
-    event.target.value = "";
-  };
+        // FOR BUG IN CHROME
+        event.target.value = "";
+    };
 
-  function deleteHandler(image) {
-    setSelectedImages(selectedImages.filter((e) => e !== image));
-    URL.revokeObjectURL(image);
-  }
+    function deleteHandler(image, index) {
+        setSelectedImages(selectedImages.filter((e) => e !== image));
+        passIsPhoto((previousImages) => {
+            const img = previousImages[index];
+            return previousImages.filter((e) => e !== img);
+        });
+        URL.revokeObjectURL(image);
+    }
 
-  return (
-    <div>
-      <section className={classes.section}>
-        <label className={classes.label}>
-          + Add Images
-          <br />
-          <span className={classes.span}>up to 4 images</span>
-          <input
-            className={classes.input}
-            type="file"
-            name="images"
-            onChange={onSelectFile}
-            multiple
-            accept="image/png , image/jpeg, image/webp"
-          />
-        </label>
-        <br />
-
-        <input className={classes.input} type="file" multiple />
-
-        {selectedImages.length > 0 && selectedImages.length > 4 && (
-          <p className={classes.error}>
-            You can't upload more than 4 images! <br />
-            <span className={classes.span}>
-              please delete <b> {selectedImages.length - 4} </b> of them{" "}
+    return (
+        <div>
+            <section className={classes.section}>
+                <label className={classes.label}>
+                    <AddAPhotoIcon/>
+                    <span className={classes.span}>up to 3 images (max. 20MB)</span>
+                    <input
+                        className={classes.input}
+                        type="file"
+                        name="images"
+                        onChange={onSelectFile}
+                        multiple
+                        accept="image/png , image/jpeg, image/webp"
+                    />
+                </label>
+                {/*<Button variant="contained" onClick={() => console.log(images.map((e) => e))}>Contained</Button>*/}
+                {/*<input className={classes.input} type="file" multiple/>*/}
+                {selectedImages.length > 0 && selectedImages.length > 3 && (
+                    <p className={classes.error}>
+                        You can't upload more than 3 images! <br/>
+                        <span className={classes.span}>
+              please delete <b> {selectedImages.length - 3} </b> of them{" "}
             </span>
-          </p>
-        )}
+                    </p>
+                )}
 
-        <div className={classes.images}>
-          {selectedImages &&
-            selectedImages.map((image, index) => {
-              return (
-                <div key={image} className={classes.image}>
-                  <img src={image} height="150" width="150" alt="upload" />
-                  <BackspaceIcon
-                    style={{
-                      position: "absolute",
-                      left: "80%",
-                    }}
-                    onClick={() => deleteHandler(image)}
-                  />
+                <div className={classes.images}>
+                    {selectedImages &&
+                        selectedImages.map((image, index) => {
+                            return (
+                                <div key={image} className={classes.image}>
+                                    <img src={image} height="80" width="80" alt="upload"/>
+                                    <BackspaceIcon
+                                        style={{
+                                            position: "absolute",
+                                            left: "80%",
+                                        }}
+                                        onClick={() => deleteHandler(image, index)}
+                                    />
+                                </div>
+                            );
+                        })}
                 </div>
-              );
-            })}
+            </section>
         </div>
-      </section>
-    </div>
-  );
+    );
 };
 
 export default ImageBox;
