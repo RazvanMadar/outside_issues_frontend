@@ -29,10 +29,11 @@
 }
 
 .state {
-  padding: 3px;
-  background-color: fuchsia;
+  padding: 4px;
+  background-color: #BE6858;
   border-radius: 15px;
   font-size: small;
+  color: white
 }
 
 .cardbody {
@@ -42,6 +43,6 @@
 
 .date {
   position: absolute;
-  bottom: 10px;
-  right: 1px;
+  bottom: 6.5rem;
+  right: 8px;
 }

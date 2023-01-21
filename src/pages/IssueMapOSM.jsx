@@ -18,11 +18,10 @@ import {createIcon} from "../common/geo-converter";
 import DraggableMarker from "../map-components/DraggableMarker";
 import {getIssues} from "../api/issue-api";
 import {useEffect} from "react";
-import FilterMapModal from "../modal/FilterMapModal";
 import {Button} from "@mui/material";
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-const position = {lat: 46.74, lng: 23.574};
+const position = {lat: 47.059390150750204, lng: 21.912248426593525};
 const plusIcon = createIcon(plus);
 const buildIcon = createIcon(build);
 const plannedIcon = createIcon(planned);

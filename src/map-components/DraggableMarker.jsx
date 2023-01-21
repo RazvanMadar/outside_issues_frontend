@@ -5,8 +5,8 @@ import useGeoLocation from "../hooks/useGeoLocation";
 import marker from "../pages/images/gps.png";
 
 const center = {
-  lat: 46.773,
-  lng: 23.625,
+  lat: 47.06329517311617,
+  lng: 21.927439387113623
 };
 
 const flagIcon = createIcon(marker);

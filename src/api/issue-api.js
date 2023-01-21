@@ -13,7 +13,7 @@ const getIssues = (hasLocation, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const filterIssues = (type, state, date, callback) => {
+const filterIssues = (type, state, fromDate, toDate, callback) => {
     const request = new Request(
         backend_api +
         endpoint.issue +
@@ -21,8 +21,10 @@ const filterIssues = (type, state, date, callback) => {
         type +
         "&state=" +
         state +
-        "&date=" +
-        date,
+        "&fromDate=" +
+        fromDate +
+        "&toDate=" +
+        toDate,
         {
             method: "GET",
         }

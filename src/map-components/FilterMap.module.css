@@ -1,0 +1,24 @@
+.toDatePicker {
+    /*
+    nu e responsive partea de calendare, trebuie adaugat media query cred
+    */
+    /*position: absolute;*/
+    /*right: 5%*/
+}
+
+.filterButton {
+    position: absolute;
+    margin-left: auto;
+    /*left: 5%*/
+    /*width: 10%*/
+}
+
+.cancelButton {
+    /*right: 3%;*/
+    /*width: 45%;*/
+}
+
+.state {
+    position: absolute;
+    top: 5%
+}

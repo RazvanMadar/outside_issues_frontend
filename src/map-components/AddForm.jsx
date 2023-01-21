@@ -7,6 +7,7 @@ import classes from "./AddForm.module.css";
 import {CategoryData} from "../staticdata/CategoryData";
 import {addImage} from "../api/issue-image-api";
 import Checkbox from '@mui/material/Checkbox';
+import {convertUITypesToAPI, getCurrentDate} from "../common/utils";
 
 const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const descriptionInputRef = useRef();
@@ -55,22 +56,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         });
     };
 
-    const formatCategory = (category) => {
-        return category.split(' ').length < 2 ? category.toUpperCase() : category.replace(' ', '_').toUpperCase();
-    }
-    console.log(markerPosition)
-    const getCurrentDate = () => {
-        const currentDate = new Date();
-        let day = currentDate.getDate();
-        let month = currentDate.getMonth() + 1;
-        const year = currentDate.getFullYear();
-        if (day.toString().length < 2)
-            day = "0" + day;
-        if (month.toString().length < 2)
-            month = "0" + month;
-        return `${year}-${month}-${day}`;
-    }
-
     const checkIfLocation = () => {
         return checkbox.current.checked ? markerPosition : {lat: 0.0, lng: 0.0};
     }
@@ -90,7 +75,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         <Label for="category">Category</Label>
                         <Input type="select" name="category" id="category" innerRef={categoryInputRef}
                                placeholder="road">
-                            <option selected disabled hidden>Issue category</option>
+                            <option selected disabled hidden>All categories</option>
                             {CategoryData.map((cat) => <option style={{maxWidth: "1rem"}}>{cat.title}</option>)}
                         </Input>
                     </FormGroup>
@@ -117,7 +102,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 onClick={() => {
                     passIsShown(false);
                     addAnIssue({
-                        type: formatCategory(categoryInputRef.current.value),
+                        type: convertUITypesToAPI(categoryInputRef.current.value),
                         state: "REGISTERED",
                         reportedDate: getCurrentDate(),
                         description: descriptionInputRef.current.value,
