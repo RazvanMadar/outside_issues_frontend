@@ -1,32 +1,32 @@
 export const StateData = [
     {
         id: 1,
-        title: "All categories",
+        title: "Toate stările",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 2,
-        title: "Registered",
+        title: "Înregistrată",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 3,
-        title: "Planned",
+        title: "Planificată",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 4,
-        title: "Working",
+        title: "În lucru",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 5,
-        title: "Redirected",
+        title: "Redirecționată",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 6,
-        title: "Solved",
+        title: "Rezolvată",
         // icon: <RestaurantMenuIcon />,
     }
 ]

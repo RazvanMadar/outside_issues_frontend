@@ -32,14 +32,15 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
         const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
         const enteredFromDate = formatDate(fromDateInputRef.current.value);
         const enteredToDate = formatDate(toDateInputRef.current.value);
+        console.log(enteredType, enteredState, enteredFromDate, enteredToDate)
         return filterIssues(
             enteredType,
             enteredState,
             enteredFromDate,
             enteredToDate,
             (result, status, err) => {
-                if (result !== null && status === 201) {
-                    console.log(result);
+                if (result !== null && status === 200) {
+                    console.log("AICI " , result);
                     passIsIssueFiltered((prev) => !prev);
                     passIsIssueFiltered(result);
                     // func(newUser);
@@ -60,13 +61,13 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Search for issue
+                    Caută sesizările dorite
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group className="mb-3" style={{width: "45%"}} controlId="exampleForm.ControlInput1">
-                        <Form.Label>Issue Category</Form.Label>
+                        <Form.Label>Categoria sesizării</Form.Label>
                         <Input type="select" name="category" id="category" innerRef={typeInputRef}>
                             {CategoryData.map((cat) => <option key={cat.id}
                                                                style={{maxWidth: "1rem"}}>{cat.title}</option>)}
@@ -74,7 +75,7 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
                     </Form.Group>
                     <Form.Group className="mb-3" style={{position: "absolute", top: "7%", right: "5%", width: "45%"}}
                                 controlId="exampleForm.ControlInput1">
-                        <Form.Label>Issue State</Form.Label>
+                        <Form.Label>Starea sesizării</Form.Label>
                         <Input type="select" name="state" id="category" innerRef={stateInputRef}>
                             {StateData.map((st) => <option key={st.id} style={{maxWidth: "1rem"}}>{st.title}</option>)}
                         </Input>
@@ -84,7 +85,7 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
                             <DatePicker
                                 disableFuture
                                 label="Responsive"
-                                label="Select from date"
+                                label="Selectează dată de început"
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={fromDate}
@@ -100,7 +101,7 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
                                 className={classes.toDatePicker}
                                 disableFuture
                                 label="Responsive"
-                                label="Select to date"
+                                label="Selectează dată de final"
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={toDate}
@@ -121,12 +122,12 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
                         onClick={() => {
                             filterAlIssues();
                             onHide()
-                        }}>Filter
+                        }}>Filtrează
                 </Button>
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
-                        onClick={onHide}>Close
+                        onClick={onHide}>Anulează
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -15,12 +15,12 @@ const getCoordinatesFromAddress = (props) => {
   );
 };
 
-const createIcon = (icon) =>
+const createIcon = (icon, type) =>
   new L.Icon({
     iconUrl: icon,
     iconRetinaUrl: icon,
     popupAnchor: [-0, -0],
-    iconSize: [30, 30],
+    iconSize: type ? [32, 32]: [18, 18],
   });
 
 export { getCoordinatesFromAddress, createIcon };

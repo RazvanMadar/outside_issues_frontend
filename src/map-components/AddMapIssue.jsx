@@ -17,7 +17,7 @@ const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
             setIsShown((val) => !val);
           }}
         >
-          Report issue
+          Raportează o sesizare
         </Button>
       )}
       {isShown && <AddForm passIsShown={setIsShown} passIsIssueAdded={passIsIssueAdded} markerPosition={markerPosition}/>}

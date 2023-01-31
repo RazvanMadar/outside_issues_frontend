@@ -11,7 +11,7 @@ import redirected from "../../pages/images/arrow-r.png";
 const Legend = () => {
   return (
     <div className={classes.wrapper}>
-      <div className={classes.title}>Issues Legend</div>
+      <div className={classes.title}>Legendă</div>
       <div className={classes.field}>
         <div className="w-3 h-3 opacity-90 rounded-full">
           {/* <AddCircleIcon className={classes.icon} /> */}
@@ -25,24 +25,24 @@ const Legend = () => {
               marginLeft: "3px",
             }}
           />
-          Registered
+          Înregistrată
         </div>
       </div>
       <div className="w-3 h-3 opacity-90 rounded-full">
         <WatchLaterIcon className={classes.icon} />
-        Planned
+        Planificată
       </div>
       <div className="w-3 h-3 opacity-90 rounded-full">
         <BuildCircleIcon className={classes.icon} />
-        Working
+        În lucru
       </div>
       <div className="w-3 h-3 opacity-90 rounded-full">
         <ArrowCircleRightIcon className={classes.icon} />
-        Redirected
+        Redirectată
       </div>
       <div className="w-3 h-3 opacity-90 rounded-full">
         <CheckCircleIcon className={classes.icon} />
-        Solved
+        Rezolvată
       </div>
     </div>
   );

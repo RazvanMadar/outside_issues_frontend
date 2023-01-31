@@ -47,7 +47,7 @@ const Issues = (props) => {
                     variant="contained"
                     onClick={() => setModalShow(true)}
                 >
-                    Filter issues
+                    Filtrează sesizările
                 </Button>
                 <FilterMap
                     show={modalShow}

@@ -22,11 +22,11 @@ import {Button} from "@mui/material";
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 const position = {lat: 47.059390150750204, lng: 21.912248426593525};
-const plusIcon = createIcon(plus);
-const buildIcon = createIcon(build);
-const plannedIcon = createIcon(planned);
-const redirectedIcon = createIcon(redirected);
-const solvedIcon = createIcon(solved);
+const plusIcon = createIcon(plus, false);
+const buildIcon = createIcon(build, false);
+const plannedIcon = createIcon(planned, false);
+const redirectedIcon = createIcon(redirected, false);
+const solvedIcon = createIcon(solved, false);
 
 const IssueMapOSM = () => {
     const [forbidden, setForbidden] = useState(false);
@@ -84,7 +84,7 @@ const IssueMapOSM = () => {
                     setOpenFilterModal(true);
                 }}
             >
-                Filter issues
+                Filtrează sesizările
             </Button>
             {/* {openFilterModal && (
               <FilterMapModal

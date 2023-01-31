@@ -1,57 +1,52 @@
 export const CategoryData = [
     {
         id: 1,
-        title: "All categories",
+        title: "Toate categoriile",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 2,
-        title: "Road",
+        title: "Drumuri",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 3,
-        title: "Lightning",
+        title: "Iluminat public",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 4,
-        title: "Buildings",
+        title: "Clădiri",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 5,
-        title: "Animals",
+        title: "Animale",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 6,
-        title: "Green spaces",
+        title: "Spații verzi",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 7,
-        title: "Public domain",
+        title: "Domeniu public",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 8,
-        title: "Public disorder",
+        title: "Ordine publică",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 9,
-        title: "Institution staff",
+        title: "Transport public",
         // icon: <RestaurantMenuIcon />,
     },
     {
         id: 10,
-        title: "Public transport",
-        // icon: <RestaurantMenuIcon />,
-    },
-    {
-        id: 11,
-        title: "Traffic road signs",
+        title: "Semne de circulație",
         // icon: <RestaurantMenuIcon />,
     }
     ]

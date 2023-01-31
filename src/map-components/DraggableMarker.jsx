@@ -9,7 +9,7 @@ const center = {
   lng: 21.927439387113623
 };
 
-const flagIcon = createIcon(marker);
+const flagIcon = createIcon(marker, true);
 
 const DraggableMarker = ({passMarkerPosition}) => {
   const currentLocation = useGeoLocation();

@@ -36,7 +36,7 @@ const ImageBox = ({passIsPhoto}) => {
             <section className={classes.section}>
                 <label className={classes.label}>
                     <AddAPhotoIcon/>
-                    <span className={classes.span}>up to 3 images (max. 20MB)</span>
+                    <span className={classes.span}>până la 3 imagini (max. 20MB)</span>
                     <input
                         className={classes.input}
                         type="file"

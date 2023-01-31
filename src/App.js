@@ -8,6 +8,7 @@ import AddIssuePage from "./pages/AddIssuePage";
 import LoginB from "./components/bootstrap_login/LoginB";
 import IssueMapOSM from "./pages/IssueMapOSM";
 import Navbar3 from "./components/layout/Navbar3";
+import Navbar from "./components/layout/Navbar";
 
 function App() {
   const url = "http://localhost:8080/api/issues";

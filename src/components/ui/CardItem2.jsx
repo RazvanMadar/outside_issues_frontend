@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
+import {Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import Resizer from "react-image-file-resizer";
 import DateFormat from "../layout/DateFormat";
 import classes from "./CardItem.module.css";
-import {convertAPITypesToUI, cutFromDescription} from "../../common/utils";
-import registeredImage from './registered.png';
+import {convertAPIStatesToUI, convertAPITypesToUI, cutFromDescription} from "../../common/utils";
+import Checkbox from '@mui/material/Checkbox';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import noPhoto from "../../pages/images/no_photo.png";
 
 const CardItem2 = ({issue}) => {
     const [mainImage, setMainImage] = useState(null);
@@ -20,7 +25,7 @@ const CardItem2 = ({issue}) => {
             } else if (status === 403) {
                 setForbidden(true);
             } else {
-                console.log(err);
+                setMainImage(noPhoto);
             }
         });
     };
@@ -74,7 +79,7 @@ const CardItem2 = ({issue}) => {
                 accessKey={issue.id}
                 style={{
                     width: "17rem",
-                    height: "20rem"
+                    height: "21rem"
                 }}
             >
                 {/*<div style={{backgroundImage: "{{mainImage}}", backgroundSize: "cover", height: "70%", width: "70%", backgroundRepeat: "no-repeat"}}>*/}
@@ -83,7 +88,7 @@ const CardItem2 = ({issue}) => {
                 <CardBody>
                     <CardTitle tag="h5" style={{textAlign: "center"}}>{convertAPITypesToUI(issue.type)}</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6" style={{textAlign: "center"}}>
-                        Address
+                        {issue.actualLocation}
                     </CardSubtitle>
                     <CardText style={{textAlign: "center"}}>
                         {cutFromDescription(issue.description)}
@@ -95,7 +100,15 @@ const CardItem2 = ({issue}) => {
                     </div>
                     <div className={classes.state} style={{position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold"}}>
                         {/*<img alt="Image not found" style={{height: "5rem", width: "6rem", padding: "5px", borderRadius: "5%"}} src={registeredImage}/>*/}
-                        {issue.state.toLowerCase()}
+                        {convertAPIStatesToUI(issue.state)}
+                    </div>
+                    <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
+                        {issue.likesNumber}
+                        <Checkbox icon={<ThumbUpOffAltIcon />} checkedIcon={<ThumbUpIcon />} />
+                    </div>
+                    <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
+                        {issue.dislikesNumber}
+                        <Checkbox icon={<ThumbDownOffAltIcon />} checkedIcon={<ThumbDownAltIcon />} />
                     </div>
                 </CardBody>
             </Card>
