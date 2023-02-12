@@ -1,32 +1,28 @@
-import React, {useEffect, useState, useRef} from "react";
-import {Container} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React, {useContext, useRef, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import classes from "./LoginB.module.css";
-import axios from "axios";
+import {authenticate} from "../../api/auth";
+import {AuthContext} from "../../context/AuthContext";
 
 const LoginB = () => {
     const [isSignUp, setSignUp] = useState(false);
-    const url = "http://localhost:8080/login";
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
-    const submitHandler = async (event) => {
-        // event.preventDefault();
+    const { isLogged, token, userId, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const submitHandler = (event) => {
+        event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
         const data = {email: enteredEmail, password: enteredPassword};
-        try {
-            const response = await axios.post(url, JSON.stringify(data), {
-                headers: {"Content-Type": "application/json"},
-            });
-            console.log(JSON.stringify(response?.data));
-        } catch (err) {
-            console.log(err);
-        }
+        authenticate(data, login, navigate);
     };
 
+
     return (
-        <Container style={{width: "auto", margin: "auto", maxWidth: "50rem"}}>
+        <div style={{position:"absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
             <div
                 className={
                     isSignUp
@@ -37,24 +33,29 @@ const LoginB = () => {
             >
                 <div className={classes.formContainer + " " + classes.signUpContainer}>
                     <form className={classes.form}>
-                        <h1 className={classes.h1}>Create Account</h1>
-                        <input className={classes.input} type="text" placeholder="Name"/>
+                        <h1 className={classes.h1}>Creează-ți contul</h1>
+                        <br/>
+                        <input className={classes.input} type="text" placeholder="Prenume"/>
+                        <input className={classes.input} type="text" placeholder="Nume"/>
                         <input className={classes.input} type="email" placeholder="Email"/>
                         <input
                             className={classes.input}
                             type="password"
-                            placeholder="Password"
+                            placeholder="Parolă"
                         />
-                        <button className={classes.button}>Sign Up</button>
+                        <input className={classes.input} type="text" placeholder="Număr de telefon"/>
+                        <br/>
+                        <button className={classes.button}>Înregistrare</button>
                     </form>
                 </div>
                 <div className={classes.formContainer + " " + classes.signInContainer}>
                     <form className={classes.form}>
-                        <h1 className={classes.h1}>Sign in</h1>
+                        <h1 className={classes.h1}>Intră în cont</h1>
+                        <br/>
                         <input
                             className={classes.input}
                             type="email"
-                            placeholder="Insert email"
+                            placeholder="Email"
                             id="email"
                             ref={emailInputRef}
                             required
@@ -62,23 +63,24 @@ const LoginB = () => {
                         <input
                             className={classes.input}
                             type="password"
-                            placeholder="Insert password"
+                            placeholder="Parolă"
                             id="password"
                             ref={passwordInputRef}
                             required
                         />
-                        <Link to="/">Forgot your password?</Link>
+                        <Link to="/">Ți-ai uitat parola?</Link>
+                        <br/>
                         <button className={classes.button} onClick={submitHandler}>
-                            Sign In
+                            Autentificare
                         </button>
                     </form>
                 </div>
                 <div className={classes.overlayContainer}>
                     <div className={classes.overlay}>
                         <div className={classes.overlayPanel + " " + classes.overlayLeft}>
-                            <h1 className={classes.h1}>Welcome Back!</h1>
+                            <h1 className={classes.h1}>Bine ai revenit!</h1>
                             <p className={classes.p}>
-                                To keep connected with us please login with your personal info
+                                Pentru a beneficia de plusurile logării, loghează-te :))
                             </p>
                             <button
                                 className={classes.ghost + " " + classes.button}
@@ -87,13 +89,13 @@ const LoginB = () => {
                                     setSignUp((prev) => !prev);
                                 }}
                             >
-                                Sign In
+                                Autentificare
                             </button>
                         </div>
                         <div className={classes.overlayPanel + " " + classes.overlayRight}>
-                            <h1 className={classes.h1}>No account?</h1>
+                            <h1 className={classes.h1}>Nu ai cont?</h1>
                             <p className={classes.p}>
-                                Enter your personal details and sign up
+                                Înregistrează-te aici
                             </p>
                             <button
                                 className={classes.ghost + " " + classes.button}
@@ -102,13 +104,13 @@ const LoginB = () => {
                                     setSignUp((prev) => !prev);
                                 }}
                             >
-                                Sign Up
+                                Înregistrare
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 

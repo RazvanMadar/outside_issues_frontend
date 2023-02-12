@@ -13,18 +13,31 @@ const getIssues = (hasLocation, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const filterIssues = (type, state, fromDate, toDate, callback) => {
+const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, callback) => {
+    let urlPath = backend_api + endpoint.issue + "/filtered?";
+    if (type) {
+        urlPath += "type=" + type + "&";
+    }
+    if (state) {
+        urlPath += "state=" + state + "&";
+    }
+    if (fromDate) {
+        urlPath += "fromDate=" + fromDate + "&";
+    }
+    if (toDate) {
+        urlPath += "toDate=" + toDate + "&";
+    }
+    if (hasLocation) {
+        urlPath += "hasLocation=" + hasLocation + "&";
+    }
+    if (page) {
+        urlPath += "page=" + page + "&";
+    }
+    if (size) {
+        urlPath += "size=" + size;
+    }
     const request = new Request(
-        backend_api +
-        endpoint.issue +
-        "/filtered?type=" +
-        type +
-        "&state=" +
-        state +
-        "&fromDate=" +
-        fromDate +
-        "&toDate=" +
-        toDate,
+        urlPath,
         {
             method: "GET",
         }

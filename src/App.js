@@ -9,26 +9,35 @@ import LoginB from "./components/bootstrap_login/LoginB";
 import IssueMapOSM from "./pages/IssueMapOSM";
 import Navbar3 from "./components/layout/Navbar3";
 import Navbar from "./components/layout/Navbar";
+import LoginComponent from "./components/bootstrap_login/LoginComponent";
+import {AuthContext, AuthProvider} from "./context/AuthContext";
+import {useContext} from "react";
+import Logout from "./components/bootstrap_login/Logout";
 
 function App() {
-  const url = "http://localhost:8080/api/issues";
-  return (
-    // <NewLayout>
-    // <Router> trebuie sters daca revin la <NewLayout >
-    <Router>
-      <Navbar3 />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/issues" element={<Issues state={url} />} />
-        <Route path="/add-issue" element={<AddIssuePage />} />
-        <Route path="/map" element={<IssueMapOSM />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/loginB" element={<LoginB />} />
-      </Routes>
-    </Router>
-    // </NewLayout>
-  );
+    const url = "http://localhost:8080/api/issues";
+    // const {isLogged} = useContext(AuthContext);
+
+    return (
+        // <NewLayout>
+        // <Router> trebuie sters daca revin la <NewLayout >
+        <Router>
+            <AuthProvider>
+            <Navbar3/>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/issues" element={<Issues state={url}/>}/>
+                    <Route path="/add-issue" element={<AddIssuePage/>}/>
+                    <Route path="/map" element={<IssueMapOSM/>}/>
+                    <Route path="/register" element={<RegisterPage/>}/>
+                    <Route path="/login" element={<LoginComponent/>}/>
+                    <Route path="/loginB" element={<LoginPage/>}/>
+                    <Route path="/logout" element={<Logout/>}/>
+                </Routes>
+            </AuthProvider>
+        </Router>
+        // </NewLayout>
+    );
 }
 
 export default App;

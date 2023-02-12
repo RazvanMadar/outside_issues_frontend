@@ -14,7 +14,8 @@ import {filterIssues, getIssues} from "../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
 
 
-const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
+const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSetTotalPages, passIssuesPerPage,
+                       passSetIsFiltered, passSetType, passSetState, passSetFromDate, passSetToDate}) => {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const typeInputRef = useRef();
@@ -27,24 +28,31 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
         return `${correctDate[2]}-${correctDate[0]}-${correctDate[1]}`;
     }
 
-    const filterAlIssues = () => {
+    const filterAllIssues = () => {
         const enteredType = convertUITypesToAPI(typeInputRef.current.value);
         const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
-        const enteredFromDate = formatDate(fromDateInputRef.current.value);
-        const enteredToDate = formatDate(toDateInputRef.current.value);
+        const enteredFromDate = fromDateInputRef.current.value !== '' ? formatDate(fromDateInputRef.current.value) : null;
+        const enteredToDate = toDateInputRef.current.value !== '' ? formatDate(toDateInputRef.current.value) : null;
         console.log(enteredType, enteredState, enteredFromDate, enteredToDate)
         return filterIssues(
             enteredType,
             enteredState,
             enteredFromDate,
             enteredToDate,
+            false,
+            0,
+            passIssuesPerPage,
             (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log("AICI " , result);
-                    passIsIssueFiltered((prev) => !prev);
-                    passIsIssueFiltered(result);
-                    // func(newUser);
-                    // onClose();
+                    console.log("AICI ", result);
+                    passFilteredIssues(result.content)
+                    passSetTotalPages(result.totalPages);
+                    passSetCurrentPage(0);
+                    passSetIsFiltered(true);
+                    passSetType(enteredType);
+                    passSetState(enteredState);
+                    passSetFromDate(enteredFromDate);
+                    passSetToDate(enteredToDate);
                 } else {
                     console.log(err);
                 }
@@ -120,7 +128,7 @@ const FilterMap = ({show, onHide, passIsIssueFiltered, passFilteredUsers}) => {
                         color="success"
                         className={classes.filterButton}
                         onClick={() => {
-                            filterAlIssues();
+                            filterAllIssues();
                             onHide()
                         }}>Filtrează
                 </Button>

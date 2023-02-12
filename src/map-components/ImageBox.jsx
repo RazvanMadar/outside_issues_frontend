@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import classes from "./ImageBox.module.css";
-import BackspaceIcon from "@mui/icons-material/Backspace";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 // luata de pe git -> https://www.youtube.com/watch?v=PDtW-XAshqs
@@ -15,8 +15,10 @@ const ImageBox = ({passIsPhoto}) => {
         const imagesArray = selectedFilesArray.map((file) => {
             return URL.createObjectURL(file);
         });
+        console.log(imagesArray)
 
-        setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+        if (selectedImages.length < 3)
+            setSelectedImages((previousImages) => previousImages.concat(imagesArray));
 
         // FOR BUG IN CHROME
         event.target.value = "";
@@ -48,7 +50,7 @@ const ImageBox = ({passIsPhoto}) => {
                 </label>
                 {/*<Button variant="contained" onClick={() => console.log(images.map((e) => e))}>Contained</Button>*/}
                 {/*<input className={classes.input} type="file" multiple/>*/}
-                {selectedImages.length > 0 && selectedImages.length > 3 && (
+                {selectedImages.length > 3 && (
                     <p className={classes.error}>
                         You can't upload more than 3 images! <br/>
                         <span className={classes.span}>
@@ -63,10 +65,12 @@ const ImageBox = ({passIsPhoto}) => {
                             return (
                                 <div key={image} className={classes.image}>
                                     <img src={image} height="80" width="80" alt="upload"/>
-                                    <BackspaceIcon
+                                    <RemoveCircleIcon
                                         style={{
                                             position: "absolute",
-                                            left: "80%",
+                                            left: "65px",
+                                            top: "-13px",
+                                            color: "red"
                                         }}
                                         onClick={() => deleteHandler(image, index)}
                                     />

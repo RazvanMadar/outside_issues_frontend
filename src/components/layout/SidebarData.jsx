@@ -1,41 +1,38 @@
 import React from "react";
-import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import HomeIcon from '@mui/icons-material/Home';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 export const SidebarData = [
   {
-    title: "Home",
+    title: "Acasă",
     path: "/",
-    icon: <RestaurantMenuIcon />,
+    icon: <HomeIcon />,
     cName: "nav-text",
   },
   {
-    title: "Map",
+    title: "Harta sesizărilor",
     path: "/map",
-    icon: <RestaurantMenuIcon />,
+    icon: <AddLocationAltIcon />,
     cName: "nav-text",
   },
   {
-    title: "Issues",
+    title: "Sesizări",
     path: "/issues",
-    icon: <RestaurantMenuIcon />,
+    icon: <PlagiarismIcon />,
     cName: "nav-text",
   },
   {
-    title: "Team",
-    path: "/team",
-    icon: <RestaurantMenuIcon />,
+    title: "Autentificare",
+    path: "/login",
+    icon: <VpnKeyIcon />,
     cName: "nav-text",
   },
   {
-    title: "Messages",
-    path: "/messages",
-    icon: <RestaurantMenuIcon />,
+    title: "Deconectare",
+    path: "/login",
+    icon: <VpnKeyIcon />,
     cName: "nav-text",
-  },
-  {
-    title: "Support",
-    path: "/support",
-    icon: <RestaurantMenuIcon />,
-    cName: "nav-text",
-  },
+  }
 ];

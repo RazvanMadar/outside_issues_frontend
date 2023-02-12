@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import Resizer from "react-image-file-resizer";
@@ -15,6 +15,11 @@ import noPhoto from "../../pages/images/no_photo.png";
 const CardItem2 = ({issue}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
+    const isLogged = sessionStorage.getItem("isLogged");
+    const [likeButton, setLikeButton] = useState(false);
+    const [dislikeButton, setDislikeButton] = useState(false);
+    const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
+    const [nrOfDislikes, setNrOfDislikes] = useState(issue.dislikesNumber);
 
     const geMainImage = () => {
         return getFirstImage(issue.id, (result, status, err) => {
@@ -29,6 +34,34 @@ const CardItem2 = ({issue}) => {
             }
         });
     };
+
+    const handleLike = () => {
+        if (likeButton) {
+            setLikeButton(false);
+            setNrOfLikes((prev) => prev - 1);
+        } else {
+            setLikeButton(true);
+            setNrOfLikes((prev) => prev + 1);
+            if (dislikeButton) {
+                setNrOfDislikes((prev) => prev - 1);
+            }
+            setDislikeButton(false);
+        }
+    }
+
+    const handleDislike = () => {
+        if (dislikeButton) {
+            setDislikeButton(false);
+            setNrOfDislikes((prev) => prev - 1);
+        } else {
+            setDislikeButton(true);
+            setNrOfDislikes((prev) => prev + 1);
+            if (likeButton) {
+                setNrOfLikes((prev) => prev - 1);
+            }
+            setLikeButton(false);
+        }
+    }
 
     const resizeImageHandler = (file) =>
         new Promise((resolve) => {
@@ -83,7 +116,8 @@ const CardItem2 = ({issue}) => {
                 }}
             >
                 {/*<div style={{backgroundImage: "{{mainImage}}", backgroundSize: "cover", height: "70%", width: "70%", backgroundRepeat: "no-repeat"}}>*/}
-                <img alt="Image not found" style={{height: "10rem", padding: "5px", borderRadius: "5%"}} src={mainImage}/>
+                <img alt="" style={{height: "10rem", padding: "5px", borderRadius: "5%"}}
+                     src={mainImage}/>
                 {/*</div>*/}
                 <CardBody>
                     <CardTitle tag="h5" style={{textAlign: "center"}}>{convertAPITypesToUI(issue.type)}</CardTitle>
@@ -98,18 +132,24 @@ const CardItem2 = ({issue}) => {
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
                         />
                     </div>
-                    <div className={classes.state} style={{position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold"}}>
+                    <div className={classes.state}
+                         style={{position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold"}}>
                         {/*<img alt="Image not found" style={{height: "5rem", width: "6rem", padding: "5px", borderRadius: "5%"}} src={registeredImage}/>*/}
                         {convertAPIStatesToUI(issue.state)}
                     </div>
-                    <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
-                        {issue.likesNumber}
-                        <Checkbox icon={<ThumbUpOffAltIcon />} checkedIcon={<ThumbUpIcon />} />
-                    </div>
-                    <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
-                        {issue.dislikesNumber}
-                        <Checkbox icon={<ThumbDownOffAltIcon />} checkedIcon={<ThumbDownAltIcon />} />
-                    </div>
+                    {isLogged ?
+                        <div>
+                            <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
+                                {nrOfLikes}
+                                <Checkbox icon={<ThumbUpOffAltIcon/>} checkedIcon={<ThumbUpIcon/>}
+                                          checked={likeButton} onClick={handleLike}/>
+                            </div>
+                            <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
+                                {nrOfDislikes}
+                                <Checkbox icon={<ThumbDownOffAltIcon/>} checkedIcon={<ThumbDownAltIcon/>}
+                                          checked={dislikeButton} onClick={handleDislike}/>
+                            </div>
+                        </div> : ""}
                 </CardBody>
             </Card>
         </div>
