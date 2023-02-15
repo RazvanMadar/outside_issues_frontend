@@ -91,12 +91,10 @@ const IssueMapOSM = () => {
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
                     // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     opacity={1}
-                    // url="https://api.maptiler.com/maps/nl-cartiqo-dark/{z}/{x}/{y}.png?key=MvBQzECTHjLKx0u1unDW"
-                    // attribution="https://api.maptiler.com/maps/nl-cartiqo-dark/tiles.json?key=MvBQzECTHjLKx0u1unDW"
                 />
                 {/*<Polygon color="purple" positions={test}/>*/}
                 {issues &&

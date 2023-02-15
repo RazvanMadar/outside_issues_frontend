@@ -18,7 +18,7 @@ const Issues = (props) => {
     const [issues, setIssues] = useState([]);
     const [forbidden, setForbidden] = useState(false);
     const [modalShow, setModalShow] = useState(false);
-    const [issuesPerPage, setIssuesPerPage] = useState(1);
+    const [issuesPerPage, setIssuesPerPage] = useState(4);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFiltered, setIsFiltered] = useState(false);
@@ -30,7 +30,7 @@ const Issues = (props) => {
 
     const { isLogged, token, userId, login, logout } = useContext(AuthContext);
 
-    const filterAlIssues = () => {
+    const filterAllIssues = () => {
         return filterIssues(
             type,
             state,
@@ -52,8 +52,11 @@ const Issues = (props) => {
     };
 
     useEffect(() => {
-        filterAlIssues();
+        filterAllIssues();
         console.log("se randeaza?")
+        return () => {
+            console.log("Aici voi face request ul cu like uri probabil")
+        }
     }, [issues_url, currentPage, isFiltered]);
 
     const handleChangePage = (e, p) => {

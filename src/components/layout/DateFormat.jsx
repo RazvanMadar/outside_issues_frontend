@@ -2,7 +2,6 @@ import classes from "./DateFormat.module.css";
 
 const DateFormat = (props) => {
   //   const [year, month, day] = props.date.split(" ");
-  console.log(props.date);
   const month = props.date.toLocaleString("en-US", { month: "short" });
   const day = props.date.toLocaleString("en-US", { day: "2-digit" });
   const year = props.date.getFullYear();

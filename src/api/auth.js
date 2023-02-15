@@ -8,10 +8,10 @@ const authenticate = (data, login, navigate) => {
         .then((response) => {
             console.log(response.data);
             // login(response.data.accessToken, response.data.userId);
-            sessionStorage.setItem("userId", response.data.userId);
-            sessionStorage.setItem("email", response.data.email);
-            sessionStorage.setItem("token", response.data.accessToken);
-            sessionStorage.setItem("isLogged", true);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("email", response.data.email);
+            localStorage.setItem("token", response.data.accessToken);
+            localStorage.setItem("isLogged", true);
             navigate("/issues");
         })
         .catch((err) => {

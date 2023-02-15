@@ -15,7 +15,7 @@ import noPhoto from "../../pages/images/no_photo.png";
 const CardItem2 = ({issue}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
-    const isLogged = sessionStorage.getItem("isLogged");
+    const isLogged = localStorage.getItem("isLogged");
     const [likeButton, setLikeButton] = useState(false);
     const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);

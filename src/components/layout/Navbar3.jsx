@@ -10,7 +10,7 @@ import {AuthContext} from "../../context/AuthContext";
 const Navbar3 = () => {
     const [sidebar, setSidebar] = useState(false);
     // const {isLogged, token} = useContext(AuthContext);
-    const isLogged = sessionStorage.getItem("isLogged");
+    const isLogged = localStorage.getItem("isLogged");
 
     const showSidebar = () => setSidebar(!sidebar);
 

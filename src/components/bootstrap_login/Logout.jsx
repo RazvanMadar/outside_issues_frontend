@@ -1,10 +1,10 @@
 import LoginComponent from "./LoginComponent";
 
 const Logout = () => {
-    sessionStorage.removeItem("userId");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("isLogged");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLogged");
     return (
       <LoginComponent />
     );
