@@ -36,6 +36,14 @@
   color: white
 }
 
+.urgent {
+  padding: 2px;
+  background-color: red;
+  border-radius: 5px;
+  font-size: small;
+  color: white
+}
+
 .cardbody {
   /* display: inline; */
   position: relative;

@@ -11,15 +11,33 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import noPhoto from "../../pages/images/no_photo.png";
+import {getReactionsForSomeCitizenAndIssue} from "../../api/citizen-reactions-api";
 
-const CardItem2 = ({issue}) => {
+const CardItem2 = ({issue, passReactions, passSetReactions}) => {
+    // aici fac getById pe CitizenReactions -> daca e true fac setLikeButton(true)
+    // in handle uri trebuie trimit la parinte (issues) modificarile
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
     const isLogged = localStorage.getItem("isLogged");
+    const userId = localStorage.getItem("userId");
     const [likeButton, setLikeButton] = useState(false);
     const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
     const [nrOfDislikes, setNrOfDislikes] = useState(issue.dislikesNumber);
+
+    const getReactionsForCurrentUserAndIssue = () => {
+        return getReactionsForSomeCitizenAndIssue(userId, issue.id, (result, status, err) => {
+            if (status === 200 && result !== null) {
+                if (result === true) {
+                    setLikeButton(true);
+                } else {
+                    setDislikeButton(true);
+                }
+            } else {
+                console.log(err);
+            }
+        });
+    };
 
     const geMainImage = () => {
         return getFirstImage(issue.id, (result, status, err) => {
@@ -39,12 +57,17 @@ const CardItem2 = ({issue}) => {
         if (likeButton) {
             setLikeButton(false);
             setNrOfLikes((prev) => prev - 1);
+            updateLocalStorageWithReactions(0);
+            console.log(passReactions)
         } else {
             setLikeButton(true);
             setNrOfLikes((prev) => prev + 1);
+            let type = 3;
             if (dislikeButton) {
                 setNrOfDislikes((prev) => prev - 1);
+                type = 1;
             }
+            updateLocalStorageWithReactions(type);
             setDislikeButton(false);
         }
     }
@@ -53,14 +76,34 @@ const CardItem2 = ({issue}) => {
         if (dislikeButton) {
             setDislikeButton(false);
             setNrOfDislikes((prev) => prev - 1);
+            updateLocalStorageWithReactions(-2);
         } else {
             setDislikeButton(true);
             setNrOfDislikes((prev) => prev + 1);
+            let type = 4;
             if (likeButton) {
                 setNrOfLikes((prev) => prev - 1);
+                type = -1;
             }
+            updateLocalStorageWithReactions(type);
             setLikeButton(false);
         }
+    }
+
+    const updateLocalStorageWithReactions = (type) => {
+        const existingObjects = JSON.parse(localStorage.getItem("reactions")) || [];
+        const objectToReplace = {citizenId: parseInt(userId), issueId: issue.id, type: parseInt(type)};
+        const objectIndex = existingObjects.findIndex(object => {
+            const parsedObject = JSON.parse(object);
+            return parsedObject.citizenId === objectToReplace.citizenId &&
+                parsedObject.issueId === objectToReplace.issueId
+        });
+        if (objectIndex > -1) {
+            existingObjects[objectIndex] = JSON.stringify(objectToReplace);
+        } else {
+            existingObjects.push(JSON.stringify({citizenId: parseInt(userId), issueId: issue.id, type: type}));
+        }
+        localStorage.setItem("reactions", JSON.stringify(existingObjects));
     }
 
     const resizeImageHandler = (file) =>
@@ -96,6 +139,7 @@ const CardItem2 = ({issue}) => {
 
     useEffect(() => {
         geMainImage();
+        getReactionsForCurrentUserAndIssue();
     }, [issue.id]);
 
     return (
@@ -137,6 +181,16 @@ const CardItem2 = ({issue}) => {
                         {/*<img alt="Image not found" style={{height: "5rem", width: "6rem", padding: "5px", borderRadius: "5%"}} src={registeredImage}/>*/}
                         {convertAPIStatesToUI(issue.state)}
                     </div>
+                    {nrOfLikes > 0 && issue.state !== 'SOLVED' ? <div className={classes.urgent}
+                                          style={{
+                                              position: "absolute",
+                                              top: "10px",
+                                              left: "10px",
+                                              fontWeight: "bold"
+                                          }}>
+                        prioritar
+                    </div> : ""
+                    }
                     {isLogged ?
                         <div>
                             <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>

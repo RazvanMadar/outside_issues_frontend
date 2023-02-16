@@ -36,6 +36,7 @@ const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, ca
     if (size) {
         urlPath += "size=" + size;
     }
+    urlPath += "&sort=id,desc"
     const request = new Request(
         urlPath,
         {

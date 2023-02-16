@@ -2,13 +2,14 @@ import React, {useContext, useEffect, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {useLocation} from "react-router-dom";
 import CardItem2 from "../components/ui/CardItem2";
-import {filterIssues, getIssues} from "../api/issue-api";
+import {addIssue, filterIssues, getIssues} from "../api/issue-api";
 import {Button} from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import classes from "./Issues.module.css";
 import FilterMap from "../map-components/FilterMap";
 import Pagination from '@mui/material/Pagination';
 import {AuthContext} from "../context/AuthContext";
+import {addCitizenReaction} from "../api/citizen-reactions-api";
 
 const Issues = (props) => {
     // const issues_url = "http://localhost:8080/api/issues";
@@ -26,6 +27,7 @@ const Issues = (props) => {
     const [state, setState] = useState(null);
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
+    const [reactions, setReactions] = useState([]);
 
 
     const { isLogged, token, userId, login, logout } = useContext(AuthContext);
@@ -51,11 +53,36 @@ const Issues = (props) => {
         );
     };
 
+    const addCitizensReactions = (reactions) => {
+        return addCitizenReaction(reactions, (result, status, err) => {
+            if (result !== null && status === 201) {
+                console.log(result);
+            } else if (status === 403) {
+                setForbidden(true);
+            } else {
+                console.log(err);
+            }
+        });
+    };
+
     useEffect(() => {
         filterAllIssues();
-        console.log("se randeaza?")
+        // const allReactions = JSON.parse(localStorage.getItem("reactions")) || [];
+        // const reactionsToSend = [];
+        // allReactions.map((currentReaction) => {
+        //     reactionsToSend.push(JSON.parse(currentReaction));
+        // });
+        // addCitizensReactions(reactionsToSend);
+        // localStorage.removeItem("reactions");
+
         return () => {
-            console.log("Aici voi face request ul cu like uri probabil")
+            const allReactions = JSON.parse(localStorage.getItem("reactions")) || [];
+            const reactionsToSend = [];
+            allReactions.map((currentReaction) => {
+                reactionsToSend.push(JSON.parse(currentReaction));
+            });
+            addCitizensReactions(reactionsToSend);
+            localStorage.removeItem("reactions");
         }
     }, [issues_url, currentPage, isFiltered]);
 
@@ -94,12 +121,12 @@ const Issues = (props) => {
             <br/>
             {issues.length > 0 ? (
                 <Row>
-                    {issues.map((elem) => (
-                        <Col key={elem.id}
+                    {issues.map((issue) => (
+                        <Col key={issue.id}
                              className="bg-light border"
                              style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
                         >
-                            <CardItem2 issue={elem} key={elem.id}/>
+                            <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions} key={issue.id}/>
                         </Col>
                     ))}
                 </Row>
