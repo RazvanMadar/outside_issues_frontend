@@ -4,7 +4,7 @@ import classes from "./LoginB.module.css";
 import {authenticate} from "../../api/auth";
 import {AuthContext} from "../../context/AuthContext";
 
-const LoginB = () => {
+const LoginB = ({onLogin}) => {
     const [isSignUp, setSignUp] = useState(false);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -17,7 +17,7 @@ const LoginB = () => {
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
         const data = {email: enteredEmail, password: enteredPassword};
-        authenticate(data, login, navigate);
+        authenticate(data, login, navigate, onLogin);
     };
 
 

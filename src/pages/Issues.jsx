@@ -23,6 +23,7 @@ const Issues = (props) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFiltered, setIsFiltered] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
     const [type, setType] = useState(null);
     const [state, setState] = useState(null);
     const [fromDate, setFromDate] = useState(null);
@@ -67,13 +68,6 @@ const Issues = (props) => {
 
     useEffect(() => {
         filterAllIssues();
-        // const allReactions = JSON.parse(localStorage.getItem("reactions")) || [];
-        // const reactionsToSend = [];
-        // allReactions.map((currentReaction) => {
-        //     reactionsToSend.push(JSON.parse(currentReaction));
-        // });
-        // addCitizensReactions(reactionsToSend);
-        // localStorage.removeItem("reactions");
 
         return () => {
             const allReactions = JSON.parse(localStorage.getItem("reactions")) || [];
@@ -84,7 +78,7 @@ const Issues = (props) => {
             addCitizensReactions(reactionsToSend);
             localStorage.removeItem("reactions");
         }
-    }, [issues_url, currentPage, isFiltered]);
+    }, [issues_url, currentPage, isFiltered, isDeleted]);
 
     const handleChangePage = (e, p) => {
         setCurrentPage(p - 1);
@@ -126,7 +120,7 @@ const Issues = (props) => {
                              className="bg-light border"
                              style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
                         >
-                            <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions} key={issue.id}/>
+                            <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions} passIsDeleted={setIsDeleted} key={issue.id}/>
                         </Col>
                     ))}
                 </Row>

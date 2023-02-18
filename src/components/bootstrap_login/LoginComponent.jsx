@@ -5,9 +5,9 @@ import Issues from "../../pages/Issues";
 import {Redirect, useNavigate} from 'react-router-dom'
 import {AccountBox} from "../../frontend_login/accountBox";
 
-const LoginComponent = () => {
+const LoginComponent = ({onLogin}) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const [component, setComponent] = useState(width > 768 ? <LoginB/> : <AccountBox />);
+    const [component, setComponent] = useState(width > 768 ? <LoginB onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);
     // const { isLogged } = useContext(AuthContext);
 
     const isLogged = localStorage.getItem("isLogged");
@@ -16,11 +16,12 @@ const LoginComponent = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("isLogged");
+    onLogin(false);
 
     useEffect(() => {
         const handleResize = () => {
             setWidth(window.innerWidth);
-            setComponent(window.innerWidth > 768 ? <LoginB/> : <AccountBox/>);
+            setComponent(window.innerWidth > 768 ? <LoginB onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);
         };
 
         window.addEventListener('resize', handleResize);

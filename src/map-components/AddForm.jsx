@@ -9,6 +9,8 @@ import {addImage} from "../api/issue-image-api";
 import Checkbox from '@mui/material/Checkbox';
 import {convertUITypesToAPI, getCurrentDate} from "../common/utils";
 import {getAddressFromCoordinates, getAddressFromCoordinatesAxios} from "../api/address-api";
+import * as FaIcons from "react-icons/fa";
+import {Link} from "react-router-dom";
 
 const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const descriptionInputRef = useRef();
@@ -19,6 +21,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const [photos, setPhotos] = useState([]);
     const [isChecked, setIsChecked] = useState(true);
     const checkbox = useRef(null);
+    const isLogged = localStorage.getItem("isLogged");
 
     const addAnIssue = (issue) => {
         console.log(issue);
@@ -106,11 +109,11 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     useEffect(() => {
         computeAddressFromCoordinates(checkIfLocation());
-        console.log("intra useeffect");
     }, [passIsShown, isChecked])
 
+    const formHeight = isLogged ? 480 : 610
     return (
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} style={{height: formHeight}}>
             <Form>
                 <Row>
                     <ImageBox passIsPhoto={setPhotos}/>
@@ -120,7 +123,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         <Label for="category">Categorie</Label>
                         <Input type="select" name="category" id="category" innerRef={categoryInputRef}
                                placeholder="road">
-                            {/*<option selected disabled hidden>Drumuri</option>*/}
                             {CategoryData.map((cat) => {
                                 if (cat.id > 1)
                                     return <option style={{maxWidth: "1rem"}}>{cat.title}</option>
@@ -139,9 +141,23 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                                placeholder="Scrie o descriere..."
                         />
                         <span>Folosește locația pentru sesizare</span>
-                        <Checkbox defaultChecked color="success" inputRef={checkbox} onClick={() => setIsChecked(checkbox.current.checked)}/>
+                        <Checkbox defaultChecked color="success" inputRef={checkbox}
+                                  onClick={() => setIsChecked(checkbox.current.checked)}/>
                     </FormGroup>
                 </Row>
+                {!isLogged ? <Row>
+                    <FormGroup>
+                        <Input type="email" name="email" id="email" innerRef={categoryInputRef}
+                               placeholder="Email (opțional...)">
+                        </Input>
+                        <Input type="email" name="email" id="email" innerRef={categoryInputRef}
+                               placeholder="Telefon (opțional...)" style={{marginTop: "5px", marginBottom: "5px"}}>
+                        </Input>
+                        <Link to="/login" style={{textDecoration: "none", color: "orange"}}>
+                            Ai deja cont? Autentifică-te aici
+                        </Link>
+                    </FormGroup>
+                </Row> : ""}
             </Form>
             <Button
                 variant="contained"

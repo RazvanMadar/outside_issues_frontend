@@ -4,6 +4,26 @@
   display: flex;
   justify-content: start;
   align-items: center;
+
+  /*position: fixed;*/
+  /*top: 0;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*z-index: 1;*/
+}
+
+.email {
+  position: absolute;
+  right: 2rem;
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  background: none;
+  border: none
+}
+
+.email:hover {
+  color: purple
 }
 
 .menu-bars {

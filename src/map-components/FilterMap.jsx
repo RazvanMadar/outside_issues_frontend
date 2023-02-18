@@ -10,7 +10,7 @@ import classes from "./FilterMap.module.css";
 import {CategoryData} from "../staticdata/CategoryData";
 import {StateData} from "../staticdata/StateData";
 import {Input} from "reactstrap";
-import {filterIssues, getIssues} from "../api/issue-api";
+import {filterIssues} from "../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
 
 
@@ -73,7 +73,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form style={{ display: "flex", flexWrap: "wrap" }}>
                     <Form.Group className="mb-3" style={{width: "45%"}} controlId="exampleForm.ControlInput1">
                         <Form.Label>Categoria sesizării</Form.Label>
                         <Input type="select" name="category" id="category" innerRef={typeInputRef}>
@@ -81,11 +81,12 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                                                                style={{maxWidth: "1rem"}}>{cat.title}</option>)}
                         </Input>
                     </Form.Group>
-                    <Form.Group className="mb-3" style={{position: "absolute", top: "7%", right: "5%", width: "45%"}}
+                    <Form.Group className="mb-3" style={{marginLeft: "2rem", width: "45%"}}
                                 controlId="exampleForm.ControlInput1">
                         <Form.Label>Starea sesizării</Form.Label>
                         <Input type="select" name="state" id="category" innerRef={stateInputRef}>
-                            {StateData.map((st) => <option key={st.id} style={{maxWidth: "1rem"}}>{st.title}</option>)}
+                            {StateData.map((st) => <option key={st.id}
+                                                           style={{maxWidth: "1rem"}}>{st.title}</option>)}
                         </Input>
                     </Form.Group>
                     <Form.Group>

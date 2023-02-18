@@ -16,6 +16,27 @@ statesMap.set("WORKING", "În lucru");
 statesMap.set("REDIRECTED", "Redirecționată");
 statesMap.set("SOLVED", "Rezolvată");
 
+const getBackgroundColorForState = (state) => {
+    let backgroundColor;
+    switch (state) {
+        case "REGISTERED":
+            backgroundColor = "#9815AF";
+            break;
+        case "PLANNED":
+            backgroundColor = "#BE6858";
+            break;
+        case "WORKING":
+            backgroundColor = "#163EBB";
+            break;
+        case "REDIRECTED":
+            backgroundColor = "#F2C613";
+            break;
+        default:
+            backgroundColor = "#29B810";
+    }
+    return backgroundColor;
+}
+
 
 const getCurrentDate = () => {
     const currentDate = new Date();
@@ -48,14 +69,6 @@ const replaceAt = (str, index, newCharacter) => {
     return str.replace(/./g, replacer);
 }
 
-const convertAPITypesToUI2 = (type) => {
-    type = type.toLowerCase();
-    let convertedType = type.replaceAll('_', ' ');
-    const firstLetter = convertedType.charAt(0);
-    convertedType = replaceAt(convertedType, 0, firstLetter.toUpperCase());
-    return convertedType;
-}
-
 const convertAPITypesToUI = (type) => {
     return typesMap.get(type);
 }
@@ -73,8 +86,8 @@ const convertUIStatesToAPI = (state) => {
 
 const convertAPIStatesToUI = (state) => {
     let value = statesMap.get(state);
-    const firstLetter = value.charAt(0);
-    value = replaceAt(value, 0, firstLetter.toLowerCase());
+    // const firstLetter = value.charAt(0);
+    // value = replaceAt(value, 0, firstLetter.toLowerCase());
     return value;
 }
 
@@ -3501,4 +3514,4 @@ const testTm = [
     [ 45.7430701, 21.2794704 ]
 ]
 
-export {getCurrentDate, convertUITypesToAPI, convertUIStatesToAPI, convertAPITypesToUI, convertAPIStatesToUI, cutFromDescription, cityBoundary, cityBoundary2, test, test2, testTm}
+export {getCurrentDate, convertUITypesToAPI, convertUIStatesToAPI, convertAPITypesToUI, convertAPIStatesToUI, cutFromDescription, getBackgroundColorForState, cityBoundary, cityBoundary2, test, test2, testTm}

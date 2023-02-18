@@ -59,4 +59,36 @@ const addIssue = (issue, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-export {getIssues, filterIssues, addIssue};
+const findIssueById = (id, callback) => {
+    const request = new Request(backend_api + endpoint.issue + "/" + id, {
+        method: "GET",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const updateIssue = (id, type, state, callback) => {
+    let urlPath = backend_api + endpoint.issue + `/${id}?`;
+    if (type) {
+        urlPath += "type=" + type + "&";
+    }
+    if (state) {
+        urlPath += "state=" + state;
+    }
+    const request = new Request(urlPath, {
+        method: "PUT",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const deleteIssueById = (id, callback) => {
+    const request = new Request(backend_api + endpoint.issue + "/" + id, {
+        method: "DELETE",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+
+export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById};

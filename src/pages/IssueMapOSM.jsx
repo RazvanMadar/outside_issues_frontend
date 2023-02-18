@@ -67,10 +67,63 @@ const IssueMapOSM = () => {
                 case "ROAD": return createIcon(REGISTERED_ROAD, false);
                 case "LIGHTNING": return createIcon(REGISTERED_LIGHTNING, false);
                 case "PUBLIC_DISORDER": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DOMAIN": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "GREEN_SPACES": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "BUILDINGS": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "PUBLIC_TRANSPORT": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "TRAFFIC_ROAD_SIGNS": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                case "ANIMALS": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
             }
         }
-        if (state === "SOLVED") {
+        else if (state === "PLANNED") {
             switch (type) {
+                case "ROAD": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "LIGHTNING": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "GREEN_SPACES": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "BUILDINGS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            }
+        }
+        else if (state === "WORKING") {
+            switch (type) {
+                case "ROAD": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "LIGHTNING": return createIcon(REGISTERED_LIGHTNING, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "GREEN_SPACES": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "BUILDINGS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            }
+        }
+        else if (state === "REDIRECTED") {
+            switch (type) {
+                case "ROAD": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "LIGHTNING": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "GREEN_SPACES": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "BUILDINGS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            }
+        }
+        else if (state === "SOLVED") {
+            switch (type) {
+                case "ROAD": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "LIGHTNING": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "GREEN_SPACES": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "BUILDINGS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
                 case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
             }
         }

@@ -1,10 +1,15 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import Resizer from "react-image-file-resizer";
 import DateFormat from "../layout/DateFormat";
 import classes from "./CardItem.module.css";
-import {convertAPIStatesToUI, convertAPITypesToUI, cutFromDescription} from "../../common/utils";
+import {
+    convertAPIStatesToUI,
+    convertAPITypesToUI,
+    cutFromDescription,
+    getBackgroundColorForState
+} from "../../common/utils";
 import Checkbox from '@mui/material/Checkbox';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -12,18 +17,26 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import noPhoto from "../../pages/images/no_photo.png";
 import {getReactionsForSomeCitizenAndIssue} from "../../api/citizen-reactions-api";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import IssueDetails from "../../pages/IssueDetails";
+import {useNavigate} from "react-router-dom";
+import {deleteIssueById} from "../../api/issue-api";
 
-const CardItem2 = ({issue, passReactions, passSetReactions}) => {
-    // aici fac getById pe CitizenReactions -> daca e true fac setLikeButton(true)
-    // in handle uri trebuie trimit la parinte (issues) modificarile
+const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
-    const isLogged = localStorage.getItem("isLogged");
-    const userId = localStorage.getItem("userId");
     const [likeButton, setLikeButton] = useState(false);
     const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
     const [nrOfDislikes, setNrOfDislikes] = useState(issue.dislikesNumber);
+    const navigate = useNavigate();
+
+    const isLogged = localStorage.getItem("isLogged");
+    const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+    const backgroundColor = getBackgroundColorForState(issue.state);
 
     const getReactionsForCurrentUserAndIssue = () => {
         return getReactionsForSomeCitizenAndIssue(userId, issue.id, (result, status, err) => {
@@ -49,6 +62,17 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
                 setForbidden(true);
             } else {
                 setMainImage(noPhoto);
+            }
+        });
+    };
+
+    const deleteAnIssue = () => {
+        return deleteIssueById(issue.id, (result, status, err) => {
+            if (result !== null && status === 200) {
+                console.log(result);
+                passIsDeleted((prev) => !prev)
+            } else {
+                console.log(err);
             }
         });
     };
@@ -106,6 +130,10 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
         localStorage.setItem("reactions", JSON.stringify(existingObjects));
     }
 
+    const handleEdit = () => {
+        navigate(`/issues/${issue.id}`);
+    }
+
     const resizeImageHandler = (file) =>
         new Promise((resolve) => {
             Resizer.imageFileResizer(
@@ -148,15 +176,16 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
                 display: "inline",
                 marginLeft: "auto",
                 marginRight: "auto",
-                padding: "0 15% 10% 0",
+                marginBottom: "1rem",
+                // padding: "0 15% 10% 0",
                 fontSize: "small",
             }}
         >
             <Card
                 accessKey={issue.id}
                 style={{
-                    width: "17rem",
-                    height: "21rem"
+                    width: "18rem",
+                    height: "22rem"
                 }}
             >
                 {/*<div style={{backgroundImage: "{{mainImage}}", backgroundSize: "cover", height: "70%", width: "70%", backgroundRepeat: "no-repeat"}}>*/}
@@ -164,7 +193,9 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
                      src={mainImage}/>
                 {/*</div>*/}
                 <CardBody>
-                    <CardTitle tag="h5" style={{textAlign: "center"}}>{convertAPITypesToUI(issue.type)}</CardTitle>
+                    <CardTitle tag="h5" style={{textAlign: "center"}}>
+                        {convertAPITypesToUI(issue.type)}
+                    </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6" style={{textAlign: "center"}}>
                         {issue.actualLocation}
                     </CardSubtitle>
@@ -176,22 +207,49 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
                         />
                     </div>
-                    <div className={classes.state}
-                         style={{position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold"}}>
-                        {/*<img alt="Image not found" style={{height: "5rem", width: "6rem", padding: "5px", borderRadius: "5%"}} src={registeredImage}/>*/}
-                        {convertAPIStatesToUI(issue.state)}
-                    </div>
+                    {isLogged && role === "ROLE_ADMIN" ?
+                        <div>
+                            <div className={classes.state}
+                                 style={{
+                                     position: "absolute",
+                                     textAlign: "center",
+                                     bottom: "10px",
+                                     left: "5px",
+                                     fontWeight: "bold",
+                                     backgroundColor: backgroundColor
+                                 }}>
+                                {convertAPIStatesToUI(issue.state).toLowerCase()}
+                            </div>
+                            <IconButton aria-label="edit" style={{position: "absolute", left: "85px", bottom: "7px"}}
+                                        onClick={handleEdit}>
+                                <BorderColorIcon/>
+                            </IconButton>
+                            <IconButton aria-label="delete"
+                                        style={{position: "absolute", left: "120px", bottom: "7px"}} onClick={deleteAnIssue}>
+                                <DeleteIcon/>
+                            </IconButton>
+                        </div> :
+                        <div className={classes.state}
+                             style={{
+                                 position: "absolute",
+                                 textAlign: "center",
+                                 bottom: "10px",
+                                 fontWeight: "bold",
+                                 backgroundColor: backgroundColor
+                             }}>
+                            {convertAPIStatesToUI(issue.state).toLowerCase()}
+                        </div>}
                     {nrOfLikes > 0 && issue.state !== 'SOLVED' ? <div className={classes.urgent}
-                                          style={{
-                                              position: "absolute",
-                                              top: "10px",
-                                              left: "10px",
-                                              fontWeight: "bold"
-                                          }}>
+                                                                      style={{
+                                                                          position: "absolute",
+                                                                          top: "10px",
+                                                                          left: "10px",
+                                                                          fontWeight: "bold"
+                                                                      }}>
                         prioritar
                     </div> : ""
                     }
-                    {isLogged ?
+                    {isLogged && role === "ROLE_USER" ?
                         <div>
                             <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
                                 {nrOfLikes}
@@ -204,6 +262,20 @@ const CardItem2 = ({issue, passReactions, passSetReactions}) => {
                                           checked={dislikeButton} onClick={handleDislike}/>
                             </div>
                         </div> : ""}
+                    {isLogged && role === "ROLE_ADMIN" ?
+                        <div>
+                            <div style={{position: "absolute", bottom: "5px", right: "4rem"}}>
+                                {nrOfLikes}
+                                <Checkbox icon={<ThumbUpOffAltIcon/>} checkedIcon={<ThumbUpIcon/>}
+                                          disabled/>
+                            </div>
+                            <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
+                                {nrOfDislikes}
+                                <Checkbox icon={<ThumbDownOffAltIcon/>} checkedIcon={<ThumbDownAltIcon/>}
+                                          disabled/>
+                            </div>
+                        </div> : ""
+                    }
                 </CardBody>
             </Card>
         </div>

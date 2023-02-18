@@ -30,7 +30,6 @@
 
 .state {
   padding: 4px;
-  background-color: #BE6858;
   border-radius: 15px;
   font-size: small;
   color: white
@@ -51,6 +50,7 @@
 
 .date {
   position: absolute;
-  bottom: 9rem;
+  /*bottom: 9rem;*/
+  bottom: 10rem;
   right: 3px;
 }
