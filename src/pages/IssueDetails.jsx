@@ -9,7 +9,7 @@ import {CategoryData} from "../staticdata/CategoryData";
 import {StateData} from "../staticdata/StateData";
 import {convertAPIStatesToUI, convertAPITypesToUI, convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
 import Button from "@mui/material/Button";
-import {findCitizenById} from "../api/citizen-api";
+import {findCitizenByEmail, findCitizenById} from "../api/citizen-api";
 
 const IssueDetails = () => {
     const {id} = useParams();
@@ -36,7 +36,7 @@ const IssueDetails = () => {
         return findIssueById(id, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
-                    findAnCitizenById(result.citizenId);
+                    findAnCitizenByEmail(result.citizenEmail);
                     if (result.hasLocation) {
                         const lat = result.address.lat;
                         const lng = result.address.lng;
@@ -56,8 +56,8 @@ const IssueDetails = () => {
         );
     };
 
-    const findAnCitizenById = (id) => {
-        return findCitizenById(id, (result, status, err) => {
+    const findAnCitizenByEmail = (email) => {
+        return findCitizenByEmail(email, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     setCitizen(result);
@@ -135,8 +135,8 @@ const IssueDetails = () => {
     return (
         <div>
             {issue ?
-                <div>
-                    <div className={classes.main}>
+                <div className={classes.main}>
+                    <div>
                         {/*<p>Sesizarea cu numărul {id}</p>*/}
                         <div>
                             <img alt="" className={classes.mainImage}
@@ -169,7 +169,7 @@ const IssueDetails = () => {
                             <br/>
                             Descriere: {issue.description}
                             <br/>
-                            Raportată de cetățeanul: {citizen ? citizen.email : "Anonim"}
+                            Raportată de cetățeanul: {citizen ? citizen.email : "Anonim"} (pot pune aici buton de Block)
                             <br/>
                             <br/>
                         </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const login_api = "http://localhost:8080/login";
+const register_api = "http://localhost:8080/register";
 
 const authenticate = (data, login, navigate, onLogin) => {
     axios

@@ -33,7 +33,7 @@ const polygonCoordinates = [[47.0357540, 21.8959981], [47.0701130, 21.9360878], 
 // http://overpass-turbo.eu/
 //
 
-const IssueMapOSM = () => {
+const IssueMapOSM = ({passBackgroundCol}) => {
     const [forbidden, setForbidden] = useState(false);
     const [issues, setIssues] = useState([]);
     const [openFilterModal, setOpenFilterModal] = useState(false);
@@ -50,6 +50,8 @@ const IssueMapOSM = () => {
             true,
             null,
             null,
+            null,
+            null,
             (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result.content);
@@ -60,7 +62,7 @@ const IssueMapOSM = () => {
             }
         );
     };
-
+    console.log(passBackgroundCol);
     const getMarkerImage = (type, state) => {
         if (state === "REGISTERED") {
             switch (type) {
@@ -130,6 +132,9 @@ const IssueMapOSM = () => {
         return null;
     }
 
+    const url = passBackgroundCol == 'white' ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
+        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
+
     useEffect(() => {
         filterAlIssues();
     }, [isIssueAdded]);
@@ -144,12 +149,13 @@ const IssueMapOSM = () => {
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url={url}
+                    // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                     // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
                     // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     opacity={1}
                 />
-                {/*<Polygon color="purple" positions={test}/>*/}
+                {/*<Polygon color='purple" positions={test}/>*/}
                 {issues &&
                     issues.map((issue) => {
                             const icon = getMarkerImage(issue.type, issue.state);

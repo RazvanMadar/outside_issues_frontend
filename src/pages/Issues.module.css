@@ -6,5 +6,10 @@
 }
 
 .filter {
-  background-color: #F5F5F5;
+  /*background-color: #F5F5F5;*/
+  /*background-color: #BCBEC8;*/
+  border-radius: 5px;
+  box-shadow: 7px 5px 5px grey
+  /*display: flex;*/
+  /*flex-direction: row*/
 }

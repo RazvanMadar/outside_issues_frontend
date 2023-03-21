@@ -1,24 +1,47 @@
 import React, {useEffect, useState} from "react";
 import Modal from "react-bootstrap/Modal";
-import classes from "../map-components/FilterMap.module.css";
 import Button from "@mui/material/Button";
 import {findCitizenById} from "../api/citizen-api";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from "chart.js";
 import {Doughnut} from "react-chartjs-2";
 import ProfileChart from "../chart/ProfileChart";
+import classes from "./ProfileModal.module.css";
+import {data} from "../chart/data";
+import CenterTemplate from "../chart/CenterTemplate";
+import PieChart, {Connector, Label, Series} from "devextreme-react/pie-chart";
+import StateChart from "../chart/StateChart";
+import UserProfileChart from "./UserProfileChart";
+import BasicChart from "../chart/BasicChart";
+import {getBasicStatistics} from "../api/issue-api";
+import {convertAPIStatesToUI} from "../common/utils";
+import LoginB from "../components/bootstrap_login/LoginB";
+import {AccountBox} from "../frontend_login/accountBox";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+const customizeLabel = (e) => {
+    return `${e.argumentText}\n${e.valueText}`;
+}
+
 const ProfileModal = ({show, onHide, userId}) => {
     const [citizen, setCitizen] = useState(null);
-    const data = {
-        labels: ['Înregistrată', 'Planificată', 'În lucru', 'Redirecționată', 'Rezolvată'],
-        datasets: [{
-            data: [1, 2, 3, 1, 2],
-            backgroundColor: ['purple', 'yellow', 'blue', 'brown', 'green'],
-            borderColor: ['purple', 'yellow', 'blue', 'brown', 'green']
-        }]
-    }
+    const [data, setData] = useState();
+    const [desktopScreen, setDesktopScreen] = useState(false);
+    const email = localStorage.getItem("email");
+
+    const getStatistics = () => {
+        return getBasicStatistics(email, (result, status, err) => {
+            if (status === 200 && result !== null) {
+                result.forEach(res => {
+                    res.state = convertAPIStatesToUI(res.state);
+                })
+                setData(result);
+                console.log(result);
+            } else {
+                console.log(err);
+            }
+        });
+    };
 
     const findAnCitizenById = () => {
         return findCitizenById(userId, (result, status, err) => {
@@ -34,7 +57,19 @@ const ProfileModal = ({show, onHide, userId}) => {
 
     useEffect(() => {
         findAnCitizenById();
-    }, [])
+        getStatistics();
+
+        const handleResize = () => {
+            setDesktopScreen(window.innerWidth > 992);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [userId])
+
 
     return (
         <Modal
@@ -51,25 +86,34 @@ const ProfileModal = ({show, onHide, userId}) => {
             <Modal.Body>
                 {
                     citizen ?
-                        <div style={{display: "flex", flexDirection: "row"}}>
-                            <div style={{width: "50%", height: "50%"}}>
-                                Prenume: {citizen.firstName}
-                                <br/>
-                                Nume: {citizen.lastName}
-                                <br/>
-                                Email: {citizen.email}
-                                <br/>
-                                Telefon: {citizen.phoneNumber}
-                                <br/>
-                                Bonus: 20 lei
+                        <div>
+                            <div style={{display: "flex", flexDirection: "row"}} className={classes.container}>
+                                <div className={classes.graphBox} style={{width: "50%", height: "50%"}}>
+                                    <div className={classes.box}>
+                                        Nume: {citizen.firstName} {citizen.lastName}
+                                        <br/>
+                                        Email: {citizen.email}
+                                        <br/>
+                                        Telefon: {citizen.phoneNumber}
+                                        <br/>
+                                        Bonus: 20 lei
+                                    </div>
+                                </div>
+                                {desktopScreen ?
+                                    <div>
+                                        <BasicChart data={data}/>
+                                    </div>
+                                    : null
+                                }
                             </div>
-                            <div style={{width: "35%", height: "35%"}}>
-                                <Doughnut data={data}/>
-                            </div>
-                            {/*<ProfileChart />*/}
-                            <div>
-                            </div>
-                        </div> : ""
+                            {!desktopScreen ?
+                                <div>
+                                    <BasicChart data={data}/>
+                                </div>
+                                : null
+                            }
+                        </div>
+                        : ""
                 }
             </Modal.Body>
             <Modal.Footer>

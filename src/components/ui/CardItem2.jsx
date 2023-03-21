@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
+import React, {useEffect, useRef, useState} from "react";
+import {Card, CardBody, CardSubtitle, CardText, CardTitle, Input,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import Resizer from "react-image-file-resizer";
 import DateFormat from "../layout/DateFormat";
@@ -23,14 +23,37 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import IssueDetails from "../../pages/IssueDetails";
 import {useNavigate} from "react-router-dom";
 import {deleteIssueById} from "../../api/issue-api";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import {sendEmail} from "../../api/email-api";
 
-const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
+//
+// s-ar putea sa primesc din cauza reactiilor ca vin la unele "" si gen nu poate parsa si de aia iau (cred) la
+// /issues erori de genul unexpected end of json
+// trebuie sa vad daca dau like/dislike cum se vede pt userul ce a dat cand apelez citizen-reactions?citizenId=2&issueId=16
+// si in functie de asta eu ar trebui sa returnez ceva si daca nu am dat like, ca atunci cand incarca pt acel user
+// daca el are issue fara like / dislike sa nu dea "" ca sa nu imi mai dea eroarea cu unexpected end of json
+
+// V2: AM rezolvat asta ca in loc de return null am aruncat o exceptie, dar cu exceptie se face 500 interval server error
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passBackgroundColor}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
     const [likeButton, setLikeButton] = useState(false);
     const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
     const [nrOfDislikes, setNrOfDislikes] = useState(issue.dislikesNumber);
+    const [openDialog, setOpenDialog] = useState(false);
+    const deleteReasonInputRef = useRef('');
     const navigate = useNavigate();
 
     const isLogged = localStorage.getItem("isLogged");
@@ -40,10 +63,10 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
 
     const getReactionsForCurrentUserAndIssue = () => {
         return getReactionsForSomeCitizenAndIssue(userId, issue.id, (result, status, err) => {
-            if (status === 200 && result !== null) {
-                if (result === true) {
+            if (status === 200) {
+                if (result !== null && result === true) {
                     setLikeButton(true);
-                } else {
+                } else if (result !== null && result === false) {
                     setDislikeButton(true);
                 }
             } else {
@@ -66,16 +89,38 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
         });
     };
 
+    const sendAnEmail = (data) => {
+        return sendEmail(data, (result, status, err) => {
+            if (status === 403) {
+                setForbidden(true);
+            } else {
+                console.log(err);
+            }
+        })
+    }
+
     const deleteAnIssue = () => {
         return deleteIssueById(issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 passIsDeleted((prev) => !prev)
+                let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul " + convertAPITypesToUI(issue.type) + " a fost ștearsă.`;
+                if (deleteReasonInputRef.current.value.length > 0)
+                    content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
+                sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id});
             } else {
                 console.log(err);
             }
         });
     };
+
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
 
     const handleLike = () => {
         if (likeButton) {
@@ -165,6 +210,12 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
     //         document.getElementById('canvas').getContext('2d').drawImage(imageBitmap, 0, 0)
     //     );
 
+
+    // useEffect(() => {
+    //     console.log("intra?")
+        // handleCardColor();
+    // }, [localStorage.getItem("dark_mode")])
+
     useEffect(() => {
         geMainImage();
         getReactionsForCurrentUserAndIssue();
@@ -185,7 +236,9 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
                 accessKey={issue.id}
                 style={{
                     width: "18rem",
-                    height: "22rem"
+                    height: "22rem",
+                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
+                    boxShadow: "7px 5px 5px grey"
                 }}
             >
                 {/*<div style={{backgroundImage: "{{mainImage}}", backgroundSize: "cover", height: "70%", width: "70%", backgroundRepeat: "no-repeat"}}>*/}
@@ -225,9 +278,31 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
                                 <BorderColorIcon/>
                             </IconButton>
                             <IconButton aria-label="delete"
-                                        style={{position: "absolute", left: "120px", bottom: "7px"}} onClick={deleteAnIssue}>
+                                        style={{position: "absolute", left: "120px", bottom: "7px"}} onClick={handleOpenDialog}>
                                 <DeleteIcon/>
                             </IconButton>
+                            <Dialog
+                                open={openDialog}
+                                TransitionComponent={Transition}
+                                keepMounted
+                                onClose={handleCloseDialog}
+                                aria-describedby="alert-dialog-slide-description"
+                            >
+                                <DialogTitle>{"Sunteți sigur că doriți să ștergeți această sesizare?"}</DialogTitle>
+                                <DialogContent>
+                                    <Input style={{resize: "none", textDecoration: "none", marginTop: "5px"}}
+                                           id="description"
+                                           name="description"
+                                           type="textarea"
+                                           innerRef={deleteReasonInputRef}
+                                           placeholder="Motivul ștergerii..."
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={deleteAnIssue}>Șterge</Button>
+                                    <Button onClick={handleCloseDialog}>Anulează</Button>
+                                </DialogActions>
+                            </Dialog>
                         </div> :
                         <div className={classes.state}
                              style={{
@@ -262,17 +337,15 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted}) => {
                                           checked={dislikeButton} onClick={handleDislike}/>
                             </div>
                         </div> : ""}
-                    {isLogged && role === "ROLE_ADMIN" ?
+                    {!isLogged || isLogged && role === "ROLE_ADMIN" ?
                         <div>
                             <div style={{position: "absolute", bottom: "5px", right: "4rem"}}>
                                 {nrOfLikes}
-                                <Checkbox icon={<ThumbUpOffAltIcon/>} checkedIcon={<ThumbUpIcon/>}
-                                          disabled/>
+                                <Checkbox icon={<ThumbUpOffAltIcon/>} disabled/>
                             </div>
                             <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
                                 {nrOfDislikes}
-                                <Checkbox icon={<ThumbDownOffAltIcon/>} checkedIcon={<ThumbDownAltIcon/>}
-                                          disabled/>
+                                <Checkbox icon={<ThumbDownOffAltIcon/>} disabled/>
                             </div>
                         </div> : ""
                     }

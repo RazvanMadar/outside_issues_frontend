@@ -14,8 +14,8 @@ import {filterIssues} from "../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
 
 
-const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSetTotalPages, passIssuesPerPage,
-                       passSetIsFiltered, passSetType, passSetState, passSetFromDate, passSetToDate}) => {
+const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSetTotalPages, passIssuesPerPage, passSetIsFiltered,
+                       passSetType, passSetState, passSetFromDate, passSetToDate, passSort, passOrder, passBackgroundColor}) => {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const typeInputRef = useRef();
@@ -42,6 +42,8 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
             false,
             0,
             passIssuesPerPage,
+            passSort,
+            passOrder,
             (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log("AICI ", result);
@@ -67,16 +69,16 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header>
+            <Modal.Header style={{backgroundColor: passBackgroundColor}}>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Caută sesizările dorite
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{backgroundColor: passBackgroundColor}}>
                 <Form style={{ display: "flex", flexWrap: "wrap" }}>
                     <Form.Group className="mb-3" style={{width: "45%"}} controlId="exampleForm.ControlInput1">
                         <Form.Label>Categoria sesizării</Form.Label>
-                        <Input type="select" name="category" id="category" innerRef={typeInputRef}>
+                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category" id="category" innerRef={typeInputRef}>
                             {CategoryData.map((cat) => <option key={cat.id}
                                                                style={{maxWidth: "1rem"}}>{cat.title}</option>)}
                         </Input>
@@ -84,7 +86,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                     <Form.Group className="mb-3" style={{marginLeft: "2rem", width: "45%"}}
                                 controlId="exampleForm.ControlInput1">
                         <Form.Label>Starea sesizării</Form.Label>
-                        <Input type="select" name="state" id="category" innerRef={stateInputRef}>
+                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="state" id="category" innerRef={stateInputRef}>
                             {StateData.map((st) => <option key={st.id}
                                                            style={{maxWidth: "1rem"}}>{st.title}</option>)}
                         </Input>
@@ -124,7 +126,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                     </Form.Group>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
                 <Button variant="contained"
                         color="success"
                         className={classes.filterButton}

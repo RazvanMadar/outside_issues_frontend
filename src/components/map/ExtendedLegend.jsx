@@ -18,6 +18,8 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues}) => {
             true,
             null,
             null,
+            null,
+            null,
             (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);

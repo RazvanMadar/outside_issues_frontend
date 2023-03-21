@@ -1,23 +1,56 @@
-import React, {useContext, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {SidebarData} from "./SidebarData";
 import "./Navbar3.css";
 import {IconContext} from "react-icons";
-import {AuthContext} from "../../context/AuthContext";
-import FilterMap from "../../map-components/FilterMap";
 import ProfileModal from "../../profile/ProfileModal";
+import LightModeIcon from '@mui/icons-material/LightMode';
+import ModeNightIcon from '@mui/icons-material/ModeNight';
+import Switch from '@mui/material/Switch';
+import styled from "styled-components";
 
-const Navbar3 = ({isLoggedIn}) => {
+const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email");
     const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+    const [isLightMode, setIsLightMode] = useState(true);
+    const [backgroundColor, setBackgroundColor] = useState(
+        localStorage.getItem('dark_mode') ? localStorage.getItem("dark_mode") : "white"
+    );
+
+    const changeStateFromLocalStorage = () => {
+        const dark_mode = localStorage.getItem("dark_mode");
+        if (dark_mode !== null) {
+            if (dark_mode === "#A9AAB4")
+                setIsLightMode(false);
+            else
+                setIsLightMode(true);
+        }
+        else {
+            setIsLightMode(true)
+        }
+    }
 
     const showSidebar = () => setSidebar(!sidebar);
 
+    const handleChangeColor = () => {
+        setIsLightMode((prev) => !prev);
+        const newColor = backgroundColor === '#A9AAB4' ? 'white' : '#A9AAB4';
+        console.log(backgroundColor)
+        setBackgroundColor(newColor);
+        passBackgroundColor(newColor);
+        localStorage.setItem("dark_mode", newColor)
+    }
+
+    useEffect(() => {
+        document.body.style.backgroundColor = backgroundColor;
+        changeStateFromLocalStorage();
+    }, [backgroundColor])
 
     return (
         <>
@@ -26,8 +59,14 @@ const Navbar3 = ({isLoggedIn}) => {
                     <Link to="#" className="menu-bars">
                         <FaIcons.FaBars onClick={showSidebar}/>
                     </Link>
+                    <div style={{marginLeft: "10rem"}}>
+                        <Switch checked={isLightMode} style={{color: "white"}}
+                                icon={<ModeNightIcon/>}
+                                checkedIcon={<LightModeIcon/>}
+                                onClick={handleChangeColor}/>
+                    </div>
                     {(isLoggedIn || isLogged) && <button className="email"
-                                           onClick={() => setModalShow(true)}
+                                                         onClick={() => setModalShow(true)}
                     >{email}
                     </button>}
                     <ProfileModal
@@ -73,3 +112,4 @@ const Navbar3 = ({isLoggedIn}) => {
 };
 
 export default Navbar3;
+

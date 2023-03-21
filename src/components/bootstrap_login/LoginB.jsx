@@ -3,13 +3,19 @@ import {Link, useNavigate} from "react-router-dom";
 import classes from "./LoginB.module.css";
 import {authenticate} from "../../api/auth";
 import {AuthContext} from "../../context/AuthContext";
+import {registerCitizen} from "../../api/citizen-api";
 
 const LoginB = ({onLogin}) => {
     const [isSignUp, setSignUp] = useState(false);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
+    const firstNameRegisterInputRef = useRef();
+    const lastNameRegisterInputRef = useRef();
+    const emailRegisterInputRef = useRef();
+    const passwordRegisterInputRef = useRef();
+    const phoneRegisterInputRef = useRef();
 
-    const { isLogged, token, userId, login, logout } = useContext(AuthContext);
+    const {isLogged, token, userId, login, logout} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const submitHandler = (event) => {
@@ -20,9 +26,34 @@ const LoginB = ({onLogin}) => {
         authenticate(data, login, navigate, onLogin);
     };
 
+    const registerHandler = (event) => {
+        // event.preventDefault();
+        const enteredFirstName = firstNameRegisterInputRef.current.value;
+        const enteredLastName = lastNameRegisterInputRef.current.value;
+        const enteredEmail = emailRegisterInputRef.current.value;
+        const enteredPassword = passwordRegisterInputRef.current.value;
+        const enteredPhone = phoneRegisterInputRef.current.value;
+        const data = {
+            email: enteredEmail,
+            phoneNumber: enteredPhone,
+            firstName: enteredFirstName,
+            lastName: enteredLastName,
+            password: enteredPassword
+        };
+        return registerCitizen(data, (result, status, err) => {
+                if (result !== null && status === 201) {
+                    console.log(result);
+                    navigate("/login")
+                } else {
+                    console.log(err);
+                }
+            }
+        )
+    }
+
 
     return (
-        <div style={{position:"absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
+        <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
             <div
                 className={
                     isSignUp
@@ -35,17 +66,20 @@ const LoginB = ({onLogin}) => {
                     <form className={classes.form}>
                         <h1 className={classes.h1}>Creează-ți contul</h1>
                         <br/>
-                        <input className={classes.input} type="text" placeholder="Prenume"/>
-                        <input className={classes.input} type="text" placeholder="Nume"/>
-                        <input className={classes.input} type="email" placeholder="Email"/>
+                        <input className={classes.input} type="text" placeholder="Prenume"
+                               ref={firstNameRegisterInputRef}/>
+                        <input className={classes.input} type="text" placeholder="Nume" ref={lastNameRegisterInputRef}/>
+                        <input className={classes.input} type="email" placeholder="Email" ref={emailRegisterInputRef}/>
                         <input
                             className={classes.input}
                             type="password"
                             placeholder="Parolă"
+                            ref={passwordRegisterInputRef}
                         />
-                        <input className={classes.input} type="text" placeholder="Număr de telefon"/>
+                        <input className={classes.input} type="text" placeholder="Număr de telefon"
+                               ref={phoneRegisterInputRef}/>
                         <br/>
-                        <button className={classes.button}>Înregistrare</button>
+                        <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
                     </form>
                 </div>
                 <div className={classes.formContainer + " " + classes.signInContainer}>

@@ -13,5 +13,44 @@ const findCitizenById = (id, callback) => {
     restApi.makeRequest(request, callback);
 };
 
+const getCitizens = (email, page, size, callback) => {
+    let urlPath = backend_api + endpoint.citizen + "?";
+    if (email != null && email != '') {
+        urlPath = urlPath + "email=" + email + "&";
+    }
+    if (page != null) {
+        urlPath += "page=" + page + "&";
+    }
+    if (size != null) {
+        urlPath += "size=" + size;
+    }
+    const request = new Request(urlPath, {
+        method: "GET",
+    });
 
-export {findCitizenById};
+    restApi.makeRequest(request, callback);
+};
+
+const findCitizenByEmail = (email, callback) => {
+    const request = new Request(backend_api + endpoint.citizen + "/email/" + email, {
+        method: "GET",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const registerCitizen = (data, callback) => {
+    const request = new Request(backend_api + endpoint.citizen, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    restApi.makeRequest(request, callback);
+}
+
+
+
+export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens};

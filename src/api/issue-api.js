@@ -13,7 +13,19 @@ const getIssues = (hasLocation, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, callback) => {
+const getBasicStatistics = (email, callback) => {
+    let urlPath = backend_api + endpoint.issue + "/basic-statistics?";
+    if (email) {
+        urlPath = urlPath + "email=" + email;
+    }
+    const request = new Request(urlPath, {
+        method: "GET",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, sort, order, callback) => {
     let urlPath = backend_api + endpoint.issue + "/filtered?";
     if (type) {
         urlPath += "type=" + type + "&";
@@ -34,12 +46,16 @@ const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, ca
         urlPath += "page=" + page + "&";
     }
     if (size) {
-        urlPath += "size=" + size;
+        urlPath += "size=" + size + "&";
+    }
+    if (sort) {
+        urlPath += "sort=" + sort;
+    }
+    if (order) {
+        urlPath += "," + order;
     }
     urlPath += "&sort=id,desc"
-    const request = new Request(
-        urlPath,
-        {
+    const request = new Request(urlPath, {
             method: "GET",
         }
     );
@@ -91,4 +107,4 @@ const deleteIssueById = (id, callback) => {
 };
 
 
-export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById};
+export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById, getBasicStatistics};

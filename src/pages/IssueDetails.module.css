@@ -1,7 +1,14 @@
+/*.wrapper {*/
+/*    text-align: center;*/
+/*}*/
+
 .main {
     position: absolute;
+    left: 15%;
     top: 20%;
-    left: 15%
+    /*display: inline-block;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
 }
 
 .details {

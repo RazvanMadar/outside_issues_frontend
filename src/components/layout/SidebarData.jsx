@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 export const SidebarData = [
   {
@@ -21,6 +22,12 @@ export const SidebarData = [
     title: "Sesizări",
     path: "/issues",
     icon: <PlagiarismIcon />,
+    cName: "nav-text",
+  },
+  {
+    title: "Cetățeni",
+    path: "/citizens",
+    icon: <PeopleAltIcon />,
     cName: "nav-text",
   },
   {
