@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import BasicChart from "../chart/BasicChart";
 import {getBasicStatistics} from "../api/issue-api";
 import StateChart from "../chart/StateChart";
+import Slider from "../components/Slider";
 
 const Home = () => {
     const [data, setData] = useState();
@@ -23,8 +24,9 @@ const Home = () => {
 
     return (
         <div>
-            <BasicChart data={data}/>
+            <BasicChart title={'Pagina home'} data={data}/>
             <StateChart />
+            <Slider />
         </div>
     );
 };

@@ -26,8 +26,8 @@
     grid-area: bottomContainer;
 }
 
-@media only screen and (max-width: 992px) {
-    .container {
-        grid-template-areas: 'graphBox' '. bottomContainer';
-    }
-}
+/*@media only screen and (max-width: 992px) {*/
+/*    .container {*/
+/*        grid-template-areas: 'graphBox' '. bottomContainer';*/
+/*    }*/
+/*}*/

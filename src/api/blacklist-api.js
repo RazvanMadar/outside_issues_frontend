@@ -29,4 +29,13 @@ const deleteCitizenFromBlacklist = (id, callback) => {
     restApi.makeRequest(request, callback);
 }
 
-export {isCitizenBlocked, addCitizenToBlacklist, deleteCitizenFromBlacklist};
+const getBasicStatistics = (callback) => {
+    const request = new Request(backend_api + endpoint.blacklist + "/blocked-statistics", {
+        method: "GET",
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+
+export {isCitizenBlocked, addCitizenToBlacklist, deleteCitizenFromBlacklist, getBasicStatistics};

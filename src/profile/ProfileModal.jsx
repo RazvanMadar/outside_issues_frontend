@@ -26,7 +26,7 @@ const customizeLabel = (e) => {
 const ProfileModal = ({show, onHide, userId}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
-    const [desktopScreen, setDesktopScreen] = useState(false);
+    const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
     const email = localStorage.getItem("email");
 
     const getStatistics = () => {
@@ -60,7 +60,7 @@ const ProfileModal = ({show, onHide, userId}) => {
         getStatistics();
 
         const handleResize = () => {
-            setDesktopScreen(window.innerWidth > 992);
+            setDesktopScreen(window.innerWidth > 991);
         };
 
         window.addEventListener('resize', handleResize);
@@ -87,7 +87,11 @@ const ProfileModal = ({show, onHide, userId}) => {
                 {
                     citizen ?
                         <div>
-                            <div style={{display: "flex", flexDirection: "row"}} className={classes.container}>
+                            <div style={{
+                                display: desktopScreen && "flex",
+                                flexDirection: desktopScreen && "row",
+                                justifyContent: desktopScreen && "center"
+                            }}>
                                 <div className={classes.graphBox} style={{width: "50%", height: "50%"}}>
                                     <div className={classes.box}>
                                         Nume: {citizen.firstName} {citizen.lastName}
@@ -99,19 +103,10 @@ const ProfileModal = ({show, onHide, userId}) => {
                                         Bonus: 20 lei
                                     </div>
                                 </div>
-                                {desktopScreen ?
-                                    <div>
-                                        <BasicChart data={data}/>
-                                    </div>
-                                    : null
-                                }
+                                <BasicChart desktopScreen={desktopScreen} title={'Sesizările dumneavoastră'}
+                                            data={data}/>
+
                             </div>
-                            {!desktopScreen ?
-                                <div>
-                                    <BasicChart data={data}/>
-                                </div>
-                                : null
-                            }
                         </div>
                         : ""
                 }

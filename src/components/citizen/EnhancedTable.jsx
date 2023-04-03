@@ -14,9 +14,11 @@ import {visuallyHidden} from '@mui/utils';
 import {getCitizens} from "../../api/citizen-api";
 import {TextField} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import {addCitizenToBlacklist, deleteCitizenFromBlacklist, isCitizenBlocked} from "../../api/blacklist-api";
+import {addCitizenToBlacklist, deleteCitizenFromBlacklist, getBasicStatistics} from "../../api/blacklist-api";
 import Button from "@mui/material/Button";
-import classes from "../ui/CardItem.module.css";
+import BasicChart from "../../chart/BasicChart";
+import JSONDataChart from "../../chart/JSONDataChart";
+import {getAllRejected} from "../../api/rejected-issues-api";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -54,31 +56,43 @@ const headCells = [
     {
         id: 'email',
         numeric: false,
-        disablePadding: true,
+        disablePadding: false,
         label: 'Email',
     },
     {
         id: 'firstName',
         numeric: false,
-        disablePadding: true,
+        disablePadding: false,
         label: 'Prenume',
     },
     {
         id: 'lastName',
         numeric: false,
-        disablePadding: true,
+        disablePadding: false,
         label: 'Nume',
     },
     {
         id: 'phoneNumber',
         numeric: false,
-        disablePadding: true,
+        disablePadding: false,
         label: 'Nr tel',
+    },
+    {
+        id: 'totalReported',
+        numeric: false,
+        disablePadding: false,
+        label: 'Raportate',
+    },
+    {
+        id: 'totalRejected',
+        numeric: false,
+        disablePadding: false,
+        label: 'Respinse',
     },
     {
         id: 'state',
         numeric: false,
-        disablePadding: true,
+        disablePadding: false,
         label: 'Stare',
     }
 ];
@@ -130,11 +144,15 @@ export default function EnhancedTable() {
     const [totalElements, setTotalElements] = useState(0);
     const [newBlocked, setNewBlocked] = useState(false);
     const [newUnlocked, setNewUnblocked] = useState(false);
+    const [data, setData] = useState();
+    const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 878);
+    const [rejected, setRejected] = useState();
     const emailInputRef = useRef();
 
     const getAllCitizens = () => {
         return getCitizens(emailInputRef != null ? emailInputRef.current.value : null, currentPage, citizensPerPage, (result, status, err) => {
                 if (result !== null && status === 200) {
+                    console.log(result.content)
                     setCitizens(result.content);
                     setTotalElements(result.totalElements);
                 } else {
@@ -153,6 +171,28 @@ export default function EnhancedTable() {
                 }
             }
         );
+    };
+
+    const getStatistics = () => {
+        return getBasicStatistics((result, status, err) => {
+            if (status === 200 && result !== null) {
+                setData(result);
+                console.log("statistics", result);
+            } else {
+                console.log(err);
+            }
+        });
+    };
+
+    const getRejected = () => {
+        return getAllRejected((result, status, err) => {
+            if (status === 200 && result !== null) {
+                const second = {state: result[1].state, val2: result[1].val}
+                setRejected([result[0], second]);
+            } else {
+                console.log(err);
+            }
+        });
     };
 
     const blockCitizenHandler = (id) => {
@@ -179,6 +219,18 @@ export default function EnhancedTable() {
 
     useEffect(() => {
         getAllCitizens();
+        getStatistics();
+        getRejected();
+
+        const handleResize = () => {
+            setDesktopScreen(window.innerWidth > 878);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, [currentPage, citizensPerPage, newBlocked, newUnlocked])
 
     const handleRequestSort = (event, property) => {
@@ -240,10 +292,12 @@ export default function EnhancedTable() {
                                                 >
                                                     {row.email}
                                                 </TableCell>
-                                                <TableCell padding="none">{row.firstName}</TableCell>
-                                                <TableCell padding="none">{row.lastName}</TableCell>
-                                                <TableCell padding="none">{row.phoneNumber}</TableCell>
-                                                <TableCell padding="none">{!row.blocked ?
+                                                <TableCell>{row.firstName}</TableCell>
+                                                <TableCell>{row.lastName}</TableCell>
+                                                <TableCell>{row.phoneNumber}</TableCell>
+                                                <TableCell>{row.totalReported}</TableCell>
+                                                <TableCell>{row.totalRejected}</TableCell>
+                                                <TableCell>{!row.blocked ?
                                                     <Button variant="contained" color="error"
                                                             onClick={() => blockCitizenHandler(row.id)}>
                                                         Blochează
@@ -251,12 +305,12 @@ export default function EnhancedTable() {
                                                     <Button variant="outlined" color="success"
                                                             onClick={() => unblockCitizenHandler(row.id)}>
                                                         Deblochează</Button>}
-                                                    {row.firstName == null && row.lastName == null ?
-                                                        <div
-                                                        style={{position: "relative",
-                                                            textAlign: "center",
-                                                            fontWeight: "bold"}}
-                                                        >Vizitator </div> : null}
+                                                    {/*{row.firstName == null && row.lastName == null ?*/}
+                                                    {/*    <div*/}
+                                                    {/*    style={{position: "relative",*/}
+                                                    {/*        textAlign: "center",*/}
+                                                    {/*        fontWeight: "bold"}}*/}
+                                                    {/*    >Vizitator </div> : null}*/}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -281,6 +335,10 @@ export default function EnhancedTable() {
                     />
                 </Paper>
             </Box>
+            <div style={{display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center"}}>
+                <JSONDataChart desktopScreen={desktopScreen} rejected={rejected}/>
+                <BasicChart title={'Grafic cetățeni blocați'}desktopScreen={desktopScreen} data={data}/>
+            </div>
         </div>
     );
 }

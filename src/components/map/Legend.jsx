@@ -11,6 +11,23 @@ import ExtendedLegend from "./ExtendedLegend";
 
 const Legend = ({passFilteredIssues}) => {
     const [isExtended, setIsExtended] = useState(false);
+    const [boldButton, setBoldButton] = useState(null);
+
+    const handleChangeState = (id) => {
+        setBoldButton((previousId) => {
+            if (previousId) {
+                document.getElementById(previousId).style.fontWeight = "normal";
+            }
+            document.getElementById(id).style.fontWeight = "bold";
+            return id;
+        });
+    };
+
+    const getButtonStyle = (id) => {
+        return {
+            fontWeight: boldButton === id ? 'bold' : 'normal'
+        };
+    };
 
     const filterAllIssues = (state) => {
         return filterIssues(
@@ -40,38 +57,75 @@ const Legend = ({passFilteredIssues}) => {
                 <div className={classes.title}>Legendă</div>
                 <div className={classes.field}>
                     <div className="w-3 h-3 opacity-90 rounded-full">
-                        <AddCircleIcon className={classes.icon} onClick={() => filterAllIssues("REGISTERED")}/>
-                        <button className={classes.legendText}
-                                onClick={() => filterAllIssues("REGISTERED")}>Înregistrată
+                        <AddCircleIcon className={classes.icon} onClick={() => {
+                            filterAllIssues("REGISTERED");
+                            handleChangeState("button1")
+                        }}/>
+                        <button id="button1" className={classes.legendText} style={getButtonStyle("button1")}
+                                onClick={() => {
+                                    filterAllIssues("REGISTERED");
+                                    handleChangeState("button1");
+                                }}>Înregistrată
                         </button>
                     </div>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <WatchLaterIcon className={classes.icon} onClick={() => filterAllIssues("PLANNED")}/>
-                    <button className={classes.legendText} onClick={() => filterAllIssues("PLANNED")}>Planificată
+                    <WatchLaterIcon className={classes.icon} onClick={() => {
+                        filterAllIssues("PLANNED");
+                        handleChangeState("button2")
+                    }}/>
+                    <button id="button2" className={classes.legendText} style={getButtonStyle("button2")}
+                            onClick={() => {
+                                filterAllIssues("PLANNED");
+                                handleChangeState("button2");
+                            }}>Planificată
                     </button>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <BuildCircleIcon className={classes.icon} onClick={() => filterAllIssues("WORKING")}/>
-                    <button className={classes.legendText} onClick={() => filterAllIssues("WORKING")}>În lucru</button>
-                </div>
-                <div className="w-3 h-3 opacity-90 rounded-full">
-                    <ArrowCircleRightIcon className={classes.icon} onClick={() => filterAllIssues("REDIRECTED")}/>
-                    <button className={classes.legendText} onClick={() => filterAllIssues("REDIRECTED")}>Redirectată
+                    <BuildCircleIcon className={classes.icon} onClick={() => {
+                        filterAllIssues("WORKING");
+                        handleChangeState("button3")
+                    }}/>
+                    <button id="button3" className={classes.legendText}  style={getButtonStyle("button3")}
+                            onClick={() => {
+                                filterAllIssues("WORKING")
+                                handleChangeState("button3");
+                            }}>În lucru
                     </button>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <CheckCircleIcon className={classes.icon} onClick={() => filterAllIssues("SOLVED")}/>
-                    <button className={classes.legendText} onClick={() => filterAllIssues("SOLVED")}>Rezolvată</button>
+                    <ArrowCircleRightIcon className={classes.icon} onClick={() => {
+                        filterAllIssues("REDIRECTED");
+                        handleChangeState("button4")
+                    }}/>
+                    <button id="button4" className={classes.legendText}  style={getButtonStyle("button4")}
+                            onClick={() => {
+                                filterAllIssues("REDIRECTED")
+                                handleChangeState("button4")
+                            }}>Redirectată
+                    </button>
+                </div>
+                <div className="w-3 h-3 opacity-90 rounded-full">
+                    <CheckCircleIcon className={classes.icon} onClick={() => {
+                        filterAllIssues("SOLVED");
+                        handleChangeState("button5")
+                    }}/>
+                    <button id="button5" className={classes.legendText}  style={getButtonStyle("button5")}
+                            onClick={() => {
+                                filterAllIssues("SOLVED")
+                                handleChangeState("button5")
+                            }}>Rezolvată
+                    </button>
                 </div>
             </div>
             {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}/>
                 :
-                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.7rem", top: "14.5rem"}} onClick={() => setIsExtended(true)}/>
-            // <div className={classes.arrow}>
-            //     <span className={classes.spanArrow}></span>
-            //     <span className={classes.spanArrow}></span>
-            // </div>
+                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.7rem", top: "14.5rem"}}
+                                             onClick={() => setIsExtended(true)}/>
+                // <div className={classes.arrow}>
+                //     <span className={classes.spanArrow}></span>
+                //     <span className={classes.spanArrow}></span>
+                // </div>
             }
         </div>
     );
