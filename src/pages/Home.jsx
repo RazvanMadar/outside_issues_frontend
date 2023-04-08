@@ -3,6 +3,7 @@ import BasicChart from "../chart/BasicChart";
 import {getBasicStatistics} from "../api/issue-api";
 import StateChart from "../chart/StateChart";
 import Slider from "../components/Slider";
+import SliderComponent from "../slider/SliderComponent";
 
 const Home = () => {
     const [data, setData] = useState();
@@ -26,7 +27,7 @@ const Home = () => {
         <div>
             <BasicChart title={'Pagina home'} data={data}/>
             <StateChart />
-            <Slider />
+            <SliderComponent />
         </div>
     );
 };

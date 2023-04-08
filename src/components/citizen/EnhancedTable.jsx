@@ -335,7 +335,7 @@ export default function EnhancedTable() {
                     />
                 </Paper>
             </Box>
-            <div style={{display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center"}}>
+            <div style={{display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center", marginBottom: "1rem"}}>
                 <JSONDataChart desktopScreen={desktopScreen} rejected={rejected}/>
                 <BasicChart title={'Grafic cetățeni blocați'}desktopScreen={desktopScreen} data={data}/>
             </div>
