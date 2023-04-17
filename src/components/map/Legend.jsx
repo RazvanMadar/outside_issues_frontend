@@ -12,6 +12,7 @@ import ExtendedLegend from "./ExtendedLegend";
 const Legend = ({passFilteredIssues}) => {
     const [isExtended, setIsExtended] = useState(false);
     const [boldButton, setBoldButton] = useState(null);
+    const [buttonId, setButtonId] = useState();
 
     const handleChangeState = (id) => {
         setBoldButton((previousId) => {
@@ -19,6 +20,7 @@ const Legend = ({passFilteredIssues}) => {
                 document.getElementById(previousId).style.fontWeight = "normal";
             }
             document.getElementById(id).style.fontWeight = "bold";
+            setButtonId(id);
             return id;
         });
     };
@@ -118,7 +120,7 @@ const Legend = ({passFilteredIssues}) => {
                     </button>
                 </div>
             </div>
-            {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}/>
+            {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues} passButtonId={buttonId} passSetButtonId={setButtonId}/>
                 :
                 <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.7rem", top: "14.5rem"}}
                                              onClick={() => setIsExtended(true)}/>

@@ -1,7 +1,8 @@
 .navbar {
   /*background-color: #060b26;*/
   background-color: #5671F7;
-  height: 80%;
+  /*height: 80%;*/
+  height: 8vh;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -29,6 +30,7 @@
 
 .menu-bars {
   margin-left: 1rem;
+  margin-top: -8px;
   font-size: 2rem;
   background: none;
 }

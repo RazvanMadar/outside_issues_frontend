@@ -50,7 +50,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
-    }, [backgroundColor])
+    }, [backgroundColor, isLoggedIn])
 
     return (
         <>
@@ -59,7 +59,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
                     <Link to="#" className="menu-bars">
                         <FaIcons.FaBars onClick={showSidebar}/>
                     </Link>
-                    <div style={{marginLeft: "10rem"}}>
+                    <div style={{position: "absolute", marginLeft: "10rem"}}>
                         <Switch checked={isLightMode} style={{color: "white"}}
                                 icon={<ModeNightIcon/>}
                                 checkedIcon={<LightModeIcon/>}

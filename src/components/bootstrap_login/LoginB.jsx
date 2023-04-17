@@ -4,6 +4,8 @@ import classes from "./LoginB.module.css";
 import {authenticate} from "../../api/auth";
 import {AuthContext} from "../../context/AuthContext";
 import {registerCitizen} from "../../api/citizen-api";
+import ImageBox from "../../map-components/ImageBox";
+import {addCitizenImage} from "../../api/citizen-image";
 
 const LoginB = ({onLogin}) => {
     const [isSignUp, setSignUp] = useState(false);
@@ -18,12 +20,32 @@ const LoginB = ({onLogin}) => {
     const {isLogged, token, userId, login, logout} = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [photos, setPhotos] = useState([]);
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
     const submitHandler = (event) => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
         const data = {email: enteredEmail, password: enteredPassword};
         authenticate(data, login, navigate, onLogin);
+    };
+
+    const addAnImage = (id) => {
+        console.log(id, photos[0])
+        return addCitizenImage(id, photos[0], (result, status, err) => {
+            if (result !== null && status === 201) {
+                console.log("RESULT", result);
+                // navigate("/login")
+            } else if (status === 403) {
+                // setForbidden(true);
+            } else {
+                console.log(err);
+            }
+        })
     };
 
     const registerHandler = (event) => {
@@ -43,7 +65,7 @@ const LoginB = ({onLogin}) => {
         return registerCitizen(data, (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
-                    navigate("/login")
+                    addAnImage(result)
                 } else {
                     console.log(err);
                 }
@@ -78,6 +100,7 @@ const LoginB = ({onLogin}) => {
                         />
                         <input className={classes.input} type="text" placeholder="Număr de telefon"
                                ref={phoneRegisterInputRef}/>
+                        <ImageBox passIsPhoto={setPhotos} title={"Încărcați o poză cu dvs."} numberOfPhotos={1}/>
                         <br/>
                         <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
                     </form>

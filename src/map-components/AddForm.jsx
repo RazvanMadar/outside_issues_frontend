@@ -192,7 +192,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         <div className={classes.wrapper} style={{height: formHeight}}>
             <Form>
                 <Row>
-                    <ImageBox passIsPhoto={setPhotos}/>
+                    <ImageBox passIsPhoto={setPhotos} title={"până la 3 imagini (max. 20MB)"} numberOfPhotos={3}/>
                 </Row>
                 <Row>
                     <FormGroup>

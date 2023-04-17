@@ -2,20 +2,13 @@ import React, {useEffect, useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import {findCitizenById} from "../api/citizen-api";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from "chart.js";
-import {Doughnut} from "react-chartjs-2";
-import ProfileChart from "../chart/ProfileChart";
+import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import classes from "./ProfileModal.module.css";
-import {data} from "../chart/data";
-import CenterTemplate from "../chart/CenterTemplate";
-import PieChart, {Connector, Label, Series} from "devextreme-react/pie-chart";
-import StateChart from "../chart/StateChart";
-import UserProfileChart from "./UserProfileChart";
 import BasicChart from "../chart/BasicChart";
 import {getBasicStatistics} from "../api/issue-api";
 import {convertAPIStatesToUI} from "../common/utils";
-import LoginB from "../components/bootstrap_login/LoginB";
-import {AccountBox} from "../frontend_login/accountBox";
+import noPhoto from "../pages/images/no_photo.png";
+import {getCitizenImage} from "../api/citizen-image";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -27,6 +20,7 @@ const ProfileModal = ({show, onHide, userId}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
+    const [image, setImage] = useState()
     const email = localStorage.getItem("email");
 
     const getStatistics = () => {
@@ -55,9 +49,23 @@ const ProfileModal = ({show, onHide, userId}) => {
         );
     };
 
+    const getImage = () => {
+        return getCitizenImage(userId, (result, status, err) => {
+            if (result !== null && status === 200) {
+                console.log(result);
+                setImage(URL.createObjectURL(result));
+            } else if (status === 403) {
+                // setForbidden(true);
+            } else {
+                setImage(noPhoto);
+            }
+        });
+    };
+
     useEffect(() => {
         findAnCitizenById();
         getStatistics();
+        getImage();
 
         const handleResize = () => {
             setDesktopScreen(window.innerWidth > 991);
@@ -94,6 +102,10 @@ const ProfileModal = ({show, onHide, userId}) => {
                             }}>
                                 <div className={classes.graphBox} style={{width: "50%", height: "50%"}}>
                                     <div className={classes.box}>
+
+                                         {/*AICI*/}
+                                        <img alt="" style={{height: "10rem", width: "100%", borderRadius: "5%"}}
+                                             src={image}/>
                                         Nume: {citizen.firstName} {citizen.lastName}
                                         <br/>
                                         Email: {citizen.email}

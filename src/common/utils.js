@@ -55,6 +55,11 @@ const getCurrentDate = () => {
     return `${year}-${month}-${day}`;
 }
 
+const getChatMessageFormat = (date) => {
+    const parts = date.split("T");
+    return parts[1].split(".")[0] + ", " + parts[0];
+}
+
 const convertUITypesToAPI = (type) => {
     // return type.split(' ').length < 2 ? type.toUpperCase() : type.replaceAll(' ', '_').toUpperCase();
     for (const [key, value] of typesMap) {
@@ -3536,6 +3541,7 @@ export {
     cutFromDescription,
     getBackgroundColorForState,
     convertUISortDataToAPI,
+    getChatMessageFormat,
     cityBoundary,
     cityBoundary2,
     test,

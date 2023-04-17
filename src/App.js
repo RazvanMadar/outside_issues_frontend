@@ -13,6 +13,7 @@ import {useState} from "react";
 import Logout from "./components/bootstrap_login/Logout";
 import IssueDetails from "./pages/IssueDetails";
 import Citizens from "./pages/Citizens";
+import MyChat from "./components/chat/MyChat";
 
 function App() {
     const url = "http://localhost:8080/api/issues";
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
                     <Route path="/loginB" element={<LoginPage/>}/>
                     <Route path="/logout" element={<Logout/>}/>
+                    <Route path="/chat" element={<MyChat/>}/>
                 </Routes>
             </AuthProvider>
         </Router>

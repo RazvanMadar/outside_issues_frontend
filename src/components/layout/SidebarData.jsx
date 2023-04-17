@@ -4,6 +4,7 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import MessageIcon from '@mui/icons-material/Message';
 
 export const SidebarData = [
   {
@@ -28,6 +29,12 @@ export const SidebarData = [
     title: "Cetățeni",
     path: "/citizens",
     icon: <PeopleAltIcon />,
+    cName: "nav-text",
+  },
+  {
+    title: "Chat",
+    path: "/chat",
+    icon: <MessageIcon />,
     cName: "nav-text",
   },
   {

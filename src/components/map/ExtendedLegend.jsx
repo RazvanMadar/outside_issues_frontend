@@ -8,15 +8,18 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import React, {useState} from "react";
 import {filterIssues} from "../../api/issue-api";
 
-const ExtendedLegend = ({passSetIsExtended, passFilteredIssues}) => {
+const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId}) => {
     const [boldButton, setBoldButton] = useState(null);
+    console.log(passButtonId)
 
     const handleChangeState = (id) => {
-        setBoldButton((previousId) => {
-            if (previousId) {
-                document.getElementById(previousId).style.fontWeight = "normal";
-            }
+        if (passButtonId != null) {
+            document.getElementById(passButtonId).style.fontWeight = "normal"
+        }
+        setBoldButton(() => {
             document.getElementById(id).style.fontWeight = "bold";
+            passSetIsExtended(id);
+            passSetButtonId(id);
             return id;
         });
     };

@@ -4,7 +4,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 // luata de pe git -> https://www.youtube.com/watch?v=PDtW-XAshqs
-const ImageBox = ({passIsPhoto}) => {
+const ImageBox = ({passIsPhoto, title, numberOfPhotos}) => {
     const [selectedImages, setSelectedImages] = useState([]);
 
     const onSelectFile = (event) => {
@@ -17,8 +17,9 @@ const ImageBox = ({passIsPhoto}) => {
         });
         console.log(imagesArray)
 
-        if (selectedImages.length < 3)
+        if (selectedImages.length < numberOfPhotos)
             setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+        console.log(selectedImages)
 
         // FOR BUG IN CHROME
         event.target.value = "";
@@ -36,29 +37,19 @@ const ImageBox = ({passIsPhoto}) => {
     return (
         <div>
             <section className={classes.section}>
-                <label className={classes.label}>
-                    <AddAPhotoIcon/>
-                    <span className={classes.span}>până la 3 imagini (max. 20MB)</span>
-                    <input
-                        className={classes.input}
-                        type="file"
-                        name="images"
-                        onChange={onSelectFile}
-                        multiple
-                        accept="image/png , image/jpeg, image/webp"
-                    />
-                </label>
-                {/*<Button variant="contained" onClick={() => console.log(images.map((e) => e))}>Contained</Button>*/}
-                {/*<input className={classes.input} type="file" multiple/>*/}
-                {selectedImages.length > 3 && (
-                    <p className={classes.error}>
-                        You can't upload more than 3 images! <br/>
-                        <span className={classes.span}>
-              please delete <b> {selectedImages.length - 3} </b> of them{" "}
-            </span>
-                    </p>
-                )}
-
+                {numberOfPhotos > 1 || selectedImages.length == 0 ?
+                    <label className={classes.label}>
+                        <AddAPhotoIcon/>
+                        <span className={classes.span}>{title}</span>
+                        <input
+                            className={classes.input}
+                            type="file"
+                            name="images"
+                            onChange={onSelectFile}
+                            multiple
+                            accept="image/png, image/jpeg, image/webp, image/jpg"
+                        />
+                    </label> : ""}
                 <div className={classes.images}>
                     {selectedImages &&
                         selectedImages.map((image, index) => {
