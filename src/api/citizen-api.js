@@ -51,6 +51,12 @@ const registerCitizen = (data, callback) => {
     restApi.makeRequest(request, callback);
 }
 
+const getChatUsersByRole = (name, callback) => {
+    const request = new Request(backend_api + endpoint.citizen + "/role?name=" + name, {
+        method: "GET",
+    });
 
+    restApi.makeRequest(request, callback);
+};
 
-export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens};
+export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole};

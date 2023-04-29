@@ -104,8 +104,10 @@ const ProfileModal = ({show, onHide, userId}) => {
                                     <div className={classes.box}>
 
                                          {/*AICI*/}
-                                        <img alt="" style={{height: "10rem", width: "100%", borderRadius: "5%"}}
+                                        <img alt="" style={{height: "15rem", width: "100%", borderRadius: "5%"}}
                                              src={image}/>
+                                        <br/>
+                                        <br/>
                                         Nume: {citizen.firstName} {citizen.lastName}
                                         <br/>
                                         Email: {citizen.email}

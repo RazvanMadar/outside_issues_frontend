@@ -49,7 +49,7 @@ const LoginB = ({onLogin}) => {
     };
 
     const registerHandler = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
         const enteredFirstName = firstNameRegisterInputRef.current.value;
         const enteredLastName = lastNameRegisterInputRef.current.value;
         const enteredEmail = emailRegisterInputRef.current.value;
