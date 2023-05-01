@@ -25,4 +25,12 @@ const getCitizenImage = (id, callback) => {
     restApi.makeBlobRequest(request, callback);
 };
 
-export {addCitizenImage, getCitizenImage};
+const deleteCitizenImage = (id, callback) => {
+    const request = new Request(backend_api + endpoint.image + "/" + id, {
+        method: "DELETE"
+    });
+
+    restApi.makeRequest(request, callback);
+}
+
+export {addCitizenImage, getCitizenImage, deleteCitizenImage};

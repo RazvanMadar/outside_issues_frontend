@@ -51,6 +51,18 @@ const registerCitizen = (data, callback) => {
     restApi.makeRequest(request, callback);
 }
 
+const updateCitizen = (data, callback) => {
+    const request = new Request(backend_api + endpoint.citizen, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    restApi.makeRequest(request, callback);
+}
+
 const getChatUsersByRole = (name, callback) => {
     const request = new Request(backend_api + endpoint.citizen + "/role?name=" + name, {
         method: "GET",
@@ -59,4 +71,4 @@ const getChatUsersByRole = (name, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole};
+export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen};

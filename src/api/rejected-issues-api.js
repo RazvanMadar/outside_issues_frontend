@@ -29,5 +29,14 @@ const getAllRejected = (callback) => {
     restApi.makeRequest(request, callback);
 };
 
+const getAllRejectedForCitizen = (id, email, callback) => {
+    const request = new Request(backend_api + endpoint.rejected + "/citizen?id=" + id + "&email=" + email, {
+        method: "GET",
+    });
 
-export {addRejected, getRejectedForCitizen, getAllRejected};
+    restApi.makeRequest(request, callback);
+};
+
+
+
+export {addRejected, getRejectedForCitizen, getAllRejected, getAllRejectedForCitizen};

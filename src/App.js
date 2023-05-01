@@ -14,6 +14,7 @@ import Logout from "./components/bootstrap_login/Logout";
 import IssueDetails from "./pages/IssueDetails";
 import Citizens from "./pages/Citizens";
 import MyChat from "./components/chat/MyChat";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
     const url = "http://localhost:8080/api/issues";
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     {/*<Route path="/chart" element={<BasicChart/>}/>*/}
                     <Route path="/issues" element={<Issues url={url} passBackgroundColor={backgroundColor}/>}/>
+                    <Route path="/profile" element={<MyProfile/>}/>
                     <Route path="/issues/:id" element={<IssueDetails/>}/>
                     <Route path="/add-issue" element={<AddIssuePage/>}/>
                     <Route path="/map" element={<IssueMapOSM passBackgroundCol={backgroundColor}/>}/>

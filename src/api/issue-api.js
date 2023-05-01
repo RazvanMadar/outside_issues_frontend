@@ -63,6 +63,29 @@ const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, so
     restApi.makeRequest(request, callback);
 };
 
+const filterIssuesByCitizenEmail = (email, page, size, sort, order, callback) => {
+    let urlPath = backend_api + endpoint.issue + "/email/" + email + "?";
+    if (page != null) {
+        urlPath += "page=" + page + "&";
+    }
+    if (size != null) {
+        urlPath += "size=" + size + "&";
+    }
+    if (sort != null) {
+        urlPath += "sort=" + sort;
+    }
+    if (order != null) {
+        urlPath += "," + order;
+    }
+    console.log(urlPath)
+    const request = new Request(urlPath, {
+            method: "GET",
+        }
+    );
+
+    restApi.makeRequest(request, callback);
+};
+
 const addIssue = (issue, callback) => {
     const request = new Request(backend_api + endpoint.issue, {
         method: "POST",
@@ -107,4 +130,4 @@ const deleteIssueById = (id, callback) => {
 };
 
 
-export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById, getBasicStatistics};
+export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById, getBasicStatistics, filterIssuesByCitizenEmail};

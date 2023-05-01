@@ -208,7 +208,7 @@ export default function MyChat() {
 
     useEffect(() => {
         getChatPersons();
-        getLatestMessages();
+        // getLatestMessages();
     }, [])
 
     return (
@@ -245,48 +245,55 @@ export default function MyChat() {
                         <MDBIcon fas icon="search"/>
                       </span>
                                             </MDBInputGroup>
-                              {/*              <div style={{position: "relative", height: "400px", overflowY: "auto"}}>*/}
+                                            {/*              <div style={{position: "relative", height: "400px", overflowY: "auto"}}>*/}
 
-                              {/*                  <MDBTypography listUnStyled className="mb-0">*/}
-                              {/*                      <li className="p-2 border-bottom">*/}
-                              {/*                          <a*/}
-                              {/*                              href="#!"*/}
-                              {/*                              className="d-flex justify-content-between"*/}
-                              {/*                          >*/}
-                              {/*                              <div className="d-flex flex-row">*/}
-                              {/*                                  <div>*/}
-                              {/*                                      <img*/}
-                              {/*                                          src={toImage}*/}
-                              {/*                                          style={{borderRadius: "50%"}}*/}
-                              {/*                                          alt=""*/}
-                              {/*                                          className="d-flex align-self-center me-3"*/}
-                              {/*                                          width="60"*/}
-                              {/*                                          height="60"*/}
-                              {/*                                      />*/}
-                              {/*                                  </div>*/}
-                              {/*                                  <div className="pt-1">*/}
-                              {/*                                      <p className="fw-bold mb-0">Răzvan Madar</p>*/}
-                              {/*                                      <p className="small text-muted">*/}
-                              {/*                                          {latestMessage != null && latestMessage.message != null ? latestMessage.message : "Nu aveți mesaje."}*/}
-                              {/*                                      </p>*/}
-                              {/*                                  </div>*/}
-                              {/*                              </div>*/}
-                              {/*                              <div className="pt-1">*/}
-                              {/*                                  <p className="small text-muted mb-1">*/}
-                              {/*                                      {latestMessage != null && getElapsedTime(latestMessage.date)}*/}
-                              {/*                                  </p>*/}
-                              {/*                                  <span*/}
-                              {/*                                      className="badge bg-danger rounded-pill float-end">*/}
-                              {/*  2*/}
-                              {/*</span>*/}
-                              {/*                              </div>*/}
-                              {/*                          </a>*/}
-                              {/*                      </li>*/}
-                              {/*                  </MDBTypography>*/}
+                                            {/*                  <MDBTypography listUnStyled className="mb-0">*/}
+                                            {/*                      <li className="p-2 border-bottom">*/}
+                                            {/*                          <a*/}
+                                            {/*                              href="#!"*/}
+                                            {/*                              className="d-flex justify-content-between"*/}
+                                            {/*                          >*/}
+                                            {/*                              <div className="d-flex flex-row">*/}
+                                            {/*                                  <div>*/}
+                                            {/*                                      <img*/}
+                                            {/*                                          src={toImage}*/}
+                                            {/*                                          style={{borderRadius: "50%"}}*/}
+                                            {/*                                          alt=""*/}
+                                            {/*                                          className="d-flex align-self-center me-3"*/}
+                                            {/*                                          width="60"*/}
+                                            {/*                                          height="60"*/}
+                                            {/*                                      />*/}
+                                            {/*                                  </div>*/}
+                                            {/*                                  <div className="pt-1">*/}
+                                            {/*                                      <p className="fw-bold mb-0">Răzvan Madar</p>*/}
+                                            {/*                                      <p className="small text-muted">*/}
+                                            {/*                                          {latestMessage != null && latestMessage.message != null ? latestMessage.message : "Nu aveți mesaje."}*/}
+                                            {/*                                      </p>*/}
+                                            {/*                                  </div>*/}
+                                            {/*                              </div>*/}
+                                            {/*                              <div className="pt-1">*/}
+                                            {/*                                  <p className="small text-muted mb-1">*/}
+                                            {/*                                      {latestMessage != null && getElapsedTime(latestMessage.date)}*/}
+                                            {/*                                  </p>*/}
+                                            {/*                                  <span*/}
+                                            {/*                                      className="badge bg-danger rounded-pill float-end">*/}
+                                            {/*  2*/}
+                                            {/*</span>*/}
+                                            {/*                              </div>*/}
+                                            {/*                          </a>*/}
+                                            {/*                      </li>*/}
+                                            {/*                  </MDBTypography>*/}
 
-                              {/*              </div>*/}
+                                            {/*              </div>*/}
 
-                                            <ChatPersons passSetChatId={setChatId} passSetToEmail={setToEmail} passIsAddedMessage={isAddedMessage} passSetIsAddedMessage={setIsAddedMessage} passChatLatestMessages={latestMessages} passPersons={persons} passToImages={toImages}/>
+                                            <ChatPersons passSetChatId={setChatId} passSetToEmail={setToEmail}
+                                                         passIsAddedMessage={isAddedMessage}
+                                                         passSetIsAddedMessage={setIsAddedMessage}
+                                                         passChatLatestMessages={latestMessages} passPersons={persons}
+                                                         passSetPersons={setPersons}
+                                                         // passToImages={toImages}
+                                                         // passSetToImages={setToImages}
+                                            />
 
                                         </div>
                                     </MDBCol>
@@ -369,7 +376,11 @@ export default function MyChat() {
                                         {/*    </a>*/}
                                         {/*</div>*/}
 
-                                        {chatId != null && <ChatMessages passChatId={chatId} passToEmail={toEmail} passIsAddedMessage={isAddedMessage} passSetIsAddedMessage={setIsAddedMessage}/>}
+                                        {chatId != null && <ChatMessages passChatId={chatId} passToEmail={toEmail}
+                                                                         passIsAddedMessage={isAddedMessage}
+                                                                         passSetIsAddedMessage={setIsAddedMessage}
+                                                                         passPersons={persons}
+                                                                         passToImages={toImages}/>}
 
                                     </MDBCol>
                                 </MDBRow>

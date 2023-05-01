@@ -5,12 +5,19 @@ import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MessageIcon from '@mui/icons-material/Message';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export const SidebarData = [
   {
     title: "Acasă",
     path: "/",
     icon: <HomeIcon />,
+    cName: "nav-text",
+  },
+  {
+    title: "Profil",
+    path: "/profile",
+    icon: <AccountCircleIcon />,
     cName: "nav-text",
   },
   {

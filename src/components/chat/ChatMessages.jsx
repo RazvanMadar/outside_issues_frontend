@@ -5,11 +5,9 @@ import {getChatMessages} from "../../api/message-api";
 import {getCitizenImage} from "../../api/citizen-image";
 import noPhoto from "../../pages/images/no_photo.png";
 import {sendMessageViaWebSocket} from "../../api/web-socket-api";
-import SockJsClient from "react-stomp";
+import ChatMessageElement from "./ChatMessageElement";
 
-const SOCKET_URL = 'http://localhost:8080/ws-message';
-
-const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage}) => {
+const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages}) => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [fromImage, setFromImage] = useState();
@@ -38,20 +36,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
             } else if (status === 403) {
                 // setForbidden(true);
             } else {
-                setFromImage(noPhoto)
-            }
-        });
-    };
-
-    const getToImage = () => {
-        return getCitizenImage(passChatId, (result, status, err) => {
-            if (result !== null && status === 200) {
-                console.log(result);
-                setToImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
-            } else {
-                setToImage(noPhoto)
+                setFromImage("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp")
             }
         });
     };
@@ -83,81 +68,17 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
         }
     }
 
-    // const onConnected = () => {
-    //     console.log("Connected!!!");
-    // };
-    //
-    // const onMessageReceived = (msg) => {
-    //     passSetIsAddedMessage((prev) => !prev);
-    //     console.log(msg.message);
-    // };
-
     useEffect(() => {
         getFromImage();
-        getToImage();
         getAllChatMessages();
         scrollToBottom();
     }, [passIsAddedMessage, passChatId])
 
     return (
         <div>
-            {/*<SockJsClient*/}
-            {/*    url={SOCKET_URL}*/}
-            {/*    topics={[*/}
-            {/*        "/topic/message",*/}
-            {/*        "/user/" + email + "/private",*/}
-            {/*    ]}*/}
-            {/*    onConnect={onConnected}*/}
-            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
-            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
-            {/*/>*/}
             <div ref={myDivRef}
                  style={{position: "relative", height: "65vh", overflowY: "auto"}}>
-
-                {
-                    messages.map((msg) => (
-                        msg.fromCitizen == email ?
-                            <div className="d-flex flex-row justify-content-end">
-                                <div>
-                                    <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                                        {msg.message}
-                                    </p>
-                                    <p className="small me-3 mb-3 rounded-3 text-muted">
-                                        {getChatMessageFormat(msg.date)}
-                                    </p>
-                                </div>
-                                <img
-                                    src={fromImage}
-                                    className="me-3"
-                                    style={{borderRadius: "50%"}}
-                                    alt=""
-                                    width="50"
-                                    height="50"
-                                />
-                            </div> :
-                            <div className="d-flex flex-row justify-content-start">
-                                <img
-                                    src={toImage}
-                                    style={{borderRadius: "50%"}}
-                                    alt=""
-                                    width="50"
-                                    height="50"
-                                />
-                                <div>
-                                    <p
-                                        className="small p-2 ms-3 mb-1 rounded-3"
-                                        style={{backgroundColor: "#f5f6f7"}}
-                                    >
-                                        {msg.message}
-                                    </p>
-                                    <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                                        12:00 PM | Aug 13
-                                    </p>
-                                </div>
-                            </div>
-                    ))
-                }
-
+            <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages} fromImage={fromImage}/>
             </div>
 
             <div
