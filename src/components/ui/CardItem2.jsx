@@ -31,6 +31,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import {sendEmail} from "../../api/email-api";
+import {addRejected} from "../../api/rejected-issues-api";
 
 //
 // s-ar putea sa primesc din cauza reactiilor ca vin la unele "" si gen nu poate parsa si de aia iau (cred) la
@@ -103,7 +104,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
         return deleteIssueById(issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
-                passIsDeleted((prev) => !prev)
+                rejectIssue();
                 let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul " + convertAPITypesToUI(issue.type) + " a fost ștearsă.`;
                 if (deleteReasonInputRef.current.value.length > 0)
                     content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
@@ -113,6 +114,17 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
             }
         });
     };
+
+    const rejectIssue = () => {
+        return addRejected(issue.citizenEmail, (result, status, err) => {
+            if (result !== null && status === 201) {
+                console.log(result);
+                passIsDeleted((prev) => !prev)
+            } else {
+                console.log(err);
+            }
+        });
+    }
 
     const handleOpenDialog = () => {
         setOpenDialog(true);

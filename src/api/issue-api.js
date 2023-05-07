@@ -108,10 +108,10 @@ const findIssueById = (id, callback) => {
 
 const updateIssue = (id, type, state, callback) => {
     let urlPath = backend_api + endpoint.issue + `/${id}?`;
-    if (type) {
+    if (type != null) {
         urlPath += "type=" + type + "&";
     }
-    if (state) {
+    if (state != null) {
         urlPath += "state=" + state;
     }
     const request = new Request(urlPath, {

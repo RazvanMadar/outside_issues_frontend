@@ -37,7 +37,7 @@ export default function MyChat() {
     const email = localStorage.getItem("email");
     const [toEmail, setToEmail] = useState();
     const [latestMessages, setLatestMessages] = useState([]);
-    const chatUsersRole = localStorage.getItem("role") === "ROLE_ADMIN" ? "ROLE_USER" : "ROLE_ADMIN";
+    const chatUsersRole = localStorage.getItem("role");
     //
     // const getElapsedTime = (date) => {
     //     if (latestMessage.message == null) {

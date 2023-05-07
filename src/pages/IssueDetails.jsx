@@ -11,7 +11,7 @@ import {convertAPIStatesToUI, convertAPITypesToUI, convertUIStatesToAPI, convert
 import Button from "@mui/material/Button";
 import {findCitizenByEmail, findCitizenById} from "../api/citizen-api";
 
-const IssueDetails = () => {
+const IssueDetails = ({passIsUpdated}) => {
     const {id} = useParams();
     const [issue, setIssue] = useState(null);
     const [citizen, setCitizen] = useState(null);
@@ -112,6 +112,7 @@ const IssueDetails = () => {
         const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
         return updateIssue(id, enteredType, enteredState, (result, status, err) => {
             if (result !== null && status === 200) {
+                passIsUpdated((prev) => !prev)
                 navigate("/issues");
             } else if (status === 403) {
                 setForbidden(true);

@@ -19,6 +19,9 @@ import MyProfile from "./pages/MyProfile";
 function App() {
     const url = "http://localhost:8080/api/issues";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isIssueAdded, setIsIssueAdded] = useState(false);
+    const [isIssueDeleted, setIsIssueDeleted] = useState(false);
+    const [isIssueUpdated, setIsIssueUpdated] = useState(false);
     const [backgroundColor, setBackgroundColor] = useState(
         localStorage.getItem('dark_mode') ? localStorage.getItem("dark_mode") : "white"
     );
@@ -28,17 +31,23 @@ function App() {
         // <Router> trebuie sters daca revin la <NewLayout >
         <Router>
             <AuthProvider>
-                <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}/>
+                <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}
+                         passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated}
+                         passIsIssueDeleted={isIssueDeleted}/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     {/*<Route path="/chart" element={<BasicChart/>}/>*/}
-                    <Route path="/issues" element={<Issues url={url} passBackgroundColor={backgroundColor}/>}/>
-                    <Route path="/profile" element={<MyProfile/>}/>
-                    <Route path="/issues/:id" element={<IssueDetails/>}/>
+                    <Route path="/issues"
+                           element={<Issues url={url} passBackgroundColor={backgroundColor} isDeleted={isIssueDeleted}
+                                            setIsDeleted={setIsIssueDeleted}/>}/>
+                    <Route path="/profile" element={<MyProfile passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated}/>}/>
+                    <Route path="/issues/:id" element={<IssueDetails passIsUpdated={setIsIssueUpdated}/>}/>
                     <Route path="/add-issue" element={<AddIssuePage/>}/>
-                    <Route path="/map" element={<IssueMapOSM passBackgroundCol={backgroundColor}/>}/>
+                    <Route path="/map"
+                           element={<IssueMapOSM passBackgroundCol={backgroundColor} passIsIssueAdded={isIssueAdded}
+                                                 passSetIsIssuesAdded={setIsIssueAdded}/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/citizens" element={<Citizens/>}/>
+                    <Route path="/citizens" element={<Citizens passIsDeleted={isIssueDeleted}/>}/>
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
                     <Route path="/loginB" element={<LoginPage/>}/>
                     <Route path="/logout" element={<Logout/>}/>

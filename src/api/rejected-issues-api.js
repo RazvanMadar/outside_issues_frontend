@@ -5,8 +5,8 @@ const endpoint = {
     rejected: "/api/rejected",
 };
 
-const addRejected = (id, callback) => {
-    const request = new Request(backend_api + endpoint.rejected + "?id=" + id, {
+const addRejected = (email, callback) => {
+    const request = new Request(backend_api + endpoint.rejected + "?email=" + email, {
         method: "POST",
     });
 

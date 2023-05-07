@@ -33,12 +33,14 @@ const polygonCoordinates = [[47.0357540, 21.8959981], [47.0701130, 21.9360878], 
 // http://overpass-turbo.eu/
 //
 
-const IssueMapOSM = ({passBackgroundCol}) => {
+const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}) => {
     const [forbidden, setForbidden] = useState(false);
     const [issues, setIssues] = useState([]);
     const [openFilterModal, setOpenFilterModal] = useState(false);
-    const [isIssueAdded, setIsIssueAdded] = useState(false);
+
+    // const [isIssueAdded, setIsIssueAdded] = useState(false);
     const [markerPosition, setMarkerPosition] = useState(position);
+
     // let plusIcon = createIcon(REGISTERED_ROAD, false);
 
     const filterAlIssues = () => {
@@ -137,7 +139,7 @@ const IssueMapOSM = ({passBackgroundCol}) => {
 
     useEffect(() => {
         filterAlIssues();
-    }, [isIssueAdded]);
+    }, [passIsIssueAdded]);
 
     return (
         <div>
@@ -171,7 +173,7 @@ const IssueMapOSM = ({passBackgroundCol}) => {
                 <DraggableMarker passMarkerPosition={setMarkerPosition}/>
             </MapContainer>
             <Legend passFilteredIssues={setIssues}/>
-            <AddMapIssue passIsIssueAdded={setIsIssueAdded} markerPosition={markerPosition}/>
+            <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>
         </div>
     );
 };

@@ -9,16 +9,17 @@ import ProfileModal from "../../profile/ProfileModal";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import Switch from '@mui/material/Switch';
-import styled from "styled-components";
 
-const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
+const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email");
+    const firstName = localStorage.getItem("firstName");
     const userId = localStorage.getItem("userId");
     const role = localStorage.getItem("role");
     const [isLightMode, setIsLightMode] = useState(true);
+    const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 767);
     const [backgroundColor, setBackgroundColor] = useState(
         localStorage.getItem('dark_mode') ? localStorage.getItem("dark_mode") : "white"
     );
@@ -30,8 +31,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
                 setIsLightMode(false);
             else
                 setIsLightMode(true);
-        }
-        else {
+        } else {
             setIsLightMode(true)
         }
     }
@@ -52,6 +52,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
         changeStateFromLocalStorage();
     }, [backgroundColor, isLoggedIn])
 
+
     return (
         <>
             <IconContext.Provider value={{color: "undefined"}}>
@@ -59,7 +60,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
                     <Link to="#" className="menu-bars">
                         <FaIcons.FaBars onClick={showSidebar}/>
                     </Link>
-                    <div style={{position: "absolute", marginLeft: "10rem"}}>
+                    <div style={{position: "absolute", marginLeft: desktopScreen ? "12rem" : "4rem"}}>
                         <Switch checked={isLightMode} style={{color: "white"}}
                                 icon={<ModeNightIcon/>}
                                 checkedIcon={<LightModeIcon/>}
@@ -67,12 +68,15 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
                     </div>
                     {(isLoggedIn || isLogged) && <button className="email"
                                                          onClick={() => setModalShow(true)}
-                    >{email}
+                    >{firstName}
                     </button>}
                     <ProfileModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         userId={userId}
+                        passIsIssueAdded={passIsIssueAdded}
+                        passIsIssueUpdated={passIsIssueUpdated}
+                        passIsIssueDeleted={passIsIssueDeleted}
                     />
                 </div>
                 <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
@@ -84,15 +88,26 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor}) => {
                         </li>
                         {SidebarData.map((item, index) => {
                             if (isLogged && item.title !== "Autentificare") {
-                                return (
-                                    <li key={index} className={item.cName}>
-                                        <Link to={item.path}>
-                                            {item.icon}
-                                            <span className="span">{item.title}</span>
-                                        </Link>
-                                    </li>
-                                )
-                            } else if (!isLogged && item.title !== "Deconectare") {
+                                if (role === "ROLE_USER" && item.title !== 'Cetățeni') {
+                                    console.log("a intrat aici", item.title)
+                                    return (
+                                        <li key={index} className={item.cName}>
+                                            <Link to={item.path}>
+                                                {item.icon}
+                                                <span className="span">{item.title}</span>
+                                            </Link>
+                                        </li>)
+                                }
+                                else if (role === "ROLE_ADMIN") {
+                                    return (
+                                        <li key={index} className={item.cName}>
+                                            <Link to={item.path}>
+                                                {item.icon}
+                                                <span className="span">{item.title}</span>
+                                            </Link>
+                                        </li>)
+                                }
+                            } else if (!isLogged && item.title !== "Deconectare" && item.title !== "Profil" && item.title !== "Cetățeni" && item.title !== "Chat") {
                                 return (
                                     <li key={index} className={item.cName}>
                                         <Link to={item.path}>

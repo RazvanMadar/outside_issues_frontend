@@ -23,7 +23,8 @@ const ChatPersons = ({
     const [latestMessages, setLatestMessages] = useState([]);
     const [toImages, setToImages] = useState([]);
     const email = localStorage.getItem("email");
-    const chatUsersRole = localStorage.getItem("role") === "ROLE_ADMIN" ? "ROLE_USER" : "ROLE_ADMIN";
+    // const chatUsersRole = localStorage.getItem("role") === "ROLE_ADMIN" ? "ROLE_USER" : "ROLE_ADMIN";
+    const chatUsersRole = localStorage.getItem("role");
 
     const getChatPersons = () => {
         return getChatUsersByRole(chatUsersRole, (result, status, err) => {
@@ -84,7 +85,6 @@ const ChatPersons = ({
         if (msg.fromEmail === email || msg.toEmail === email) {
             if (!passPersons.some(item => item.email === msg.fromEmail) && !passPersons.some(item => item.email === msg.toEmail)) {
                 getChatPersons();
-                // getLatestMessages();
             }
             passSetIsAddedMessage((prev) => !prev);
             console.log(msg.message);

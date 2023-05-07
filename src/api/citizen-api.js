@@ -13,10 +13,13 @@ const findCitizenById = (id, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const getCitizens = (email, page, size, callback) => {
+const getCitizens = (email, isFiltered, page, size, callback) => {
     let urlPath = backend_api + endpoint.citizen + "?";
     if (email != null && email != '') {
         urlPath = urlPath + "email=" + email + "&";
+    }
+    if (isFiltered) {
+        urlPath += "isFiltered=" + isFiltered + "&";
     }
     if (page != null) {
         urlPath += "page=" + page + "&";

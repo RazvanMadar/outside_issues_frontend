@@ -15,7 +15,7 @@ import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
 import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 
-const MyProfile = () => {
+const MyProfile = ({passIsDeleted, passIsUpdated}) => {
     const userId = localStorage.getItem("userId");
     const email = localStorage.getItem("email")
     const [citizen, setCitizen] = useState();
@@ -158,13 +158,13 @@ const MyProfile = () => {
             getStatistics();
             getAllRejectedIssuesForCitizen();
         }
-    }, [userId]);
+    }, [userId, passIsDeleted, passIsUpdated]);
 
     useEffect(() => {
         if (userId != null) {
             filterCitizenIssues();
         }
-    }, [currentPage])
+    }, [currentPage, passIsDeleted, passIsUpdated])
 
     return (<div>
         {userId != null && citizen != null ?

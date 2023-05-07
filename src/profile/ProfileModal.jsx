@@ -16,7 +16,7 @@ const customizeLabel = (e) => {
     return `${e.argumentText}\n${e.valueText}`;
 }
 
-const ProfileModal = ({show, onHide, userId}) => {
+const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
@@ -76,7 +76,7 @@ const ProfileModal = ({show, onHide, userId}) => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [userId])
+    }, [userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated])
 
 
     return (

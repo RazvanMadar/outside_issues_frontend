@@ -5,7 +5,7 @@ import {getCitizens} from "../api/citizen-api";
 import {Button, Table} from 'reactstrap';
 import EnhancedTable from "../components/citizen/EnhancedTable";
 
-const Citizens = () => {
+const Citizens = ({passIsDeleted}) => {
     const [citizens, setCitizens] = useState([]);
 
     // const getAllCitizens = () => {
@@ -70,7 +70,7 @@ const Citizens = () => {
         //     {/*    </div>*/}
         //     {/*</div>*/}
         // </div>
-        <EnhancedTable />
+        <EnhancedTable passIsDeleted={passIsDeleted}/>
     );
 }
 

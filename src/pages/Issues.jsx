@@ -17,19 +17,22 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import {useLocation} from "react-router-dom";
+import SockJsClient from "react-stomp";
 
-const Issues = ({url, passBackgroundColor}) => {
+const SOCKET_URL = 'http://localhost:8080/ws-message';
+
+const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
     // const issues_url = "http://localhost:8080/api/issues";
     const location = useLocation();
     const issues_url = location.state ? location.state : url;
     const [issues, setIssues] = useState([]);
     const [forbidden, setForbidden] = useState(false);
     const [modalShow, setModalShow] = useState(false);
-    const [issuesPerPage, setIssuesPerPage] = useState(4);
+    const [issuesPerPage, setIssuesPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFiltered, setIsFiltered] = useState(false);
-    const [isDeleted, setIsDeleted] = useState(false);
+    // const [isDeleted, setIsDeleted] = useState(false);
     const [type, setType] = useState(null);
     const [state, setState] = useState(null);
     const [fromDate, setFromDate] = useState(null);
@@ -113,9 +116,11 @@ const Issues = ({url, passBackgroundColor}) => {
         }
     }, [issues_url, currentPage, isFiltered, isDeleted, sort, order]);
 
+
     return (
         // style={{backgroundColor: "grey"}}
         <div>
+
             <Container>
                 <br/>
                 <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}

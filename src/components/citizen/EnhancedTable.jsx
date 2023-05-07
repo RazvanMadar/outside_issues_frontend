@@ -135,7 +135,7 @@ function EnhancedTableHead(props) {
     );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable({passIsDeleted}) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('email');
     const [citizens, setCitizens] = useState([]);
@@ -150,7 +150,7 @@ export default function EnhancedTable() {
     const emailInputRef = useRef();
 
     const getAllCitizens = () => {
-        return getCitizens(emailInputRef != null ? emailInputRef.current.value : null, currentPage, citizensPerPage, (result, status, err) => {
+        return getCitizens(emailInputRef != null ? emailInputRef.current.value : null, true, currentPage, citizensPerPage, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result.content)
                     setCitizens(result.content);
@@ -231,7 +231,7 @@ export default function EnhancedTable() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [currentPage, citizensPerPage, newBlocked, newUnlocked])
+    }, [currentPage, citizensPerPage, newBlocked, newUnlocked, passIsDeleted])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
