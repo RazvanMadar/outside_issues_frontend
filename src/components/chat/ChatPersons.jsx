@@ -9,6 +9,7 @@ import ChatPersonElement from "./ChatPersonElement";
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
 const ChatPersons = ({
+                         passChatId,
                          passSetChatId,
                          passSetToEmail,
                          passIsAddedMessage,
@@ -113,7 +114,8 @@ const ChatPersons = ({
                     <li className="p-2 border-bottom">
                         {passPersons.map((person) => (
                             <ChatPersonElement person={person}
-                                               // passToImages={passToImages}
+                                    // passToImages={passToImages},
+                                passChatId={passChatId}
                                                passSetChatId={passSetChatId} passSetToEmail={passSetToEmail}
                                                passIsAddedMessage={passIsAddedMessage}
                             />

@@ -1,0 +1,65 @@
+/*.wrapper {*/
+/*    text-align: center;*/
+/*}*/
+
+.main {
+    position: absolute;
+    margin-top: 2rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.main2 {
+    position: absolute;
+    margin-top: 2rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+
+.details {
+    position: absolute;
+    top: 165%;
+}
+
+.buttons {
+    position: absolute;
+    top: 240%
+}
+
+.mainImage {
+    padding: 2px;
+    background-color: black;
+    /*height: 20rem;*/
+    /*width: 23rem;*/
+    border-radius: 5%
+}
+
+.secondImage {
+    margin-top: 5px;
+    padding: 2px;
+    background-color: black;
+    /*height: 10rem;*/
+    /*width: 11.5rem;*/
+    border-radius: 5%;
+    display: flex;
+    justifyContent: center
+}
+
+.thirdImage {
+    margin-top: 5px;
+    margin-left: 15px;
+    padding: 2px;
+    background-color: black;
+    /*height: 10rem;*/
+    /*width: 11.5rem;*/
+    border-radius: 5%;
+    display: flex;
+    justifyContent: center
+}
+
+.map {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 105%;*/
+}

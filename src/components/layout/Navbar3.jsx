@@ -16,6 +16,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     const isLogged = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email");
     const firstName = localStorage.getItem("firstName");
+    const lastName = localStorage.getItem("lastName");
     const userId = localStorage.getItem("userId");
     const role = localStorage.getItem("role");
     const [isLightMode, setIsLightMode] = useState(true);
@@ -56,9 +57,9 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     return (
         <>
             <IconContext.Provider value={{color: "undefined"}}>
-                <div className="navbar">
+                <div className="navbar" style={{backgroundColor: role === "ROLE_USER" ? "#AEBDCA" : "#E8D5C4"}}>
                     <Link to="#" className="menu-bars">
-                        <FaIcons.FaBars onClick={showSidebar}/>
+                        <FaIcons.FaBars onClick={showSidebar} style={{color: "black"}}/>
                     </Link>
                     <div style={{position: "absolute", marginLeft: desktopScreen ? "12rem" : "4rem"}}>
                         <Switch checked={isLightMode} style={{color: "white"}}
@@ -66,10 +67,11 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                 checkedIcon={<LightModeIcon/>}
                                 onClick={handleChangeColor}/>
                     </div>
-                    {(isLoggedIn || isLogged) && <button className="email"
+                    {((isLoggedIn || isLogged) && role == "ROLE_USER") && <button className="email"
                                                          onClick={() => setModalShow(true)}
-                    >{firstName}
+                    >{firstName} {lastName}
                     </button>}
+                    {((isLoggedIn || isLogged) && role == "ROLE_ADMIN") && <div className="admin">ADMINISTRATOR</div>}
                     <ProfileModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
@@ -83,7 +85,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                     <ul className="nav-menu-items" onClick={showSidebar}>
                         <li className="navbar-toggle">
                             <Link to="#" className="menu-bars">
-                                <AiIcons.AiOutlineClose/>
+                                <AiIcons.AiOutlineClose style={{color: "black"}}/>
                             </Link>
                         </li>
                         {SidebarData.map((item, index) => {
@@ -94,16 +96,16 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                         <li key={index} className={item.cName}>
                                             <Link to={item.path}>
                                                 {item.icon}
-                                                <span className="span">{item.title}</span>
+                                                <span className="span" style={{color: "black"}}>{item.title}</span>
                                             </Link>
                                         </li>)
                                 }
-                                else if (role === "ROLE_ADMIN") {
+                                else if (role === "ROLE_ADMIN" && item.title !== 'Profil') {
                                     return (
-                                        <li key={index} className={item.cName}>
-                                            <Link to={item.path}>
+                                        <li key={index} className={item.cName} >
+                                            <Link to={item.path} style={{color: "black"}}>
                                                 {item.icon}
-                                                <span className="span">{item.title}</span>
+                                                <span className="span" style={{color: "black"}}>{item.title}</span>
                                             </Link>
                                         </li>)
                                 }

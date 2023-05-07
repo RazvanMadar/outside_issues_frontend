@@ -37,17 +37,17 @@ const JSONDataChart = ({data, desktopScreen}) => {
                     valueField="val"
                     argumentField="state"
                     type="bar"
-                    color="#17C8EC"
+                    color="#4E6E81"
                 >
-                    <Label visible={true} backgroundColor="#17C8EC"/>
+                    <Label visible={true} backgroundColor="#4E6E81"/>
                 </Series>
                 <Series
                     valueField="val2"
                     argumentField="state"
                     type="bar"
-                    color="#34B39A"
+                    color="#19A7CE"
                 >
-                    <Label visible={true} backgroundColor="#34B39A"/>
+                    <Label visible={true} backgroundColor="#19A7CE"/>
                 </Series>
 
                 <Legend visible={false}/>

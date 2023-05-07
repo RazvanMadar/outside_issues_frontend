@@ -229,7 +229,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         <Input type="text" name="email" id="email" innerRef={phoneInputRef}
                                placeholder="Telefon (opțional...)" style={{marginTop: "5px", marginBottom: "5px"}}>
                         </Input>
-                        <Link to="/login" style={{textDecoration: "none", color: "orange"}}>
+                        <Link to="/login" style={{textDecoration: "none", color: "#7895B2"}}>
                             Ai deja cont? Autentifică-te aici
                         </Link>
                     </FormGroup>
@@ -237,7 +237,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
             </Form>
             <Button
                 variant="contained"
-                color="success"
+                color="primary"
                 style={{position: "absolute", left: "1rem", width: "8rem"}}
                 onClick={handleAddIssue}
                 // onClick={() => sendAnEmail({

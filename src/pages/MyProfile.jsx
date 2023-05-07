@@ -140,6 +140,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated}) => {
                 if (result !== null && status === 200) {
                     const second = {state: result[1].state, val2: result[1].val}
                     setData2([result[0], second]);
+                    // setData2(result);
                 } else {
                     console.log(err);
                 }
@@ -192,17 +193,17 @@ const MyProfile = ({passIsDeleted, passIsUpdated}) => {
                                 <Input type="email" name="email" id="email" defaultValue={citizen.email} disabled/>
                             </FormGroup>
                             <Button variant="contained"
-                                    color="success"
+                                    color="primary"
                                 // className={classes.filterButton}
                                     onClick={updateAnCitizen}
-                            >Actualizează
+                            >Actualizează profilul
                             </Button>
-                            <Button variant="contained"
-                                    color="error"
-                                    onClick={() => navigate("/issues")}
-                            >
-                                Ieșire
-                            </Button>
+                            {/*<Button variant="contained"*/}
+                            {/*        color="error"*/}
+                            {/*        onClick={() => navigate("/issues")}*/}
+                            {/*>*/}
+                            {/*    Ieșire*/}
+                            {/*</Button>*/}
                         </Form>
                     </div>
                     <div

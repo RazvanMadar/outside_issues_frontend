@@ -16,6 +16,14 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import noPhoto from "../../pages/images/no_photo.png";
+import roadPlaceholder from "../../pages/images/roadPlaceholder.jpg";
+import lightningPlaceholder from "../../pages/images/lightningPlaceholder.jpg";
+import buildingPlaceholder from "../../pages/images/buildingPlaceholder.jpg";
+import animalPlaceholder from "../../pages/images/animalPlaceholder.jpg";
+import greenSpacePlaceholder from "../../pages/images/greenSpacePlaceholder.jpg";
+import publicDomainPlaceholder from "../../pages/images/publicDomainPlaceholder.jpg";
+import transportPlaceholder from "../../pages/images/transportPlaceholder.jpg";
+import roadSignPlaceholder from "../../pages/images/roadSignPlaceholder.jpg";
 import {getReactionsForSomeCitizenAndIssue} from "../../api/citizen-reactions-api";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -76,6 +84,42 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
         });
     };
 
+    const getImageRegardingIssueType = (type) => {
+        let photo;
+        switch (type) {
+            case "ROAD":
+                photo = roadPlaceholder;
+                break;
+            case "LIGHTNING":
+                photo = lightningPlaceholder;
+                break;
+            case "GREEN_SPACES":
+                photo = greenSpacePlaceholder;
+                break;
+            case "PUBLIC_DOMAIN":
+                photo = publicDomainPlaceholder;
+                break;
+            case "PUBLIC_DISORDER":
+                photo = "#D5B4B4";
+                break;
+            case "PUBLIC_TRANSPORT":
+                photo = transportPlaceholder;
+                break;
+            case "BUILDINGS":
+                photo = buildingPlaceholder;
+                break;
+            case "TRAFFIC_ROAD_SIGNS":
+                photo = roadSignPlaceholder;
+                break;
+            case "ANIMALS":
+                photo = animalPlaceholder;
+                break;
+            default:
+                photo = noPhoto;
+        }
+        return photo;
+    }
+
     const geMainImage = () => {
         return getFirstImage(issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
@@ -85,7 +129,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
             } else if (status === 403) {
                 setForbidden(true);
             } else {
-                setMainImage(noPhoto);
+                setMainImage(getImageRegardingIssueType(issue.type));
             }
         });
     };
@@ -336,7 +380,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                         prioritar
                     </div> : ""
                     }
-                    {isLogged && role === "ROLE_USER" ?
+                    {isLogged && role === "ROLE_USER" && issue.state !== "SOLVED" ?
                         <div>
                             <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
                                 {nrOfLikes}
@@ -347,6 +391,17 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                                 {nrOfDislikes}
                                 <Checkbox icon={<ThumbDownOffAltIcon/>} checkedIcon={<ThumbDownAltIcon/>}
                                           checked={dislikeButton} onClick={handleDislike}/>
+                            </div>
+                        </div> : ""}
+                    {isLogged && role === "ROLE_USER" && issue.state === "SOLVED" ?
+                        <div>
+                            <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
+                                {nrOfLikes}
+                                <Checkbox icon={<ThumbUpOffAltIcon/>} disabled/>
+                            </div>
+                            <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
+                                {nrOfDislikes}
+                                <Checkbox icon={<ThumbDownOffAltIcon/>} disabled/>
                             </div>
                         </div> : ""}
                     {!isLogged || isLogged && role === "ROLE_ADMIN" ?

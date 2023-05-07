@@ -1,8 +1,6 @@
 .navbar {
-  /*background-color: #5671F7;*/
-  background-color: #C4BBB8;
-  /*height: 80%;*/
-  height: 8vh;
+  height: 80%;
+  /*height: 8vh;*/
   display: flex;
   justify-content: start;
   align-items: center;
@@ -17,7 +15,17 @@
 .email {
   position: absolute;
   right: 2rem;
-  color: white;
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  background: none;
+  border: none
+}
+
+.admin {
+  position: absolute;
+  right: 2rem;
+  color: black;
   font-weight: bold;
   font-style: italic;
   background: none;
@@ -25,7 +33,7 @@
 }
 
 .email:hover {
-  color: purple
+  color: #E8DFCA
 }
 
 .menu-bars {
@@ -36,7 +44,8 @@
 }
 
 .nav-menu {
-  background-color: #060b26;
+  /*background-color: #060b26;*/
+  background-color: #AEBDCA;
   width: 200px;
   height: 100vh;
   display: flex;
@@ -75,7 +84,7 @@
 }
 
 .nav-text a:hover {
-  background-color: #1a83ff;
+  background-color: #7895B2;
 }
 
 .nav-menu-items {
@@ -83,7 +92,7 @@
 }
 
 .navbar-toggle {
-  background-color: #060b26;
+  background-color: #AEBDCA;
   /*background-color: #39375B;*/
   width: 100%;
   height: 80px;

@@ -17,7 +17,6 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import {useLocation} from "react-router-dom";
-import SockJsClient from "react-stomp";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
@@ -45,7 +44,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
     const [orderAsc, setOrderAsc] = useState(false);
     const [orderDesc, setOrderDesc] = useState(true);
 
-    console.log(passBackgroundColor);
+    console.log(passBackgroundColor);;
 
     const filterAllIssues = () => {
         return filterIssues(
@@ -127,7 +126,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                      className={classes.filter}>
                     <Button
                         style={{margin: "1rem"}}
-                        startIcon={<ManageSearchIcon style={{color: "red"}}/>}
+                        startIcon={<ManageSearchIcon style={{color: "white"}}/>}
                         variant="contained"
                         onClick={() => setModalShow(true)}
                     >

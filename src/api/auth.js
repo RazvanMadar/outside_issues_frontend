@@ -13,6 +13,7 @@ const authenticate = (data, login, navigate, onLogin) => {
             localStorage.setItem("userId", response.data.userId);
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("firstName", response.data.firstName);
+            localStorage.setItem("lastName", response.data.lastName);
             localStorage.setItem("token", response.data.accessToken);
             localStorage.setItem("isLogged", true);
             localStorage.setItem("role", response.data.role);

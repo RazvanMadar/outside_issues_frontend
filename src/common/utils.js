@@ -23,21 +23,22 @@ sortDataMap.set("dislikes_number", "Dislike-uri");
 
 const getBackgroundColorForState = (state) => {
     let backgroundColor;
+    // return "#7895B2"
     switch (state) {
         case "REGISTERED":
-            backgroundColor = "#9815AF";
+            backgroundColor = "#7895B2";
             break;
         case "PLANNED":
-            backgroundColor = "#BE6858";
+            backgroundColor = "#628E90";
             break;
         case "WORKING":
-            backgroundColor = "#163EBB";
+            backgroundColor = "#917FB3";
             break;
         case "REDIRECTED":
-            backgroundColor = "#F2C613";
+            backgroundColor = "#D5B4B4";
             break;
         default:
-            backgroundColor = "#29B810";
+            backgroundColor = "#9E7676";
     }
     return backgroundColor;
 }
@@ -110,7 +111,7 @@ const convertAPIStatesToUI = (state) => {
 }
 
 const cutFromDescription = (description) => {
-    return description.length > 81 ? description.substring(0, 81) + "..." : description;
+    return description.length > 75 ? description.substring(0, 75) + "..." : description;
 }
 
 

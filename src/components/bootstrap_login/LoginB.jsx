@@ -86,7 +86,7 @@ const LoginB = ({onLogin}) => {
             >
                 <div className={classes.formContainer + " " + classes.signUpContainer}>
                     <form className={classes.form}>
-                        <h1 className={classes.h1}>Creează-ți contul</h1>
+                        <h1 className={classes.h1}>Creare cont</h1>
                         <br/>
                         <input className={classes.input} type="text" placeholder="Prenume"
                                ref={firstNameRegisterInputRef}/>
@@ -100,7 +100,7 @@ const LoginB = ({onLogin}) => {
                         />
                         <input className={classes.input} type="text" placeholder="Număr de telefon"
                                ref={phoneRegisterInputRef}/>
-                        <ImageBox passIsPhoto={setPhotos} title={"Încărcați o poză cu dvs."} numberOfPhotos={1}/>
+                        <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"} numberOfPhotos={1}/>
                         <br/>
                         <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
                     </form>
@@ -125,7 +125,7 @@ const LoginB = ({onLogin}) => {
                             ref={passwordInputRef}
                             required
                         />
-                        <Link to="/">Ți-ai uitat parola?</Link>
+                        {/*<Link to="/">Ți-ai uitat parola?</Link>*/}
                         <br/>
                         <button className={classes.button} onClick={submitHandler}>
                             Autentificare
@@ -137,7 +137,7 @@ const LoginB = ({onLogin}) => {
                         <div className={classes.overlayPanel + " " + classes.overlayLeft}>
                             <h1 className={classes.h1}>Bine ai revenit!</h1>
                             <p className={classes.p}>
-                                Pentru a beneficia de plusurile logării, loghează-te :))
+                                Ai deja un cont? Autentifică-te aici!
                             </p>
                             <button
                                 className={classes.ghost + " " + classes.button}
@@ -152,7 +152,7 @@ const LoginB = ({onLogin}) => {
                         <div className={classes.overlayPanel + " " + classes.overlayRight}>
                             <h1 className={classes.h1}>Nu ai cont?</h1>
                             <p className={classes.p}>
-                                Înregistrează-te aici
+                                Încă nu ai un cont? Creează-ți unul aici!
                             </p>
                             <button
                                 className={classes.ghost + " " + classes.button}

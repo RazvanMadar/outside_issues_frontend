@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 import {getLatestChatMessage} from "../../api/message-api";
 import {getCitizenImage} from "../../api/citizen-image";
 
-const ChatPersonElement = ({person,
+const ChatPersonElement = ({
+                               person,
                                passSetChatId,
+                               passChatId,
                                passSetToEmail,
                                passIsAddedMessage
                            }) => {
@@ -75,9 +77,9 @@ const ChatPersonElement = ({person,
 
     return (<div>
         <a
-            href='#'
+            href={`#${passChatId}`}
             onClick={() => {
-                passSetChatId(person.citizenId);
+                passChatId == null ? passSetChatId(person.citizenId) : passSetChatId(null);
                 passSetToEmail(person.email)
             }}
             className="d-flex justify-content-between"

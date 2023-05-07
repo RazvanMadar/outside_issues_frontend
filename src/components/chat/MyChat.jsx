@@ -212,22 +212,11 @@ export default function MyChat() {
     }, [])
 
     return (
-        <div>
-            {/*<SockJsClient*/}
-            {/*    url={SOCKET_URL}*/}
-            {/*    topics={[*/}
-            {/*        "/topic/message",*/}
-            {/*        "/user/" + email + "/private",*/}
-            {/*    ]}*/}
-            {/*    onConnect={onConnected}*/}
-            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
-            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
-            {/*/>*/}
-
-            <MDBContainer fluid className="py-5" style={{backgroundColor: "#CDC4F9", height: "92vh"}}>
+        <div style={{height: "100vh"}}>
+            <MDBContainer fluid className="py-5" style={{backgroundColor: "#FFF", height: "100%"}}>
                 <MDBRow>
                     <MDBCol md="12">
-                        <MDBCard id="chat3" style={{borderRadius: "15px", height: "80vh"}}>
+                        <MDBCard id="chat3" style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>
                             <MDBCardBody>
                                 <MDBRow>
                                     <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
@@ -245,137 +234,19 @@ export default function MyChat() {
                         <MDBIcon fas icon="search"/>
                       </span>
                                             </MDBInputGroup>
-                                            {/*              <div style={{position: "relative", height: "400px", overflowY: "auto"}}>*/}
 
-                                            {/*                  <MDBTypography listUnStyled className="mb-0">*/}
-                                            {/*                      <li className="p-2 border-bottom">*/}
-                                            {/*                          <a*/}
-                                            {/*                              href="#!"*/}
-                                            {/*                              className="d-flex justify-content-between"*/}
-                                            {/*                          >*/}
-                                            {/*                              <div className="d-flex flex-row">*/}
-                                            {/*                                  <div>*/}
-                                            {/*                                      <img*/}
-                                            {/*                                          src={toImage}*/}
-                                            {/*                                          style={{borderRadius: "50%"}}*/}
-                                            {/*                                          alt=""*/}
-                                            {/*                                          className="d-flex align-self-center me-3"*/}
-                                            {/*                                          width="60"*/}
-                                            {/*                                          height="60"*/}
-                                            {/*                                      />*/}
-                                            {/*                                  </div>*/}
-                                            {/*                                  <div className="pt-1">*/}
-                                            {/*                                      <p className="fw-bold mb-0">Răzvan Madar</p>*/}
-                                            {/*                                      <p className="small text-muted">*/}
-                                            {/*                                          {latestMessage != null && latestMessage.message != null ? latestMessage.message : "Nu aveți mesaje."}*/}
-                                            {/*                                      </p>*/}
-                                            {/*                                  </div>*/}
-                                            {/*                              </div>*/}
-                                            {/*                              <div className="pt-1">*/}
-                                            {/*                                  <p className="small text-muted mb-1">*/}
-                                            {/*                                      {latestMessage != null && getElapsedTime(latestMessage.date)}*/}
-                                            {/*                                  </p>*/}
-                                            {/*                                  <span*/}
-                                            {/*                                      className="badge bg-danger rounded-pill float-end">*/}
-                                            {/*  2*/}
-                                            {/*</span>*/}
-                                            {/*                              </div>*/}
-                                            {/*                          </a>*/}
-                                            {/*                      </li>*/}
-                                            {/*                  </MDBTypography>*/}
-
-                                            {/*              </div>*/}
-
-                                            <ChatPersons passSetChatId={setChatId} passSetToEmail={setToEmail}
+                                            <ChatPersons passChatId={chatId} passSetChatId={setChatId} passSetToEmail={setToEmail}
                                                          passIsAddedMessage={isAddedMessage}
                                                          passSetIsAddedMessage={setIsAddedMessage}
                                                          passChatLatestMessages={latestMessages} passPersons={persons}
                                                          passSetPersons={setPersons}
-                                                         // passToImages={toImages}
-                                                         // passSetToImages={setToImages}
+                                                // passToImages={toImages}
+                                                // passSetToImages={setToImages}
                                             />
 
                                         </div>
                                     </MDBCol>
                                     <MDBCol md="6" lg="7" xl="8">
-
-                                        {/*<div ref={myDivRef}*/}
-                                        {/*     style={{position: "relative", height: "65vh", overflowY: "auto"}}>*/}
-
-                                        {/*    {*/}
-                                        {/*        messages.map((msg) => (*/}
-                                        {/*            msg.fromCitizen == email ?*/}
-                                        {/*                <div className="d-flex flex-row justify-content-end">*/}
-                                        {/*                    <div>*/}
-                                        {/*                        <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">*/}
-                                        {/*                            {msg.message}*/}
-                                        {/*                        </p>*/}
-                                        {/*                        <p className="small me-3 mb-3 rounded-3 text-muted">*/}
-                                        {/*                            {getChatMessageFormat(msg.date)}*/}
-                                        {/*                        </p>*/}
-                                        {/*                    </div>*/}
-                                        {/*                    <img*/}
-                                        {/*                        src={fromImage}*/}
-                                        {/*                        className="me-3"*/}
-                                        {/*                        style={{borderRadius: "50%"}}*/}
-                                        {/*                        alt=""*/}
-                                        {/*                        width="50"*/}
-                                        {/*                        height="50"*/}
-                                        {/*                    />*/}
-                                        {/*                </div> :*/}
-                                        {/*                <div className="d-flex flex-row justify-content-start">*/}
-                                        {/*                    <img*/}
-                                        {/*                        src={toImage}*/}
-                                        {/*                        style={{borderRadius: "50%"}}*/}
-                                        {/*                        alt=""*/}
-                                        {/*                        width="50"*/}
-                                        {/*                        height="50"*/}
-                                        {/*                    />*/}
-                                        {/*                    <div>*/}
-                                        {/*                        <p*/}
-                                        {/*                            className="small p-2 ms-3 mb-1 rounded-3"*/}
-                                        {/*                            style={{backgroundColor: "#f5f6f7"}}*/}
-                                        {/*                        >*/}
-                                        {/*                            {msg.message}*/}
-                                        {/*                        </p>*/}
-                                        {/*                        <p className="small ms-3 mb-3 rounded-3 text-muted float-end">*/}
-                                        {/*                            12:00 PM | Aug 13*/}
-                                        {/*                        </p>*/}
-                                        {/*                    </div>*/}
-                                        {/*                </div>*/}
-                                        {/*        ))*/}
-                                        {/*    }*/}
-
-                                        {/*</div>*/}
-
-                                        {/*<div*/}
-                                        {/*    className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">*/}
-                                        {/*    <img*/}
-                                        {/*        src={fromImage}*/}
-                                        {/*        style={{borderRadius: "50%", marginRight: "5px"}}*/}
-                                        {/*        alt=""*/}
-                                        {/*        width="50"*/}
-                                        {/*        height="45"*/}
-                                        {/*    />*/}
-                                        {/*    <input autoFocus={true}*/}
-                                        {/*           type="text"*/}
-                                        {/*           className="form-control form-control-lg"*/}
-                                        {/*           id="exampleFormControlInput2"*/}
-                                        {/*           placeholder="Type message"*/}
-                                        {/*           onChange={handleInputChange}*/}
-                                        {/*           value={message}*/}
-                                        {/*    />*/}
-                                        {/*    <a className="ms-1 text-muted" href="#!">*/}
-                                        {/*        <MDBIcon fas icon="paperclip"/>*/}
-                                        {/*    </a>*/}
-                                        {/*    <a className="ms-3" href="#!">*/}
-                                        {/*        <MDBIcon fas icon="paper-plane"*/}
-                                        {/*            // onClick={sendAMessage}*/}
-                                        {/*                 onClick={sendMessageToUser}*/}
-                                        {/*        />*/}
-                                        {/*    </a>*/}
-                                        {/*</div>*/}
-
                                         {chatId != null && <ChatMessages passChatId={chatId} passToEmail={toEmail}
                                                                          passIsAddedMessage={isAddedMessage}
                                                                          passSetIsAddedMessage={setIsAddedMessage}

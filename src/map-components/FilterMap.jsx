@@ -128,7 +128,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
             </Modal.Body>
             <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
                 <Button variant="contained"
-                        color="success"
+                        color="primary"
                         className={classes.filterButton}
                         onClick={() => {
                             filterAllIssues();

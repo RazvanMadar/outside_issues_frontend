@@ -6,18 +6,19 @@ import AddForm from "./AddForm";
 
 const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
   const [isShown, setIsShown] = useState(false);
+  const role = localStorage.getItem("role");
 
   return (
     <div className={classes.main}>
-      {!isShown && (
+      {role !== "ROLE_ADMIN" && !isShown && (
         <Button
           variant="contained"
-          startIcon={<AddLocationAltIcon style={{ color: "red" }} />}
+          startIcon={<AddLocationAltIcon style={{ color: "white" }} />}
           onClick={() => {
             setIsShown((val) => !val);
           }}
         >
-          Raportează o sesizare
+          Înregistrează o sesizare
         </Button>
       )}
       {isShown && <AddForm passIsShown={setIsShown} passIsIssueAdded={passIsIssueAdded} markerPosition={markerPosition}/>}

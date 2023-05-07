@@ -15,6 +15,7 @@ import IssueDetails from "./pages/IssueDetails";
 import Citizens from "./pages/Citizens";
 import MyChat from "./components/chat/MyChat";
 import MyProfile from "./pages/MyProfile";
+import IssueDetails2 from "./pages/IssueDetails2";
 
 function App() {
     const url = "http://localhost:8080/api/issues";
@@ -41,7 +42,7 @@ function App() {
                            element={<Issues url={url} passBackgroundColor={backgroundColor} isDeleted={isIssueDeleted}
                                             setIsDeleted={setIsIssueDeleted}/>}/>
                     <Route path="/profile" element={<MyProfile passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated}/>}/>
-                    <Route path="/issues/:id" element={<IssueDetails passIsUpdated={setIsIssueUpdated}/>}/>
+                    <Route path="/issues/:id" element={<IssueDetails2 passIsUpdated={setIsIssueUpdated}/>}/>
                     <Route path="/add-issue" element={<AddIssuePage/>}/>
                     <Route path="/map"
                            element={<IssueMapOSM passBackgroundCol={backgroundColor} passIsIssueAdded={isIssueAdded}
