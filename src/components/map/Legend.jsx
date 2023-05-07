@@ -9,7 +9,7 @@ import {filterIssues} from "../../api/issue-api";
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import ExtendedLegend from "./ExtendedLegend";
 
-const Legend = ({passFilteredIssues}) => {
+const Legend = ({passFilteredIssues, passBackgroundCol}) => {
     const [isExtended, setIsExtended] = useState(false);
     const [boldButton, setBoldButton] = useState(null);
     const [buttonId, setButtonId] = useState();
@@ -55,7 +55,8 @@ const Legend = ({passFilteredIssues}) => {
 
     return (
         <div>
-            <div className={classes.wrapper}>
+            <div className={classes.wrapper}
+                 style={{backgroundColor: passBackgroundCol === 'white' ? 'white' : "#BCBEC8"}}>
                 <div className={classes.title}>Legendă</div>
                 <div className={classes.field}>
                     <div className="w-3 h-3 opacity-90 rounded-full">
@@ -88,7 +89,7 @@ const Legend = ({passFilteredIssues}) => {
                         filterAllIssues("WORKING");
                         handleChangeState("button3")
                     }}/>
-                    <button id="button3" className={classes.legendText}  style={getButtonStyle("button3")}
+                    <button id="button3" className={classes.legendText} style={getButtonStyle("button3")}
                             onClick={() => {
                                 filterAllIssues("WORKING")
                                 handleChangeState("button3");
@@ -100,7 +101,7 @@ const Legend = ({passFilteredIssues}) => {
                         filterAllIssues("REDIRECTED");
                         handleChangeState("button4")
                     }}/>
-                    <button id="button4" className={classes.legendText}  style={getButtonStyle("button4")}
+                    <button id="button4" className={classes.legendText} style={getButtonStyle("button4")}
                             onClick={() => {
                                 filterAllIssues("REDIRECTED")
                                 handleChangeState("button4")
@@ -112,7 +113,7 @@ const Legend = ({passFilteredIssues}) => {
                         filterAllIssues("SOLVED");
                         handleChangeState("button5")
                     }}/>
-                    <button id="button5" className={classes.legendText}  style={getButtonStyle("button5")}
+                    <button id="button5" className={classes.legendText} style={getButtonStyle("button5")}
                             onClick={() => {
                                 filterAllIssues("SOLVED")
                                 handleChangeState("button5")
@@ -120,7 +121,8 @@ const Legend = ({passFilteredIssues}) => {
                     </button>
                 </div>
             </div>
-            {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues} passButtonId={buttonId} passSetButtonId={setButtonId}/>
+            {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}
+                                          passButtonId={buttonId} passSetButtonId={setButtonId} passBackgroundCol={passBackgroundCol}/>
                 :
                 <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.7rem", top: "14.5rem"}}
                                              onClick={() => setIsExtended(true)}/>

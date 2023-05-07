@@ -15,7 +15,7 @@ import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
 import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 
-const MyProfile = ({passIsDeleted, passIsUpdated}) => {
+const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     const userId = localStorage.getItem("userId");
     const email = localStorage.getItem("email")
     const [citizen, setCitizen] = useState();
@@ -245,7 +245,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated}) => {
                             <Col key={issue.id}
                                  style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                             >
-                                <CardItem3 issue={issue} key={issue.id}/>
+                                <CardItem3 issue={issue} key={issue.id} passBackgroundColor={passBackgroundColor}/>
                             </Col>
                         ))}
                     </Row>

@@ -255,7 +255,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 style={{position: "absolute", right: "1rem", width: "8rem"}}
                 onClick={() => passIsShown(false)}
             >
-                Anulează
+                Închide
             </Button>
         </div>
     );

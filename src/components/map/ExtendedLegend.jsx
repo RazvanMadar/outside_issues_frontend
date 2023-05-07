@@ -8,7 +8,7 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import React, {useState} from "react";
 import {filterIssues} from "../../api/issue-api";
 
-const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId}) => {
+const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId, passBackgroundCol}) => {
     const [boldButton, setBoldButton] = useState(null);
     console.log(passButtonId)
 
@@ -53,7 +53,7 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
     };
 
     return (
-        <div className={classes.extendedWrapper}>
+        <div className={classes.extendedWrapper} style={{backgroundColor: passBackgroundCol === 'white' ? 'white' : "#BCBEC8"}}>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
                     <AddCircleIcon className={classes.icon} style={{color: "blue"}} onClick={() => {

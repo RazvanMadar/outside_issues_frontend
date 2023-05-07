@@ -135,7 +135,7 @@ function EnhancedTableHead(props) {
     );
 }
 
-export default function EnhancedTable({passIsDeleted}) {
+export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('email');
     const [citizens, setCitizens] = useState([]);
@@ -255,7 +255,7 @@ export default function EnhancedTable({passIsDeleted}) {
     return (
         <div style={{margin: "1rem 1rem 0 1rem"}}>
             <Box sx={{width: '100%'}}>
-                <TextField id="outlined-basic" label="Căutați după email..." variant="outlined" style={{width: "15%"}}
+                <TextField id="outlined-basic" label="Căutați după email..." variant="outlined" style={{width: "15%", backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                            inputRef={emailInputRef}/>
                 <SearchIcon style={{marginTop: "5px", marginLeft: "5px"}} fontSize="large"
                             onClick={() => getAllCitizens()}/>
@@ -264,6 +264,7 @@ export default function EnhancedTable({passIsDeleted}) {
                         <Table
                             sx={{minWidth: 750}}
                             aria-labelledby="tableTitle"
+                            style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                         >
                             <EnhancedTableHead
                                 order={order}
@@ -271,7 +272,7 @@ export default function EnhancedTable({passIsDeleted}) {
                                 onRequestSort={handleRequestSort}
                                 rowCount={totalElements}
                             />
-                            <TableBody>
+                            <TableBody style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}>
                                 {stableSort(citizens, getComparator(order, orderBy))
                                     .map((row, index) => {
                                         const labelId = `enhanced-table-${index}`;
@@ -332,6 +333,7 @@ export default function EnhancedTable({passIsDeleted}) {
                         page={currentPage}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                     />
                 </Paper>
             </Box>

@@ -138,7 +138,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
-                        onClick={onHide}>Anulează
+                        onClick={onHide}>Închide
                 </Button>
             </Modal.Footer>
         </Modal>

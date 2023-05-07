@@ -7,16 +7,15 @@ import {
     convertAPIStatesToUI,
     convertAPITypesToUI,
     cutFromDescription,
-    getBackgroundColorForState
+    getBackgroundColorForState, getImageRegardingIssueType
 } from "../../common/utils";
 import Checkbox from '@mui/material/Checkbox';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
-import noPhoto from "../../pages/images/no_photo.png";
 import {useNavigate} from "react-router-dom";
 import Slide from '@mui/material/Slide';
 
-const CardItem3 = ({issue, key}) => {
+const CardItem3 = ({issue, key, passBackgroundColor}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
     const [likeButton, setLikeButton] = useState(false);
@@ -32,8 +31,6 @@ const CardItem3 = ({issue, key}) => {
     const role = localStorage.getItem("role");
     const backgroundColor = getBackgroundColorForState(issue.state);
 
-    console.log("item3", issue)
-
     const geMainImage = () => {
         return getFirstImage(issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
@@ -43,7 +40,7 @@ const CardItem3 = ({issue, key}) => {
             } else if (status === 403) {
                 setForbidden(true);
             } else {
-                setMainImage(noPhoto);
+                setMainImage(getImageRegardingIssueType((issue.type)));
             }
         });
     };
@@ -59,7 +56,6 @@ const CardItem3 = ({issue, key}) => {
                 marginLeft: "auto",
                 marginRight: "auto",
                 marginBottom: "1rem",
-                // padding: "0 15% 10% 0",
                 fontSize: "small",
             }}
         >
@@ -68,7 +64,7 @@ const CardItem3 = ({issue, key}) => {
                 style={{
                     width: "18rem",
                     height: "22rem",
-                    // backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
+                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
                     boxShadow: "7px 5px 5px grey"
                 }}
             >

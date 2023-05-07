@@ -8,22 +8,13 @@ import {
     convertAPIStatesToUI,
     convertAPITypesToUI,
     cutFromDescription,
-    getBackgroundColorForState
+    getBackgroundColorForState, getImageRegardingIssueType
 } from "../../common/utils";
 import Checkbox from '@mui/material/Checkbox';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import noPhoto from "../../pages/images/no_photo.png";
-import roadPlaceholder from "../../pages/images/roadPlaceholder.jpg";
-import lightningPlaceholder from "../../pages/images/lightningPlaceholder.jpg";
-import buildingPlaceholder from "../../pages/images/buildingPlaceholder.jpg";
-import animalPlaceholder from "../../pages/images/animalPlaceholder.jpg";
-import greenSpacePlaceholder from "../../pages/images/greenSpacePlaceholder.jpg";
-import publicDomainPlaceholder from "../../pages/images/publicDomainPlaceholder.jpg";
-import transportPlaceholder from "../../pages/images/transportPlaceholder.jpg";
-import roadSignPlaceholder from "../../pages/images/roadSignPlaceholder.jpg";
 import {getReactionsForSomeCitizenAndIssue} from "../../api/citizen-reactions-api";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -83,42 +74,6 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
             }
         });
     };
-
-    const getImageRegardingIssueType = (type) => {
-        let photo;
-        switch (type) {
-            case "ROAD":
-                photo = roadPlaceholder;
-                break;
-            case "LIGHTNING":
-                photo = lightningPlaceholder;
-                break;
-            case "GREEN_SPACES":
-                photo = greenSpacePlaceholder;
-                break;
-            case "PUBLIC_DOMAIN":
-                photo = publicDomainPlaceholder;
-                break;
-            case "PUBLIC_DISORDER":
-                photo = "#D5B4B4";
-                break;
-            case "PUBLIC_TRANSPORT":
-                photo = transportPlaceholder;
-                break;
-            case "BUILDINGS":
-                photo = buildingPlaceholder;
-                break;
-            case "TRAFFIC_ROAD_SIGNS":
-                photo = roadSignPlaceholder;
-                break;
-            case "ANIMALS":
-                photo = animalPlaceholder;
-                break;
-            default:
-                photo = noPhoto;
-        }
-        return photo;
-    }
 
     const geMainImage = () => {
         return getFirstImage(issue.id, (result, status, err) => {
@@ -356,7 +311,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={deleteAnIssue}>Șterge</Button>
-                                    <Button onClick={handleCloseDialog}>Anulează</Button>
+                                    <Button onClick={handleCloseDialog}>Închide</Button>
                                 </DialogActions>
                             </Dialog>
                         </div> :

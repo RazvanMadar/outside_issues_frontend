@@ -172,7 +172,7 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}
                     )})}
                 <DraggableMarker passMarkerPosition={setMarkerPosition}/>
             </MapContainer>
-            <Legend passFilteredIssues={setIssues}/>
+            <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
             <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>
         </div>
     );

@@ -57,7 +57,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     return (
         <>
             <IconContext.Provider value={{color: "undefined"}}>
-                <div className="navbar" style={{backgroundColor: role === "ROLE_USER" ? "#AEBDCA" : "#E8D5C4"}}>
+                <div className="navbar" style={{backgroundColor: role === "ROLE_ADMIN" ? "#E8D5C4" : "#AEBDCA"}}>
                     <Link to="#" className="menu-bars">
                         <FaIcons.FaBars onClick={showSidebar} style={{color: "black"}}/>
                     </Link>
@@ -79,6 +79,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                         passIsIssueAdded={passIsIssueAdded}
                         passIsIssueUpdated={passIsIssueUpdated}
                         passIsIssueDeleted={passIsIssueDeleted}
+                        passBackgroundColor={backgroundColor}
                     />
                 </div>
                 <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
@@ -94,7 +95,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                     console.log("a intrat aici", item.title)
                                     return (
                                         <li key={index} className={item.cName}>
-                                            <Link to={item.path}>
+                                            <Link to={item.path} style={{color: "black"}}>
                                                 {item.icon}
                                                 <span className="span" style={{color: "black"}}>{item.title}</span>
                                             </Link>
@@ -112,9 +113,9 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                             } else if (!isLogged && item.title !== "Deconectare" && item.title !== "Profil" && item.title !== "Cetățeni" && item.title !== "Chat") {
                                 return (
                                     <li key={index} className={item.cName}>
-                                        <Link to={item.path}>
+                                        <Link to={item.path} style={{color: "black"}}>
                                             {item.icon}
-                                            <span className="span">{item.title}</span>
+                                            <span className="span" style={{color: "black"}}>{item.title}</span>
                                         </Link>
                                     </li>
                                 )

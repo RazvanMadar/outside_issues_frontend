@@ -25,7 +25,7 @@ import {getChatUsersByRole} from "../../api/citizen-api";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-export default function MyChat() {
+export default function MyChat({passBackgroundColor}) {
     const [persons, setPersons] = useState([]);
     const [toImages, setToImages] = useState([]);
     const [isAddedMessage, setIsAddedMessage] = useState(false);
@@ -213,7 +213,7 @@ export default function MyChat() {
 
     return (
         <div style={{height: "100vh"}}>
-            <MDBContainer fluid className="py-5" style={{backgroundColor: "#FFF", height: "100%"}}>
+            <MDBContainer fluid className="py-5" style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8", height: "100%"}}>
                 <MDBRow>
                     <MDBCol md="12">
                         <MDBCard id="chat3" style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>

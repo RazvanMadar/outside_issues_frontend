@@ -1,3 +1,13 @@
+import roadPlaceholder from "../pages/images/roadPlaceholder.jpg";
+import lightningPlaceholder from "../pages/images/lightningPlaceholder.jpg";
+import greenSpacePlaceholder from "../pages/images/greenSpacePlaceholder.jpg";
+import publicDomainPlaceholder from "../pages/images/publicDomainPlaceholder.jpg";
+import transportPlaceholder from "../pages/images/transportPlaceholder.jpg";
+import buildingPlaceholder from "../pages/images/buildingPlaceholder.jpg";
+import roadSignPlaceholder from "../pages/images/roadSignPlaceholder.jpg";
+import animalPlaceholder from "../pages/images/animalPlaceholder.jpg";
+import noPhoto from "../pages/images/no_photo.png";
+
 const typesMap = new Map();
 typesMap.set("ROAD", "Drumuri");
 typesMap.set("LIGHTNING", "Iluminat public");
@@ -101,6 +111,42 @@ const convertUISortDataToAPI = (data) => {
             return key;
         }
     }
+}
+
+const getImageRegardingIssueType = (type) => {
+    let photo;
+    switch (type) {
+        case "ROAD":
+            photo = roadPlaceholder;
+            break;
+        case "LIGHTNING":
+            photo = lightningPlaceholder;
+            break;
+        case "GREEN_SPACES":
+            photo = greenSpacePlaceholder;
+            break;
+        case "PUBLIC_DOMAIN":
+            photo = publicDomainPlaceholder;
+            break;
+        case "PUBLIC_DISORDER":
+            photo = "#D5B4B4";
+            break;
+        case "PUBLIC_TRANSPORT":
+            photo = transportPlaceholder;
+            break;
+        case "BUILDINGS":
+            photo = buildingPlaceholder;
+            break;
+        case "TRAFFIC_ROAD_SIGNS":
+            photo = roadSignPlaceholder;
+            break;
+        case "ANIMALS":
+            photo = animalPlaceholder;
+            break;
+        default:
+            photo = noPhoto;
+    }
+    return photo;
 }
 
 const convertAPIStatesToUI = (state) => {
@@ -3543,6 +3589,7 @@ export {
     getBackgroundColorForState,
     convertUISortDataToAPI,
     getChatMessageFormat,
+    getImageRegardingIssueType,
     cityBoundary,
     cityBoundary2,
     test,

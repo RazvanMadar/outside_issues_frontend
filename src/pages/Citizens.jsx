@@ -5,7 +5,7 @@ import {getCitizens} from "../api/citizen-api";
 import {Button, Table} from 'reactstrap';
 import EnhancedTable from "../components/citizen/EnhancedTable";
 
-const Citizens = ({passIsDeleted}) => {
+const Citizens = ({passIsDeleted, passBackgroundColor}) => {
     const [citizens, setCitizens] = useState([]);
 
     // const getAllCitizens = () => {
@@ -25,52 +25,7 @@ const Citizens = ({passIsDeleted}) => {
     }, [])
 
     return (
-        // <div className={classes.graphBox}>
-        //     <div className={classes.box}>
-        // <div style={{
-        //     position: "absolute",
-        //     left: "50%",
-        //     top: "50%",
-        //     transform: "translate(-50%, -50%)",
-        //     backgroundColor: "white",
-        //     boxShadow: "0 7px 25px rgba(0, 0, 0, 0.08)",
-        //     borderRadius: "20px",
-        //     padding: "20px",
-        //     // width: "80%"
-        // }}>
-        //     <Table>
-        //         <thead>
-        //         <tr>
-        //             <th>Prenume</th>
-        //             <th>Nume</th>
-        //             <th>Email</th>
-        //             <th>Telefon</th>
-        //             <th>Blochează cetățeanul</th>
-        //         </tr>
-        //         </thead>
-        //         <tbody>
-        //         {citizens ? citizens.map((citizen) =>
-        //             <tr key={citizen.id}>
-        //                 <td>{citizen.firstName}</td>
-        //                 <td>{citizen.lastName}</td>
-        //                 <td>{citizen.email}</td>
-        //                 <td>{citizen.phoneNumber}</td>
-        //                 <td><Button color="danger" onClick={() => console.log(`blocheza ${citizen.id}`)}>
-        //                     Blochează
-        //                 </Button>
-        //                     {citizen.firstName == null || citizen.lastName == null || citizen.phoneNumber == null ?
-        //                         <Button color="primary">
-        //                             Vizitator
-        //                         </Button> : ""}
-        //                 </td>
-        //             </tr>
-        //         ) : ""}
-        //         </tbody>
-        //     </Table>
-        //     {/*    </div>*/}
-        //     {/*</div>*/}
-        // </div>
-        <EnhancedTable passIsDeleted={passIsDeleted}/>
+        <EnhancedTable passIsDeleted={passIsDeleted} passBackgroundColor={passBackgroundColor}/>
     );
 }
 

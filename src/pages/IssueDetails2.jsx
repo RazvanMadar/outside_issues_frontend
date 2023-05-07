@@ -203,7 +203,7 @@ const IssueDetails2 = ({passIsUpdated}) => {
                                 color="error"
                                 onClick={closeUpdatePage}
                         >
-                            Anulează
+                            Închide
                         </Button>
                     </div>
                 </div>

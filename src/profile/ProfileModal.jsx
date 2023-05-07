@@ -16,7 +16,7 @@ const customizeLabel = (e) => {
     return `${e.argumentText}\n${e.valueText}`;
 }
 
-const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
+const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passBackgroundColor}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
@@ -86,12 +86,12 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header>
+            <Modal.Header style={{backgroundColor: passBackgroundColor}}>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Profilul dumneavoastră
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{backgroundColor: passBackgroundColor}}>
                 {
                     citizen ?
                         <div>
@@ -113,8 +113,6 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                                         Email: {citizen.email}
                                         <br/>
                                         Telefon: {citizen.phoneNumber}
-                                        <br/>
-                                        Bonus: 20 lei
                                     </div>
                                 </div>
                                 <BasicChart desktopScreen={desktopScreen} title={'Sesizările dumneavoastră'}
@@ -125,11 +123,11 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                         : ""
                 }
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
-                        onClick={onHide}>Ieșire
+                        onClick={onHide}>Închide
                 </Button>
             </Modal.Footer>
         </Modal>
