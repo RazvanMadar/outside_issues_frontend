@@ -8,15 +8,12 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import React, {useState} from "react";
 import {filterIssues} from "../../api/issue-api";
 
-const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId, passBackgroundCol}) => {
-    const [boldButton, setBoldButton] = useState(null);
-    console.log(passButtonId)
-
+const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId, passBackgroundCol, passBoldButton, passSetBoldButton}) => {
     const handleChangeState = (id) => {
         if (passButtonId != null) {
             document.getElementById(passButtonId).style.fontWeight = "normal"
         }
-        setBoldButton(() => {
+        passSetBoldButton(() => {
             document.getElementById(id).style.fontWeight = "bold";
             passSetIsExtended(id);
             passSetButtonId(id);
@@ -26,7 +23,7 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
 
     const getButtonStyle = (id) => {
         return {
-            fontWeight: boldButton === id ? 'bold' : 'normal'
+            fontWeight: passBoldButton === id ? 'bold' : 'normal'
         };
     };
 
@@ -56,26 +53,26 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
         <div className={classes.extendedWrapper} style={{backgroundColor: passBackgroundCol === 'white' ? 'white' : "#BCBEC8"}}>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "blue"}} onClick={() => {
+                    <AddCircleIcon className={classes.icon} style={{color: "#063d91"}} onClick={() => {
                         filterAllIssues("ROAD", "REGISTERED");
                         handleChangeState("button6")
                     }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "blue"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#063d91"}}
                                     onClick={() => {
                                         filterAllIssues("ROAD", "PLANNED")
                                         handleChangeState("button6")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "blue"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#063d91"}}
                                      onClick={() => {
                                          filterAllIssues("ROAD", "WORKING")
                                          handleChangeState("button6")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "blue"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#063d91"}}
                                           onClick={() => {
                                               filterAllIssues("ROAD", "REDIRECTED")
                                               handleChangeState("button6")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "blue"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#063d91"}}
                                      onClick={() => {
                                          filterAllIssues("ROAD", "SOLVED")
                                          handleChangeState("button6")
@@ -90,27 +87,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "orange"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#f56802"}}
                                    onClick={() => {
                                        filterAllIssues("LIGHTNING", "REGISTERED")
                                        handleChangeState("button7")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "orange"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#f56802"}}
                                     onClick={() => {
                                         filterAllIssues("LIGHTNING", "PLANNED")
                                         handleChangeState("button7")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "orange"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#f56802"}}
                                      onClick={() => {
                                          filterAllIssues("LIGHTNING", "WORKING")
                                          handleChangeState("button7")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "orange"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#f56802"}}
                                           onClick={() => {
                                               filterAllIssues("LIGHTNING", "REDIRECTED")
                                               handleChangeState("button7")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "orange"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#f56802"}}
                                      onClick={() => {
                                          filterAllIssues("LIGHTNING", "SOLVED")
                                          handleChangeState("button7")
@@ -126,27 +123,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "green"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#339300"}}
                                    onClick={() => {
                                        filterAllIssues("GREEN_SPACES", "REGISTERED")
                                        handleChangeState("button8")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "green"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#339300"}}
                                     onClick={() => {
                                         filterAllIssues("GREEN_SPACES", "PLANNED")
                                         handleChangeState("button8")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "green"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#339300"}}
                                      onClick={() => {
                                          filterAllIssues("GREEN_SPACES", "WORKING")
                                          handleChangeState("button8")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "green"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#339300"}}
                                           onClick={() => {
                                               filterAllIssues("GREEN_SPACES", "REDIRECTED")
                                               handleChangeState("button8")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "green"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#339300"}}
                                      onClick={() => {
                                          filterAllIssues("GREEN_SPACES", "SOLVED")
                                          handleChangeState("button8")
@@ -162,27 +159,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "purple"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#78278d"}}
                                    onClick={() => {
                                        filterAllIssues("PUBLIC_DOMAIN", "REGISTERED")
                                        handleChangeState("button9")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "purple"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#78278d"}}
                                     onClick={() => {
                                         filterAllIssues("PUBLIC_DOMAIN", "PLANNED")
                                         handleChangeState("button9")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "purple"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#78278d"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DOMAIN", "WORKING")
                                          handleChangeState("button9")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "purple"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#78278d"}}
                                           onClick={() => {
                                               filterAllIssues("PUBLIC_DOMAIN", "REDIRECTED")
                                               handleChangeState("button9")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "purple"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#78278d"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DOMAIN", "SOLVED")
                                          handleChangeState("button9")
@@ -197,27 +194,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "red"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#f50202"}}
                                    onClick={() => {
                                        filterAllIssues("PUBLIC_DISORDER", "REGISTERED")
                                        handleChangeState("button10")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "red"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#f50202"}}
                                     onClick={() => {
                                         filterAllIssues("PUBLIC_DISORDER", "PLANNED")
                                         handleChangeState("button10")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "red"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#f50202"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DISORDER", "WORKING")
                                          handleChangeState("button10")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "red"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#f50202"}}
                                           onClick={() => {
                                               filterAllIssues("PUBLIC_DISORDER", "REDIRECTED")
                                               handleChangeState("button10")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "red"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#f50202"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DISORDER", "SOLVED")
                                          handleChangeState("button10")
@@ -232,27 +229,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "turquoise"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                    onClick={() => {
                                        filterAllIssues("PUBLIC_TRANSPORT", "REGISTERED")
                                        handleChangeState("button11")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "turquoise"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                     onClick={() => {
                                         filterAllIssues("PUBLIC_TRANSPORT", "PLANNED")
                                         handleChangeState("button11")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "turquoise"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_TRANSPORT", "WORKING")
                                          handleChangeState("button11")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "turquoise"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                           onClick={() => {
                                               filterAllIssues("PUBLIC_TRANSPORT", "REDIRECTED")
                                               handleChangeState("button11")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "turquoise"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_TRANSPORT", "SOLVED")
                                          handleChangeState("button11")
@@ -267,7 +264,7 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "#F1C40F"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#c88d13"}}
                                    onClick={() => {
                                        filterAllIssues("BUILDINGS", "REGISTERED")
                                        handleChangeState("button12")
@@ -302,27 +299,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "fuchsia"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#e700ff"}}
                                    onClick={() => {
                                        filterAllIssues("TRAFFIC_ROAD_SIGNS", "REGISTERED")
                                        handleChangeState("button13")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "fuchsia"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#e700ff"}}
                                     onClick={() => {
                                         filterAllIssues("TRAFFIC_ROAD_SIGNS", "PLANNED")
                                         handleChangeState("button13")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "fuchsia"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#e700ff"}}
                                      onClick={() => {
                                          filterAllIssues("TRAFFIC_ROAD_SIGNS", "WORKING")
                                          handleChangeState("button13")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "fuchsia"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#e700ff"}}
                                           onClick={() => {
                                               filterAllIssues("TRAFFIC_ROAD_SIGNS", "REDIRECTED")
                                               handleChangeState("button13")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "fuchsia"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#e700ff"}}
                                      onClick={() => {
                                          filterAllIssues("TRAFFIC_ROAD_SIGNS", "SOLVED")
                                          handleChangeState("button13")
@@ -337,27 +334,27 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
             </div>
             <div className={classes.field}>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <AddCircleIcon className={classes.icon} style={{color: "olive"}}
+                    <AddCircleIcon className={classes.icon} style={{color: "#707b2c"}}
                                    onClick={() => {
                                        filterAllIssues("ANIMALS", "REGISTERED")
                                        handleChangeState("button14")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "olive"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#707b2c"}}
                                     onClick={() => {
                                         filterAllIssues("ANIMALS", "PLANNED")
                                         handleChangeState("button14")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "olive"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#707b2c"}}
                                      onClick={() => {
                                          filterAllIssues("ANIMALS", "WORKING")
                                          handleChangeState("button14")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "olive"}}
+                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#707b2c"}}
                                           onClick={() => {
                                               filterAllIssues("ANIMALS", "REDIRECTED")
                                               handleChangeState("button14")
                                           }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "olive"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#707b2c"}}
                                      onClick={() => {
                                          filterAllIssues("ANIMALS", "SOLVED")
                                          handleChangeState("button14")

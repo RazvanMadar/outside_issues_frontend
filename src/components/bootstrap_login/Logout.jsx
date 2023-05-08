@@ -5,6 +5,9 @@ const Logout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("isLogged");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
+    localStorage.removeItem("isBlocked");
     return (
       <LoginComponent />
     );

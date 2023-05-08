@@ -6,6 +6,7 @@ import transportPlaceholder from "../pages/images/transportPlaceholder.jpg";
 import buildingPlaceholder from "../pages/images/buildingPlaceholder.jpg";
 import roadSignPlaceholder from "../pages/images/roadSignPlaceholder.jpg";
 import animalPlaceholder from "../pages/images/animalPlaceholder.jpg";
+import publicOrderPlaceholder from "../pages/images/publicOrderPlaceholder.png";
 import noPhoto from "../pages/images/no_photo.png";
 
 const typesMap = new Map();
@@ -129,7 +130,7 @@ const getImageRegardingIssueType = (type) => {
             photo = publicDomainPlaceholder;
             break;
         case "PUBLIC_DISORDER":
-            photo = "#D5B4B4";
+            photo = publicOrderPlaceholder;
             break;
         case "PUBLIC_TRANSPORT":
             photo = transportPlaceholder;

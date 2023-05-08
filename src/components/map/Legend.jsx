@@ -17,7 +17,9 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
     const handleChangeState = (id) => {
         setBoldButton((previousId) => {
             if (previousId) {
-                document.getElementById(previousId).style.fontWeight = "normal";
+                if (previousId.style !== undefined) {
+                    document.getElementById(previousId).style.fontWeight = "normal";
+                }
             }
             document.getElementById(id).style.fontWeight = "bold";
             setButtonId(id);
@@ -122,9 +124,9 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 </div>
             </div>
             {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}
-                                          passButtonId={buttonId} passSetButtonId={setButtonId} passBackgroundCol={passBackgroundCol}/>
+                                          passButtonId={buttonId} passSetButtonId={setButtonId} passBackgroundCol={passBackgroundCol} passBoldButton={boldButton} passSetBoldButton={setBoldButton}/>
                 :
-                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.7rem", top: "14.5rem"}}
+                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.3rem", top: "14.5rem"}}
                                              onClick={() => setIsExtended(true)}/>
                 // <div className={classes.arrow}>
                 //     <span className={classes.spanArrow}></span>

@@ -16,6 +16,7 @@ import Citizens from "./pages/Citizens";
 import MyChat from "./components/chat/MyChat";
 import MyProfile from "./pages/MyProfile";
 import IssueDetails2 from "./pages/IssueDetails2";
+import BlockedPage from "./pages/BlockedPage";
 
 function App() {
     const url = "http://localhost:8080/api/issues";
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/citizens" element={<Citizens passIsDeleted={isIssueDeleted} passBackgroundColor={backgroundColor}/>}/>
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
+                    <Route path="/blocked" element={<BlockedPage />}/>
                     <Route path="/loginB" element={<LoginPage/>}/>
                     <Route path="/logout" element={<Logout/>}/>
                     <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}/>}/>
