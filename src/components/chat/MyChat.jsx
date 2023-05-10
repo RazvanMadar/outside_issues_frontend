@@ -17,7 +17,7 @@ import {getCitizenImage} from "../../api/citizen-image";
 import noPhoto from "../../pages/images/no_photo.png";
 import ChatPersons from "./ChatPersons";
 import ChatMessages from "./ChatMessages";
-import {getChatUsersByRole} from "../../api/citizen-api";
+import {findCitizensByName, getChatUsersByRole} from "../../api/citizen-api";
 
 //
 // COD LUAT DUPA https://mdbootstrap.com/docs/react/extended/chat/#!
@@ -38,6 +38,12 @@ export default function MyChat({passBackgroundColor}) {
     const [toEmail, setToEmail] = useState();
     const [latestMessages, setLatestMessages] = useState([]);
     const chatUsersRole = localStorage.getItem("role");
+    const [citizenName, setCitizenName] = useState('');
+    const [searchOn, setSearchOn] = useState(false);
+    const isAdmin = localStorage.getItem("role") === "ROLE_ADMIN";
+    const [receivedNewUserMessage, setReceivedNewUserMessage] = useState(false);
+
+    const token = localStorage.getItem("token")
     //
     // const getElapsedTime = (date) => {
     //     if (latestMessage.message == null) {
@@ -162,7 +168,7 @@ export default function MyChat({passBackgroundColor}) {
     // };
 
     const getChatPersons = () => {
-        return getChatUsersByRole(chatUsersRole, (result, status, err) => {
+        return getChatUsersByRole(token, chatUsersRole, citizenName, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     setToImages([]);
@@ -177,7 +183,7 @@ export default function MyChat({passBackgroundColor}) {
 
     const getImages = (users) => {
         users.map((person) => {
-            return getCitizenImage(person.citizenId, (result, status, err) => {
+            return getCitizenImage(token, person.citizenId, (result, status, err) => {
                 if (result !== null && status === 200) {
                     setToImages(images => [...(images || []), {
                         id: person.citizenId,
@@ -196,7 +202,7 @@ export default function MyChat({passBackgroundColor}) {
     }
 
     const getLatestMessages = () => {
-        getLatestChatMessage(14, 16, (result, status, err) => {
+        getLatestChatMessage(token, 14, 16, (result, status, err) => {
             if (result !== null && status === 200) {
                 setLatestMessages(result)
                 console.log(latestMessages)
@@ -206,13 +212,23 @@ export default function MyChat({passBackgroundColor}) {
         });
     };
 
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            setSearchOn((prev) => !prev);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setCitizenName(event.target.value);
+    };
+
     useEffect(() => {
         getChatPersons();
-        // getLatestMessages();
-    }, [])
+    }, [receivedNewUserMessage, searchOn])
 
     return (
-        <div style={{height: "100vh"}}>
+        <div style={{height: "calc(100vh - 60px)"}}>
             <MDBContainer fluid className="py-5" style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8", height: "100%"}}>
                 <MDBRow>
                     <MDBCol md="12">
@@ -221,25 +237,27 @@ export default function MyChat({passBackgroundColor}) {
                                 <MDBRow>
                                     <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
                                         <div className="p-3">
-                                            <MDBInputGroup className="rounded mb-3">
-                                                <input
-                                                    className="form-control rounded"
-                                                    placeholder="Search"
-                                                    type="search"
-                                                />
-                                                <span
-                                                    className="input-group-text border-0"
-                                                    id="search-addon"
-                                                >
-                        <MDBIcon fas icon="search"/>
-                      </span>
-                                            </MDBInputGroup>
+                      {/*                      <MDBInputGroup className="rounded mb-3">*/}
+                      {/*                          <input*/}
+                      {/*                              className="form-control rounded"*/}
+                      {/*                              placeholder="Search"*/}
+                      {/*                              type="search"*/}
+                      {/*                              onKeyDown={handleKeyDown}*/}
+                      {/*                              onChange={handleInputChange}*/}
+                      {/*                          />*/}
+                      {/*                          <span*/}
+                      {/*                              className="input-group-text border-0"*/}
+                      {/*                              id="search-addon"*/}
+                      {/*                          >*/}
+                      {/*  {isAdmin && <MDBIcon fas icon="search" onClick={() => setSearchOn((prev) => !prev)}/>}*/}
+                      {/*</span>*/}
+                      {/*                      </MDBInputGroup>*/}
 
                                             <ChatPersons passChatId={chatId} passSetChatId={setChatId} passSetToEmail={setToEmail}
                                                          passIsAddedMessage={isAddedMessage}
                                                          passSetIsAddedMessage={setIsAddedMessage}
                                                          passChatLatestMessages={latestMessages} passPersons={persons}
-                                                         passSetPersons={setPersons}
+                                                         passSetPersons={setPersons} passSetReceivedNewUserMessage={setReceivedNewUserMessage}
                                                 // passToImages={toImages}
                                                 // passSetToImages={setToImages}
                                             />

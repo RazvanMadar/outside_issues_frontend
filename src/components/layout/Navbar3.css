@@ -1,6 +1,6 @@
 .navbar {
-  height: 80%;
-  /*height: 8vh;*/
+  /*height: 80%;*/
+  height: 60px;
   display: flex;
   justify-content: start;
   align-items: center;

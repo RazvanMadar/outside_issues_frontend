@@ -42,16 +42,21 @@ function App() {
                     <Route path="/issues"
                            element={<Issues url={url} passBackgroundColor={backgroundColor} isDeleted={isIssueDeleted}
                                             setIsDeleted={setIsIssueDeleted}/>}/>
-                    <Route path="/profile" element={<MyProfile passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated} passBackgroundColor={backgroundColor}/>}/>
-                    <Route path="/issues/:id" element={<IssueDetails2 passIsUpdated={setIsIssueUpdated}/>}/>
+                    <Route path="/profile"
+                           element={<MyProfile passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated}
+                                               passBackgroundColor={backgroundColor}/>}/>
+                    {/*<Route path="/issues/:id" element={<IssueDetails2 passIsUpdated={setIsIssueUpdated}/>}/>*/}
                     <Route path="/add-issue" element={<AddIssuePage/>}/>
                     <Route path="/map"
                            element={<IssueMapOSM passBackgroundCol={backgroundColor} passIsIssueAdded={isIssueAdded}
                                                  passSetIsIssuesAdded={setIsIssueAdded}/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/citizens" element={<Citizens passIsDeleted={isIssueDeleted} passBackgroundColor={backgroundColor}/>}/>
+                    <Route path="/citizens"
+                           element={<Citizens passIsDeleted={isIssueDeleted} passBackgroundColor={backgroundColor}/>}/>
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
-                    <Route path="/blocked" element={<BlockedPage />}/>
+                    <Route path="/blocked" element={<BlockedPage url={url} backgroundColor={backgroundColor}
+                                                                 isIssueDeleted={isIssueDeleted}
+                                                                 setIsIssueDeleted={setIsIssueDeleted}/>}/>
                     <Route path="/loginB" element={<LoginPage/>}/>
                     <Route path="/logout" element={<Logout/>}/>
                     <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}/>}/>

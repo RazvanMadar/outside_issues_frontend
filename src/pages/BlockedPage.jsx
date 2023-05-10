@@ -1,13 +1,14 @@
 import blockedLogo from "./images/blockedLogo.jpg";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 
 const BlockedPage = () => {
     const isBlocked = localStorage.getItem("isBlocked");
-    const navigate = useNavigate();
+    const location = useLocation();
 
     return (
-        <div>
-            {isBlocked ? <img src={blockedLogo}/> : navigate('/issues')}
+        <div> {isBlocked ?
+            <img src={blockedLogo} style={{width: "100%", height: "calc(100vh - 60px)"}}/>
+            : <Navigate to={"/issues"} state={{ from: location }} replace />}
         </div>
     )
 }

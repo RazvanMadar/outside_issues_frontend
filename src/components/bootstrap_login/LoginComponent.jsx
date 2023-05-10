@@ -16,7 +16,10 @@ const LoginComponent = ({onLogin}) => {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("isLogged");
-    localStorage.removeItem("role")
+    localStorage.removeItem("role");
+    localStorage.removeItem("isBlocked");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
     onLogin(false);
 
     useEffect(() => {

@@ -23,8 +23,10 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
     const [image, setImage] = useState()
     const email = localStorage.getItem("email");
 
+    const token = localStorage.getItem("token");
+
     const getStatistics = () => {
-        return getBasicStatistics(email, (result, status, err) => {
+        return getBasicStatistics(token, email, (result, status, err) => {
             if (status === 200 && result !== null) {
                 result.forEach(res => {
                     res.state = convertAPIStatesToUI(res.state);
@@ -38,7 +40,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
     };
 
     const findAnCitizenById = () => {
-        return findCitizenById(userId, (result, status, err) => {
+        return findCitizenById(token, userId, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log("AICI ", result);
                     setCitizen(result)
@@ -50,7 +52,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
     };
 
     const getImage = () => {
-        return getCitizenImage(userId, (result, status, err) => {
+        return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setImage(URL.createObjectURL(result));

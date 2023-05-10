@@ -5,15 +5,18 @@ const endpoint = {
     citizen: "/api/citizens",
 };
 
-const findCitizenById = (id, callback) => {
+const findCitizenById = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.citizen + "/" + id, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const getCitizens = (email, isFiltered, page, size, callback) => {
+const getCitizens = (token, email, isFiltered, page, size, callback) => {
     let urlPath = backend_api + endpoint.citizen + "?";
     if (email != null && email != '') {
         urlPath = urlPath + "email=" + email + "&";
@@ -29,24 +32,42 @@ const getCitizens = (email, isFiltered, page, size, callback) => {
     }
     const request = new Request(urlPath, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const findCitizenByEmail = (email, callback) => {
+const findCitizenByEmail = (token, email, callback) => {
     const request = new Request(backend_api + endpoint.citizen + "/email/" + email, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const registerCitizen = (data, callback) => {
+const findCitizensByName = (token, name, callback) => {
+    const request = new Request(backend_api + endpoint.citizen + "/name/" + name, {
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const registerCitizen = (token, data, callback) => {
     const request = new Request(backend_api + endpoint.citizen, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token
         },
         body: JSON.stringify(data),
     });
@@ -54,11 +75,12 @@ const registerCitizen = (data, callback) => {
     restApi.makeRequest(request, callback);
 }
 
-const updateCitizen = (data, callback) => {
+const updateCitizen = (token, data, callback) => {
     const request = new Request(backend_api + endpoint.citizen, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token
         },
         body: JSON.stringify(data),
     });
@@ -66,12 +88,15 @@ const updateCitizen = (data, callback) => {
     restApi.makeRequest(request, callback);
 }
 
-const getChatUsersByRole = (name, callback) => {
-    const request = new Request(backend_api + endpoint.citizen + "/role?name=" + name, {
+const getChatUsersByRole = (token, name, searchPerson, callback) => {
+    const request = new Request(backend_api + endpoint.citizen + "/role?name=" + name + "&searchPerson=" + searchPerson, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen};
+export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen, findCitizensByName};

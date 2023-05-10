@@ -14,6 +14,8 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
     const [boldButton, setBoldButton] = useState(null);
     const [buttonId, setButtonId] = useState();
 
+    const token = localStorage.getItem("token")
+
     const handleChangeState = (id) => {
         setBoldButton((previousId) => {
             if (previousId) {
@@ -35,6 +37,7 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
 
     const filterAllIssues = (state) => {
         return filterIssues(
+            token,
             null,
             state,
             null,
@@ -99,18 +102,6 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                     </button>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <ArrowCircleRightIcon className={classes.icon} onClick={() => {
-                        filterAllIssues("REDIRECTED");
-                        handleChangeState("button4")
-                    }}/>
-                    <button id="button4" className={classes.legendText} style={getButtonStyle("button4")}
-                            onClick={() => {
-                                filterAllIssues("REDIRECTED")
-                                handleChangeState("button4")
-                            }}>Redirectată
-                    </button>
-                </div>
-                <div className="w-3 h-3 opacity-90 rounded-full">
                     <CheckCircleIcon className={classes.icon} onClick={() => {
                         filterAllIssues("SOLVED");
                         handleChangeState("button5")
@@ -126,7 +117,7 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
             {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}
                                           passButtonId={buttonId} passSetButtonId={setButtonId} passBackgroundCol={passBackgroundCol} passBoldButton={boldButton} passSetBoldButton={setBoldButton}/>
                 :
-                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.3rem", top: "14.5rem"}}
+                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.3rem", top: "13rem"}}
                                              onClick={() => setIsExtended(true)}/>
                 // <div className={classes.arrow}>
                 //     <span className={classes.spanArrow}></span>

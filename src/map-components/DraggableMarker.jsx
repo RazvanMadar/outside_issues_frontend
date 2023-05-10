@@ -3,6 +3,8 @@ import { Marker } from "react-leaflet";
 import { createIcon } from "../common/geo-converter";
 import useGeoLocation from "../hooks/useGeoLocation";
 import marker from "../pages/images/gps.png";
+import { pointInLayer } from "leaflet-pip";
+import L from 'leaflet';
 
 const center = {
   lat: 47.06329517311617,
@@ -11,7 +13,7 @@ const center = {
 
 const flagIcon = createIcon(marker, true);
 
-const DraggableMarker = ({passMarkerPosition}) => {
+const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
   const currentLocation = useGeoLocation();
   const [position, setPosition] = useState(center);
   const markerRef = useRef(null);
@@ -21,35 +23,26 @@ const DraggableMarker = ({passMarkerPosition}) => {
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
-          setPosition(marker.getLatLng());
-          passMarkerPosition(marker.getLatLng());
+          const newMarkerPosition = marker.getLatLng();
+          const insidePolygon = pointInLayer(newMarkerPosition, L.geoJSON(polygonCoordinates));
+
+          if (!insidePolygon) {
+            marker.setLatLng(center);
+            setPosition(center);
+            passMarkerPosition(center);
+          } else {
+            setPosition(newMarkerPosition);
+            passMarkerPosition(newMarkerPosition);
+          }
+
+          // setPosition(marker.getLatLng());
+          // passMarkerPosition(marker.getLatLng());
           console.log(marker.getLatLng());
         }
       },
     }),
-    []
+    [passMarkerPosition, polygonCoordinates]
   );
-
-  //   const CurrentLocationMarker = () => {
-  //     const map = useMapEvents({
-  //       click() {
-  //         map.locate();
-  //       },
-  //       locationfound(e) {
-  //         setPosition(e.latlng);
-  //         map.flyTo(e.latlng, map.getZoom());
-  //         setIsClicked(true);
-  //       },
-  //     });
-
-  //     return (
-  //       isClicked && (
-  //         <Marker position={position} icon={flagIcon} ref={markerRef}>
-  //           <Popup>You are here</Popup>
-  //         </Marker>
-  //       )
-  //     );
-  //   };
 
   return (
     // {currentLocation.loaded && setPosition(currentLocation.coordinates)}

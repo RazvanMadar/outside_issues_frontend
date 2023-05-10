@@ -32,6 +32,20 @@ sortDataMap.set("reported_date", "Data raportării");
 sortDataMap.set("likes_number", "Like-uri");
 sortDataMap.set("dislikes_number", "Dislike-uri");
 
+const monthsMap = new Map();
+monthsMap.set("01", "Ianuarie");
+monthsMap.set("02", "Februarie");
+monthsMap.set("03", "Martie");
+monthsMap.set("04", "Aprilie");
+monthsMap.set("05", "Mai");
+monthsMap.set("06", "Iunie");
+monthsMap.set("07", "Iulie");
+monthsMap.set("08", "August");
+monthsMap.set("09", "Septembrie");
+monthsMap.set("10", "Octombrie");
+monthsMap.set("11", "Noiembrie");
+monthsMap.set("12", "Decembrie");
+
 const getBackgroundColorForState = (state) => {
     let backgroundColor;
     // return "#7895B2"
@@ -69,7 +83,9 @@ const getCurrentDate = () => {
 
 const getChatMessageFormat = (date) => {
     const parts = date.split("T");
-    return parts[1].split(".")[0] + ", " + parts[0];
+    const times = parts[1].split(":");
+    const time = times[0] + ":" + times[1];
+    return time + " | " + computeDateForPopup(parts[0]);
 }
 
 const convertUITypesToAPI = (type) => {
@@ -112,6 +128,41 @@ const convertUISortDataToAPI = (data) => {
             return key;
         }
     }
+}
+
+const getMonthFromIndex = (index) => {
+    for (const [key, value] of monthsMap) {
+        if (index == key) {
+            return value;
+        }
+    }
+}
+
+const getMonthFromIndexes = (array) => {
+    for (const [key, value] of monthsMap) {
+        for (const [key2, value2] of array) {
+            let newKey = key2.length == 1 ? "0" + key2 : key2;
+            if (newKey == key) {
+                return value;
+            }
+        }
+    }
+}
+
+const computeDateForPopup = (date) => {
+    const parts = date.split("-");
+    const month = getMonthFromIndex(parts[1]);
+    return parts[2] + " " + month + " " + parts[0];
+}
+
+const computeDescriptionForPopup = (description) => {
+    // if (description.length < 10) {
+    //     return description;
+    // }
+    // const newDescription = description.slice(0, 10) + "\n" + description.slice(10);
+    if (description.length == 0)
+        return "Nu are descriere"
+    return description.length > 25 ? description.substring(0, 26) + "..." : description;
 }
 
 const getImageRegardingIssueType = (type) => {
@@ -158,7 +209,7 @@ const convertAPIStatesToUI = (state) => {
 }
 
 const cutFromDescription = (description) => {
-    return description.length > 75 ? description.substring(0, 75) + "..." : description;
+    return description.length > 45 ? description.substring(0, 45) + "..." : description;
 }
 
 
@@ -3591,6 +3642,10 @@ export {
     convertUISortDataToAPI,
     getChatMessageFormat,
     getImageRegardingIssueType,
+    computeDateForPopup,
+    computeDescriptionForPopup,
+    getMonthFromIndex,
+    getMonthFromIndexes,
     cityBoundary,
     cityBoundary2,
     test,

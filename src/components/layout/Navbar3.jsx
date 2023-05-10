@@ -9,16 +9,19 @@ import ProfileModal from "../../profile/ProfileModal";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import Switch from '@mui/material/Switch';
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
 const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email");
+    const isBlocked = localStorage.getItem("isBlocked");
     const firstName = localStorage.getItem("firstName");
     const lastName = localStorage.getItem("lastName");
     const userId = localStorage.getItem("userId");
-    const role = localStorage.getItem("role");
+    const isAdmin = "ROLE_ADMIN" === localStorage.getItem("role") ? true : false;
+    const isUser = "ROLE_USER" === localStorage.getItem("role") ? true : false;
     const [isLightMode, setIsLightMode] = useState(true);
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 767);
     const [backgroundColor, setBackgroundColor] = useState(
@@ -51,27 +54,36 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
-    }, [backgroundColor, isLoggedIn])
+
+        const handleResize = () => {
+            setDesktopScreen(window.innerWidth > 767);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [backgroundColor, isLoggedIn, isBlocked])
 
 
     return (
         <>
             <IconContext.Provider value={{color: "undefined"}}>
-                <div className="navbar" style={{backgroundColor: role === "ROLE_ADMIN" ? "#E8D5C4" : "#AEBDCA"}}>
+                <div className="navbar" style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}>
                     <Link to="#" className="menu-bars">
                         <FaIcons.FaBars onClick={showSidebar} style={{color: "black"}}/>
                     </Link>
-                    <div style={{position: "absolute", marginLeft: desktopScreen ? "12rem" : "4rem"}}>
-                        <Switch checked={isLightMode} style={{color: "white"}}
+                    {!isBlocked && <div style={{position: "absolute", marginLeft: desktopScreen ? "12rem" : "4rem"}}>
+                        <Switch checked={isLightMode} style={{color: "white"}} color={isAdmin ? "warning" : "primary"}
                                 icon={<ModeNightIcon/>}
                                 checkedIcon={<LightModeIcon/>}
                                 onClick={handleChangeColor}/>
-                    </div>
-                    {((isLoggedIn || isLogged) && role == "ROLE_USER") && <button className="email"
-                                                         onClick={() => setModalShow(true)}
+                    </div>}
+                    {((isLoggedIn || isLogged) && isUser) && !isBlocked && <button className="email"
+                                                                                                onClick={() => setModalShow(true)}
                     >{firstName} {lastName}
                     </button>}
-                    {((isLoggedIn || isLogged) && role == "ROLE_ADMIN") && <div className="admin">ADMINISTRATOR</div>}
+                    {isBlocked && <div className="admin">CONT BLOCAT</div>}
+                    {((isLoggedIn || isLogged) && isAdmin) && <div className="admin">ADMINISTRATOR</div>}
                     <ProfileModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
@@ -90,8 +102,8 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                             </Link>
                         </li>
                         {SidebarData.map((item, index) => {
-                            if (isLogged && item.title !== "Autentificare") {
-                                if (role === "ROLE_USER" && item.title !== 'Cetățeni') {
+                            if (isLogged && !isBlocked && item.title !== "Autentificare") {
+                                if (isUser && item.title !== 'Cetățeni') {
                                     console.log("a intrat aici", item.title)
                                     return (
                                         <li key={index} className={item.cName}>
@@ -100,10 +112,9 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                                 <span className="span" style={{color: "black"}}>{item.title}</span>
                                             </Link>
                                         </li>)
-                                }
-                                else if (role === "ROLE_ADMIN" && item.title !== 'Profil') {
+                                } else if (isAdmin && item.title !== 'Profil') {
                                     return (
-                                        <li key={index} className={item.cName} >
+                                        <li key={index} className={item.cName}>
                                             <Link to={item.path} style={{color: "black"}}>
                                                 {item.icon}
                                                 <span className="span" style={{color: "black"}}>{item.title}</span>
@@ -120,8 +131,14 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                     </li>
                                 )
                             }
-                            ;
                         })}
+                        {isBlocked &&
+                            <li key={8} className={"nav-text"}>
+                                <Link to={"/login"} style={{color: "black"}}>
+                                    <VpnKeyIcon />
+                                    <span className="span" style={{color: "black"}}>Deconectare</span>
+                                </Link>
+                            </li>}
                     </ul>
                 </nav>
             </IconContext.Provider>

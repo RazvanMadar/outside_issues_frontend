@@ -5,19 +5,23 @@ const endpoint = {
     reaction: "/api/citizen-reactions",
 };
 
-const getReactionsForSomeCitizenAndIssue = (citizenId, issueId, callback) => {
+const getReactionsForSomeCitizenAndIssue = (token, citizenId, issueId, callback) => {
     const request = new Request(backend_api + endpoint.reaction + "?citizenId=" + citizenId + "&issueId=" + issueId, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const addCitizenReaction = (reactions, callback) => {
+const addCitizenReaction = (token, reactions, callback) => {
     const request = new Request(backend_api + endpoint.reaction, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token
         },
         body: JSON.stringify(reactions),
     });

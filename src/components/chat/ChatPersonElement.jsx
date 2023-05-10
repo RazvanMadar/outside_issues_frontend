@@ -14,8 +14,10 @@ const ChatPersonElement = ({
     const userId = localStorage.getItem("userId")
     const email = localStorage.getItem("email")
 
+    const token = localStorage.getItem("token")
+
     const findLatestMessageByCitizenId = () => {
-        return getLatestChatMessage(person.citizenId, userId, (result, status, err) => {
+        return getLatestChatMessage(token, person.citizenId, userId, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     setLatestMessage(result);
@@ -58,7 +60,7 @@ const ChatPersonElement = ({
     }
 
     const getImage = () => {
-        return getCitizenImage(person.citizenId, (result, status, err) => {
+        return getCitizenImage(token, person.citizenId, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log("image", result)
                 setImage(URL.createObjectURL(result));

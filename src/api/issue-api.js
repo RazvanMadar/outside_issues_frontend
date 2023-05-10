@@ -5,27 +5,44 @@ const endpoint = {
     issue: "/api/issues",
 };
 
-const getIssues = (hasLocation, callback) => {
-    const request = new Request(backend_api + endpoint.issue + "?hasLocation=" + hasLocation, {
-        method: "GET",
-    });
-
-    restApi.makeRequest(request, callback);
-};
-
-const getBasicStatistics = (email, callback) => {
+const getBasicStatistics = (token, email, callback) => {
     let urlPath = backend_api + endpoint.issue + "/basic-statistics?";
     if (email) {
         urlPath = urlPath + "email=" + email;
     }
     const request = new Request(urlPath, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, sort, order, callback) => {
+const getYearStatistics = (token, callback) => {
+    const request = new Request(backend_api + endpoint.issue + "/year-statistics?", {
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const getTypeStatistics = (token, callback) => {
+    const request = new Request(backend_api + endpoint.issue + "/type-statistics?", {
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+
+    restApi.makeRequest(request, callback);
+};
+
+const filterIssues = (token, type, state, fromDate, toDate, hasLocation, page, size, sort, order, callback) => {
     let urlPath = backend_api + endpoint.issue + "/filtered?";
     if (type) {
         urlPath += "type=" + type + "&";
@@ -57,13 +74,16 @@ const filterIssues = (type, state, fromDate, toDate, hasLocation, page, size, so
     urlPath += "&sort=id,desc"
     const request = new Request(urlPath, {
             method: "GET",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
         }
     );
 
     restApi.makeRequest(request, callback);
 };
 
-const filterIssuesByCitizenEmail = (email, page, size, sort, order, callback) => {
+const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callback) => {
     let urlPath = backend_api + endpoint.issue + "/email/" + email + "?";
     if (page != null) {
         urlPath += "page=" + page + "&";
@@ -80,17 +100,21 @@ const filterIssuesByCitizenEmail = (email, page, size, sort, order, callback) =>
     console.log(urlPath)
     const request = new Request(urlPath, {
             method: "GET",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
         }
     );
 
     restApi.makeRequest(request, callback);
 };
 
-const addIssue = (issue, callback) => {
+const addIssue = (token, issue, callback) => {
     const request = new Request(backend_api + endpoint.issue, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token
         },
         body: JSON.stringify(issue),
     });
@@ -98,15 +122,18 @@ const addIssue = (issue, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const findIssueById = (id, callback) => {
+const findIssueById = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.issue + "/" + id, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const updateIssue = (id, type, state, callback) => {
+const updateIssue = (token, id, type, state, callback) => {
     let urlPath = backend_api + endpoint.issue + `/${id}?`;
     if (type != null) {
         urlPath += "type=" + type + "&";
@@ -116,18 +143,34 @@ const updateIssue = (id, type, state, callback) => {
     }
     const request = new Request(urlPath, {
         method: "PUT",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const deleteIssueById = (id, callback) => {
+const deleteIssueById = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.issue + "/" + id, {
         method: "DELETE",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
 
-export {getIssues, filterIssues, addIssue, findIssueById, updateIssue, deleteIssueById, getBasicStatistics, filterIssuesByCitizenEmail};
+export {
+    filterIssues,
+    addIssue,
+    findIssueById,
+    updateIssue,
+    deleteIssueById,
+    getBasicStatistics,
+    filterIssuesByCitizenEmail,
+    getYearStatistics,
+    getTypeStatistics
+};

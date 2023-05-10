@@ -5,37 +5,38 @@ const endpoint = {
     blacklist: "/api/blacklists",
 };
 
-const isCitizenBlocked = (id, callback) => {
-    const request = new Request(backend_api + endpoint.blacklist + "?id=" + id, {
-        method: "GET",
-    });
-
-    restApi.makeRequest(request, callback);
-};
-
-const addCitizenToBlacklist = (id, callback) => {
+const addCitizenToBlacklist = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.blacklist + "/" + id, {
-        method: "POST"
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 }
 
-const deleteCitizenFromBlacklist = (id, callback) => {
+const deleteCitizenFromBlacklist = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.blacklist + "/" + id, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 }
 
-const getBasicStatistics = (callback) => {
+const getBasicStatistics = (token, callback) => {
     const request = new Request(backend_api + endpoint.blacklist + "/blocked-statistics", {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
 
-export {isCitizenBlocked, addCitizenToBlacklist, deleteCitizenFromBlacklist, getBasicStatistics};
+export {addCitizenToBlacklist, deleteCitizenFromBlacklist, getBasicStatistics};

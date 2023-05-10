@@ -5,11 +5,12 @@ const endpoint = {
     email: "/api/email",
 };
 
-const sendEmail = (data, callback) => {
+const sendEmail = (token, data, callback) => {
     const request = new Request(backend_api + endpoint.email, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token
         },
         body: JSON.stringify(data),
     });

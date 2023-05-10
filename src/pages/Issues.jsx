@@ -16,7 +16,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
-import {useLocation} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
@@ -43,11 +43,16 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
     const [order, setOrder] = useState('desc');
     const [orderAsc, setOrderAsc] = useState(false);
     const [orderDesc, setOrderDesc] = useState(true);
+    const isBlocked = localStorage.getItem("isBlocked");
+    const isLoggedIn = localStorage.getItem("isLogged");
 
     console.log(passBackgroundColor);;
 
+    const token = localStorage.getItem("token")
+
     const filterAllIssues = () => {
         return filterIssues(
+            token,
             type,
             state,
             fromDate,
@@ -70,7 +75,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
     };
 
     const addCitizensReactions = (reactions) => {
-        return addCitizenReaction(reactions, (result, status, err) => {
+        return addCitizenReaction(token, reactions, (result, status, err) => {
             if (result !== null && status === 201) {
                 console.log(result);
             } else if (status === 403) {
@@ -115,12 +120,10 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
         }
     }, [issues_url, currentPage, isFiltered, isDeleted, sort, order]);
 
-
     return (
         // style={{backgroundColor: "grey"}}
         <div>
-
-            <Container>
+            {isLoggedIn ? <Container>
                 <br/>
                 <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}
                      className={classes.filter}>
@@ -166,7 +169,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                     <Row>
                         {issues.map((issue) => (
                             <Col key={issue.id}
-                                 // className="bg-light border"
+                                // className="bg-light border"
                                  style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                             >
                                 <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}
@@ -179,7 +182,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                 <Pagination count={totalPages} showFirstButton showLastButton color="primary"
                             onChange={handleChangePage}/>
                 <br/>
-            </Container>
+            </Container> : <Navigate to={"/login"}/> }
         </div>
     );
 };

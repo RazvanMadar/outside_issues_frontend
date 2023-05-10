@@ -31,6 +31,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import {sendEmail} from "../../api/email-api";
 import {addRejected} from "../../api/rejected-issues-api";
+import IssueModal from "../issue/IssueModal";
 
 //
 // s-ar putea sa primesc din cauza reactiilor ca vin la unele "" si gen nu poate parsa si de aia iau (cred) la
@@ -60,13 +61,16 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     const userId = localStorage.getItem("userId");
     const role = localStorage.getItem("role");
     const backgroundColor = getBackgroundColorForState(issue.state);
+    const [modalShow, setModalShow] = useState(false);
+
+    const token = localStorage.getItem("token")
 
     const getReactionsForCurrentUserAndIssue = () => {
-        return getReactionsForSomeCitizenAndIssue(userId, issue.id, (result, status, err) => {
+        return getReactionsForSomeCitizenAndIssue(token, userId, issue.id, (result, status, err) => {
             if (status === 200) {
-                if (result !== null && result === true) {
+                if (result !== null && result === 1) {
                     setLikeButton(true);
-                } else if (result !== null && result === false) {
+                } else if (result !== null && result === -1) {
                     setDislikeButton(true);
                 }
             } else {
@@ -76,7 +80,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     };
 
     const geMainImage = () => {
-        return getFirstImage(issue.id, (result, status, err) => {
+        return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 // resizeImage(result).then(r => setMainImage(r));
@@ -90,7 +94,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     };
 
     const sendAnEmail = (data) => {
-        return sendEmail(data, (result, status, err) => {
+        return sendEmail(token, data, (result, status, err) => {
             if (status === 403) {
                 setForbidden(true);
             } else {
@@ -100,7 +104,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     }
 
     const deleteAnIssue = () => {
-        return deleteIssueById(issue.id, (result, status, err) => {
+        return deleteIssueById(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 rejectIssue();
@@ -115,7 +119,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     };
 
     const rejectIssue = () => {
-        return addRejected(issue.citizenEmail, (result, status, err) => {
+        return addRejected(token, issue.citizenEmail, (result, status, err) => {
             if (result !== null && status === 201) {
                 console.log(result);
                 passIsDeleted((prev) => !prev)
@@ -186,9 +190,9 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
         localStorage.setItem("reactions", JSON.stringify(existingObjects));
     }
 
-    const handleEdit = () => {
-        navigate(`/issues/${issue.id}`);
-    }
+    // const handleEdit = () => {
+    //     navigate(`/issues/${issue.id}`);
+    // }
 
     const resizeImageHandler = (file) =>
         new Promise((resolve) => {
@@ -285,7 +289,9 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                                 {convertAPIStatesToUI(issue.state).toLowerCase()}
                             </div>
                             <IconButton aria-label="edit" style={{position: "absolute", left: "85px", bottom: "7px"}}
-                                        onClick={handleEdit}>
+                                        // onClick={handleEdit}
+                                onClick={() => setModalShow(true)}
+                            >
                                 <BorderColorIcon/>
                             </IconButton>
                             <IconButton aria-label="delete"
@@ -373,6 +379,11 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                     }
                 </CardBody>
             </Card>
+            <IssueModal show={modalShow} issue={issue} onHide={() => setModalShow(false)}
+                        // passIsIssueAdded={passIsIssueAdded}
+                        // passIsIssueUpdated={passIsIssueUpdated}
+                        // passIsIssueDeleted={passIsIssueDeleted}
+                        passBackgroundColor={passBackgroundColor}/>
         </div>
     );
 };

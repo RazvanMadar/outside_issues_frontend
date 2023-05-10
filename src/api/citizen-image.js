@@ -5,29 +5,38 @@ const endpoint = {
     image: "/api/citizen/images",
 };
 
-const addCitizenImage = (id, image, callback) => {
+const addCitizenImage = (token, id, image, callback) => {
     const formData = new FormData();
     formData.append("image", image);
     const request = new Request(backend_api + endpoint.image + "/" + id, {
         method: "POST",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
         body: formData,
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const getCitizenImage = (id, callback) => {
+const getCitizenImage = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.image + "/" + id, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
         responseType: "arraybuffer"
     });
 
     restApi.makeBlobRequest(request, callback);
 };
 
-const deleteCitizenImage = (id, callback) => {
+const deleteCitizenImage = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.image + "/" + id, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);

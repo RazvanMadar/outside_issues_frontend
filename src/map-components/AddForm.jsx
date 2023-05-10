@@ -30,8 +30,10 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const [currentMail, setCurrentMail] = useState(
         localStorage.getItem("email") ? localStorage.getItem("email") : "");
 
+    const token = localStorage.getItem("token");
+
     const sendAnEmail = (data) => {
-        return sendEmail(data, (result, status, err) => {
+        return sendEmail(token, data, (result, status, err) => {
             if (result !== null && status === 200) {
                 setAuthorized(true);
             } else if (status === 403) {
@@ -44,7 +46,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const addAnIssue = (issue) => {
         console.log(issue);
-        return addIssue(issue, (result, status, err) => {
+        return addIssue(token, issue, (result, status, err) => {
             if (result !== null && status === 201) {
                 console.log(result);
                 setAuthorized(true);
@@ -63,7 +65,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const registerAnCitizen = (citizen) => {
         console.log(citizen);
-        return registerCitizen(citizen, (result, status, err) => {
+        return registerCitizen(token, citizen, (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
                 } else {
@@ -83,7 +85,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const addAnImage = (id) => {
         photos.map((img, index) => {
-            return addImage(id, img, getNumberFromIndex(index), (result, status, err) => {
+            return addImage(token, id, img, getNumberFromIndex(index), (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
                     setAuthorized(true);
@@ -117,7 +119,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const computeAddressFromCoordinates = (address) => {
         setIssueAdr("Fără adresă");
-        return getAddressFromCoordinates(address, (result, status, err) => {
+        return getAddressFromCoordinates(token, address, (result, status, err) => {
             console.log(result);
             if (result !== null && status === 200) {
                 console.log(result);

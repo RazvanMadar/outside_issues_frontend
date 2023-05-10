@@ -9,6 +9,8 @@ import React, {useState} from "react";
 import {filterIssues} from "../../api/issue-api";
 
 const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, passSetButtonId, passBackgroundCol, passBoldButton, passSetBoldButton}) => {
+    const token = localStorage.getItem("token");
+
     const handleChangeState = (id) => {
         if (passButtonId != null) {
             document.getElementById(passButtonId).style.fontWeight = "normal"
@@ -29,6 +31,7 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
 
     const filterAllIssues = (type, state) => {
         return filterIssues(
+            token,
             type,
             state,
             null,
@@ -67,11 +70,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("ROAD", "WORKING")
                                          handleChangeState("button6")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#063d91"}}
-                                          onClick={() => {
-                                              filterAllIssues("ROAD", "REDIRECTED")
-                                              handleChangeState("button6")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#063d91"}}
                                      onClick={() => {
                                          filterAllIssues("ROAD", "SOLVED")
@@ -102,11 +100,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("LIGHTNING", "WORKING")
                                          handleChangeState("button7")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#f56802"}}
-                                          onClick={() => {
-                                              filterAllIssues("LIGHTNING", "REDIRECTED")
-                                              handleChangeState("button7")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#f56802"}}
                                      onClick={() => {
                                          filterAllIssues("LIGHTNING", "SOLVED")
@@ -138,11 +131,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("GREEN_SPACES", "WORKING")
                                          handleChangeState("button8")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#339300"}}
-                                          onClick={() => {
-                                              filterAllIssues("GREEN_SPACES", "REDIRECTED")
-                                              handleChangeState("button8")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#339300"}}
                                      onClick={() => {
                                          filterAllIssues("GREEN_SPACES", "SOLVED")
@@ -174,11 +162,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("PUBLIC_DOMAIN", "WORKING")
                                          handleChangeState("button9")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#78278d"}}
-                                          onClick={() => {
-                                              filterAllIssues("PUBLIC_DOMAIN", "REDIRECTED")
-                                              handleChangeState("button9")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#78278d"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DOMAIN", "SOLVED")
@@ -209,11 +192,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("PUBLIC_DISORDER", "WORKING")
                                          handleChangeState("button10")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#f50202"}}
-                                          onClick={() => {
-                                              filterAllIssues("PUBLIC_DISORDER", "REDIRECTED")
-                                              handleChangeState("button10")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#f50202"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_DISORDER", "SOLVED")
@@ -244,11 +222,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("PUBLIC_TRANSPORT", "WORKING")
                                          handleChangeState("button11")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#0ad5d3"}}
-                                          onClick={() => {
-                                              filterAllIssues("PUBLIC_TRANSPORT", "REDIRECTED")
-                                              handleChangeState("button11")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#0ad5d3"}}
                                      onClick={() => {
                                          filterAllIssues("PUBLIC_TRANSPORT", "SOLVED")
@@ -269,22 +242,17 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                        filterAllIssues("BUILDINGS", "REGISTERED")
                                        handleChangeState("button12")
                                    }}/>
-                    <WatchLaterIcon className={classes.icon} style={{color: "#F1C40F"}}
+                    <WatchLaterIcon className={classes.icon} style={{color: "#c88d13"}}
                                     onClick={() => {
                                         filterAllIssues("BUILDINGS", "PLANNED")
                                         handleChangeState("button12")
                                     }}/>
-                    <BuildCircleIcon className={classes.icon} style={{color: "#F1C40F"}}
+                    <BuildCircleIcon className={classes.icon} style={{color: "#c88d13"}}
                                      onClick={() => {
                                          filterAllIssues("BUILDINGS", "WORKING")
                                          handleChangeState("button12")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#F1C40F"}}
-                                          onClick={() => {
-                                              filterAllIssues("BUILDINGS", "REDIRECTED")
-                                              handleChangeState("button12")
-                                          }}/>
-                    <CheckCircleIcon className={classes.icon} style={{color: "#F1C40F"}}
+                    <CheckCircleIcon className={classes.icon} style={{color: "#c88d13"}}
                                      onClick={() => {
                                          filterAllIssues("BUILDINGS", "SOLVED")
                                          handleChangeState("button12")
@@ -314,11 +282,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("TRAFFIC_ROAD_SIGNS", "WORKING")
                                          handleChangeState("button13")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#e700ff"}}
-                                          onClick={() => {
-                                              filterAllIssues("TRAFFIC_ROAD_SIGNS", "REDIRECTED")
-                                              handleChangeState("button13")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#e700ff"}}
                                      onClick={() => {
                                          filterAllIssues("TRAFFIC_ROAD_SIGNS", "SOLVED")
@@ -349,11 +312,6 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                                          filterAllIssues("ANIMALS", "WORKING")
                                          handleChangeState("button14")
                                      }}/>
-                    <ArrowCircleRightIcon className={classes.icon} style={{color: "#707b2c"}}
-                                          onClick={() => {
-                                              filterAllIssues("ANIMALS", "REDIRECTED")
-                                              handleChangeState("button14")
-                                          }}/>
                     <CheckCircleIcon className={classes.icon} style={{color: "#707b2c"}}
                                      onClick={() => {
                                          filterAllIssues("ANIMALS", "SOLVED")
@@ -367,7 +325,7 @@ const ExtendedLegend = ({passSetIsExtended, passFilteredIssues, passButtonId, pa
                     </button>
                 </div>
             </div>
-            <KeyboardDoubleArrowUpIcon style={{position: "absolute", right: "8rem", top: "15.5rem"}}
+            <KeyboardDoubleArrowUpIcon style={{position: "absolute", right: "7rem", top: "15.5rem"}}
                                        onClick={() => passSetIsExtended(false)}/>
         </div>
     );

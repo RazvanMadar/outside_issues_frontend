@@ -31,8 +31,10 @@ const CardItem3 = ({issue, key, passBackgroundColor}) => {
     const role = localStorage.getItem("role");
     const backgroundColor = getBackgroundColorForState(issue.state);
 
+    const token = localStorage.getItem("token")
+
     const geMainImage = () => {
-        return getFirstImage(issue.id, (result, status, err) => {
+        return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 // resizeImage(result).then(r => setMainImage(r));

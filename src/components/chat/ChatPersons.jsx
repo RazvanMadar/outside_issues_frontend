@@ -1,8 +1,7 @@
 import {MDBTypography} from "mdb-react-ui-kit";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {getLatestChatMessage} from "../../api/message-api";
 import {getChatUsersByRole} from "../../api/citizen-api";
-import {getCitizenImage} from "../../api/citizen-image";
 import SockJsClient from "react-stomp";
 import ChatPersonElement from "./ChatPersonElement";
 
@@ -14,11 +13,9 @@ const ChatPersons = ({
                          passSetToEmail,
                          passIsAddedMessage,
                          passSetIsAddedMessage,
-                         passChatLatestMessages,
                          passPersons,
-                         // passToImages,
                          passSetPersons,
-                         // passSetToImages
+                         passSetReceivedNewUserMessage
                      }) => {
     const [persons, setPersons] = useState([]);
     const [latestMessages, setLatestMessages] = useState([]);
@@ -27,8 +24,10 @@ const ChatPersons = ({
     // const chatUsersRole = localStorage.getItem("role") === "ROLE_ADMIN" ? "ROLE_USER" : "ROLE_ADMIN";
     const chatUsersRole = localStorage.getItem("role");
 
+    const token = localStorage.getItem("token")
+
     const getChatPersons = () => {
-        return getChatUsersByRole(chatUsersRole, (result, status, err) => {
+        return getChatUsersByRole(token, chatUsersRole, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     // getImages(result);
@@ -63,7 +62,7 @@ const ChatPersons = ({
     const getLatestMessages = () => {
         // users.map((person) => {
         //     getLatestChatMessage(userId, person.citizenId, (result, status, err) => {
-        getLatestChatMessage(14, 16, (result, status, err) => {
+        getLatestChatMessage(token, 14, 16, (result, status, err) => {
             if (result !== null && status === 200) {
                 // setLatestMessages(messages => [...(messages || []), {
                 //     id: person.citizenId,
@@ -83,18 +82,16 @@ const ChatPersons = ({
     };
 
     const onMessageReceived = (msg) => {
+        console.log(email, msg)
         if (msg.fromEmail === email || msg.toEmail === email) {
-            if (!passPersons.some(item => item.email === msg.fromEmail) && !passPersons.some(item => item.email === msg.toEmail)) {
-                getChatPersons();
+            console.log(passPersons)
+            if (!passPersons.some(item => item.email === msg.fromEmail)) {
+                passSetReceivedNewUserMessage((prev) => !prev)
             }
             passSetIsAddedMessage((prev) => !prev);
             console.log(msg.message);
         }
     };
-
-    // useEffect(() => {
-    //     getLatestMessages();
-    // }, [passIsAddedMessage]);
 
     return (
         <div>
@@ -114,10 +111,8 @@ const ChatPersons = ({
                     <li className="p-2 border-bottom">
                         {passPersons.map((person) => (
                             <ChatPersonElement person={person}
-                                    // passToImages={passToImages},
-                                passChatId={passChatId}
-                                               passSetChatId={passSetChatId} passSetToEmail={passSetToEmail}
-                                               passIsAddedMessage={passIsAddedMessage}
+                                               passChatId={passChatId} passSetChatId={passSetChatId}
+                                               passSetToEmail={passSetToEmail} passIsAddedMessage={passIsAddedMessage}
                             />
                         ))}
                     </li>

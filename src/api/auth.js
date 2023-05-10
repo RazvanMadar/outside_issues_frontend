@@ -12,16 +12,16 @@ const authenticate = (data, login, navigate, onLogin) => {
             // }
             localStorage.removeItem("isBlocked");
             console.log(response.data);
-            if (response.data.isBlocked === false) {
-                onLogin(true);
-                // login(response.data.accessToken, response.data.userId);
-                localStorage.setItem("userId", response.data.userId);
-                localStorage.setItem("email", response.data.email);
-                localStorage.setItem("firstName", response.data.firstName);
-                localStorage.setItem("lastName", response.data.lastName);
-                localStorage.setItem("token", response.data.accessToken);
-                localStorage.setItem("isLogged", true);
-                localStorage.setItem("role", response.data.role);
+
+            onLogin(true);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("email", response.data.email);
+            localStorage.setItem("firstName", response.data.firstName);
+            localStorage.setItem("lastName", response.data.lastName);
+            localStorage.setItem("token", response.data.accessToken);
+            localStorage.setItem("isLogged", "true");
+            localStorage.setItem("role", response.data.role);
+            if (response.data.blocked === false) {
                 navigate("/issues");
             } else {
                 localStorage.setItem("isBlocked", "true");

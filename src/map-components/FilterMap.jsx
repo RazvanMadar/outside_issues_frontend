@@ -23,6 +23,8 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
     const fromDateInputRef = useRef();
     const toDateInputRef = useRef();
 
+    const token = localStorage.getItem("token");
+
     const formatDate = (date) => {
         const correctDate = date.split('/');
         return `${correctDate[2]}-${correctDate[0]}-${correctDate[1]}`;
@@ -35,6 +37,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
         const enteredToDate = toDateInputRef.current.value !== '' ? formatDate(toDateInputRef.current.value) : null;
         console.log(enteredType, enteredState, enteredFromDate, enteredToDate)
         return filterIssues(
+            token,
             enteredType,
             enteredState,
             enteredFromDate,

@@ -51,164 +51,274 @@ import {filterIssues} from "../api/issue-api";
 import {useEffect} from "react";
 import {Button} from "@mui/material";
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import {cityBoundary, cityBoundary2, test, test2, testTm} from "../common/utils";
+import {
+    cityBoundary,
+    cityBoundary2,
+    computeDateForPopup, computeDescriptionForPopup, convertAPIStatesToUI,
+    convertAPITypesToUI,
+    test,
+    test2,
+    testTm
+} from "../common/utils";
 import {simplify} from '@turf/turf';
+import CategoryIcon from '@mui/icons-material/Category';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import DescriptionIcon from '@mui/icons-material/Description';
+import NavigationIcon from '@mui/icons-material/Navigation';
+import {Input} from "reactstrap";
+import {LatLng, LatLngBounds} from "leaflet";
+import leafletPip from 'leaflet-pip';
 
-const position = {lat: 47.059390150750204, lng: 21.912248426593525};
 const buildIcon = createIcon(build, false);
 // const plannedIcon = createIcon(planned, false);
 // const redirectedIcon = createIcon(redirected, false);
 // const solvedIcon = createIcon(solved, false);
-const polygonCoordinates = [[47.0357540, 21.8959981], [47.0701130, 21.9360878], [47.0549163, 21.9285231],
-    [46.8340892, 22.1795680], [46.8349951, 22.1684311], [46.8334192, 22.1771494], [47.0581685, 21.9323901]];
+
+// const polygonCoordinates = [[47.0357540, 21.8959981], [47.0701130, 21.9360878], [47.0549163, 21.9285231],
+//     [46.8340892, 22.1795680], [46.8349951, 22.1684311], [46.8334192, 22.1771494], [47.0581685, 21.9323901]];
+const polygonCoordinates = [new LatLng(47.06269, 21.85967),
+    new LatLng(47.07898, 21.85950),
+    new LatLng(47.09074, 21.85823),
+    new LatLng(47.10329, 21.88393),
+    new LatLng(47.10160, 21.92468),
+    new LatLng(47.09813, 21.95155),
+    new LatLng(47.07634, 21.97488),
+    new LatLng(47.05021, 21.98871),
+    new LatLng(47.02548, 21.99588),
+    new LatLng(47.01667, 21.91298),
+    new LatLng(47.01837, 21.87356),
+    new LatLng(47.02844, 21.85749),
+    new LatLng(47.04657, 21.84707)
+];
+
+// const position = {lat: 47.059390150750204, lng: 21.912248426593525};
+const position = {lat: 47.05292, lng: 21.91375}
 
 //
 // http://overpass-turbo.eu/
 //
 
 const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}) => {
-    const [forbidden, setForbidden] = useState(false);
-    const [issues, setIssues] = useState([]);
-    const [openFilterModal, setOpenFilterModal] = useState(false);
+        const [forbidden, setForbidden] = useState(false);
+        const [issues, setIssues] = useState([]);
+        const [openFilterModal, setOpenFilterModal] = useState(false);
 
-    // const [isIssueAdded, setIsIssueAdded] = useState(false);
-    const [markerPosition, setMarkerPosition] = useState(position);
+        // const [isIssueAdded, setIsIssueAdded] = useState(false);
+        const [markerPosition, setMarkerPosition] = useState(position);
 
-    // let plusIcon = createIcon(REGISTERED_ROAD, false);
+        const token = localStorage.getItem("token");
 
-    const filterAlIssues = () => {
-        return filterIssues(
-            null,
-            null,
-            null,
-            null,
-            true,
-            null,
-            1000,
-            null,
-            null,
-            (result, status, err) => {
-                if (result !== null && status === 200) {
-                    console.log(result.content);
-                    setIssues(result.content);
-                } else {
-                    console.log(err);
+        // let plusIcon = createIcon(REGISTERED_ROAD, false);
+
+        const filterAlIssues = () => {
+            return filterIssues(
+                token,
+                null,
+                null,
+                null,
+                null,
+                true,
+                null,
+                1000,
+                null,
+                null,
+                (result, status, err) => {
+                    if (result !== null && status === 200) {
+                        console.log(result.content);
+                        setIssues(result.content);
+                    } else {
+                        console.log(err);
+                    }
+                }
+            );
+        };
+        console.log(passBackgroundCol);
+        const getMarkerImage = (type, state) => {
+            if (state === "REGISTERED") {
+                switch (type) {
+                    case "ROAD":
+                        return createIcon(REGISTERED_ROAD, false);
+                    case "LIGHTNING":
+                        return createIcon(REGISTERED_LIGHTNING, false);
+                    case "PUBLIC_DISORDER":
+                        return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_DOMAIN":
+                        return createIcon(REGISTERED_PUBLIC_DOMAIN, false);
+                    case "GREEN_SPACES":
+                        return createIcon(REGISTERED_GREEN_SPACES, false);
+                    case "BUILDINGS":
+                        return createIcon(REGISTERED_BUILDINGS, false);
+                    case "PUBLIC_TRANSPORT":
+                        return createIcon(REGISTERED_PUBLIC_TRANSPORT, false);
+                    case "TRAFFIC_ROAD_SIGNS":
+                        return createIcon(REGISTERED_ROAD_SIGNS, false);
+                    case "ANIMALS":
+                        return createIcon(REGISTERED_ANIMALS, false);
+                }
+            } else if (state === "PLANNED") {
+                switch (type) {
+                    case "ROAD":
+                        return createIcon(PLANNED_ROAD, false);
+                    case "LIGHTNING":
+                        return createIcon(PLANNED_LIGHTNING, false);
+                    case "PUBLIC_DISORDER":
+                        return createIcon(PLANNED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_DOMAIN":
+                        return createIcon(PLANNED_PUBLIC_DOMAIN, false);
+                    case "GREEN_SPACES":
+                        return createIcon(PLANNED_GREEN_SPACES, false);
+                    case "BUILDINGS":
+                        return createIcon(PLANNED_BUILDINGS, false);
+                    case "PUBLIC_TRANSPORT":
+                        return createIcon(PLANNED_PUBLIC_TRANSPORT, false);
+                    case "TRAFFIC_ROAD_SIGNS":
+                        return createIcon(PLANNED_ROAD_SIGNS, false);
+                    case "ANIMALS":
+                        return createIcon(PLANNED_ANIMALS, false);
+                }
+            } else if (state === "WORKING") {
+                switch (type) {
+                    case "ROAD":
+                        return createIcon(WORKING_ROAD, false, true);
+                    case "LIGHTNING":
+                        return createIcon(WORKING_LIGHTNING, false, true);
+                    case "PUBLIC_DISORDER":
+                        return createIcon(WORKING_PUBLIC_DISORDER, false, true);
+                    case "PUBLIC_DOMAIN":
+                        return createIcon(WORKING_PUBLIC_DOMAIN, false, true);
+                    case "GREEN_SPACES":
+                        return createIcon(WORKING_GREEN_SPACES, false, true);
+                    case "BUILDINGS":
+                        return createIcon(WORKING_BUILDINGS, false, true);
+                    case "PUBLIC_TRANSPORT":
+                        return createIcon(WORKING_PUBLIC_TRANSPORT, false, true);
+                    case "TRAFFIC_ROAD_SIGNS":
+                        return createIcon(WORKING_ROAD_SIGNS, false, true);
+                    case "ANIMALS":
+                        return createIcon(WORKING_ANIMALS, false, true);
+                }
+            } else if (state === "REDIRECTED") {
+                switch (type) {
+                    case "ROAD":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "LIGHTNING":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_DISORDER":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_DOMAIN":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "GREEN_SPACES":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "BUILDINGS":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_TRANSPORT":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "TRAFFIC_ROAD_SIGNS":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "ANIMALS":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                }
+            } else if (state === "SOLVED") {
+                switch (type) {
+                    case "ROAD":
+                        return createIcon(SOLVED_ROAD, false);
+                    case "LIGHTNING":
+                        return createIcon(SOLVED_LIGHTNING, false);
+                    case "PUBLIC_DISORDER":
+                        return createIcon(SOLVED_PUBLIC_DISORDER, false);
+                    case "PUBLIC_DOMAIN":
+                        return createIcon(SOLVED_PUBLIC_DOMAIN, false);
+                    case "GREEN_SPACES":
+                        return createIcon(SOLVED_GREEN_SPACES, false);
+                    case "BUILDINGS":
+                        return createIcon(SOLVED_BUILDINGS, false);
+                    case "PUBLIC_TRANSPORT":
+                        return createIcon(SOLVED_PUBLIC_TRANSPORT, false);
+                    case "TRAFFIC_ROAD_SIGNS":
+                        return createIcon(SOLVED_ROAD_SIGNS, false);
+                    case "ANIMALS":
+                        return createIcon(SOLVED_ANIMALS, false);
                 }
             }
+            return null;
+        }
+
+        const url = passBackgroundCol == 'white' ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
+            'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
+
+        useEffect(() => {
+            filterAlIssues();
+        }, [passIsIssueAdded]);
+
+        const oradeaBounds = new LatLngBounds(
+            new LatLng(47.06269, 21.85967),
+            new LatLng(47.07898, 21.85950),
+            new LatLng(47.09074, 21.85823),
+            new LatLng(47.10329, 21.88393),
+            new LatLng(47.10160, 21.92468),
+            new LatLng(47.09813, 21.95155),
+            new LatLng(47.07634, 21.97488),
+            new LatLng(47.05021, 21.98871),
+            new LatLng(47.02548, 21.99588),
+            new LatLng(47.01667, 21.91298),
+            new LatLng(47.01837, 21.87356),
+            new LatLng(47.02844, 21.85749),
+            new LatLng(47.04657, 21.84707)
         );
-    };
-    console.log(passBackgroundCol);
-    const getMarkerImage = (type, state) => {
-        if (state === "REGISTERED") {
-            switch (type) {
-                case "ROAD": return createIcon(REGISTERED_ROAD, false);
-                case "LIGHTNING": return createIcon(REGISTERED_LIGHTNING, false);
-                case "PUBLIC_DISORDER": return createIcon(REGISTERED_PUBLIC_DISORDER, false);
-                case "PUBLIC_DOMAIN": return createIcon(REGISTERED_PUBLIC_DOMAIN, false);
-                case "GREEN_SPACES": return createIcon(REGISTERED_GREEN_SPACES, false);
-                case "BUILDINGS": return createIcon(REGISTERED_BUILDINGS, false);
-                case "PUBLIC_TRANSPORT": return createIcon(REGISTERED_PUBLIC_TRANSPORT, false);
-                case "TRAFFIC_ROAD_SIGNS": return createIcon(REGISTERED_ROAD_SIGNS, false);
-                case "ANIMALS": return createIcon(REGISTERED_ANIMALS, false);
-            }
-        }
-        else if (state === "PLANNED") {
-            switch (type) {
-                case "ROAD": return createIcon(PLANNED_ROAD, false);
-                case "LIGHTNING": return createIcon(PLANNED_LIGHTNING, false);
-                case "PUBLIC_DISORDER": return createIcon(PLANNED_PUBLIC_DISORDER, false);
-                case "PUBLIC_DOMAIN": return createIcon(PLANNED_PUBLIC_DOMAIN, false);
-                case "GREEN_SPACES": return createIcon(PLANNED_GREEN_SPACES, false);
-                case "BUILDINGS": return createIcon(PLANNED_BUILDINGS, false);
-                case "PUBLIC_TRANSPORT": return createIcon(PLANNED_PUBLIC_TRANSPORT, false);
-                case "TRAFFIC_ROAD_SIGNS": return createIcon(PLANNED_ROAD_SIGNS, false);
-                case "ANIMALS": return createIcon(PLANNED_ANIMALS, false);
-            }
-        }
-        else if (state === "WORKING") {
-            switch (type) {
-                case "ROAD": return createIcon(WORKING_ROAD, false, true);
-                case "LIGHTNING": return createIcon(WORKING_LIGHTNING, false, true);
-                case "PUBLIC_DISORDER": return createIcon(WORKING_PUBLIC_DISORDER, false, true);
-                case "PUBLIC_DOMAIN": return createIcon(WORKING_PUBLIC_DOMAIN, false, true);
-                case "GREEN_SPACES": return createIcon(WORKING_GREEN_SPACES, false, true);
-                case "BUILDINGS": return createIcon(WORKING_BUILDINGS, false, true);
-                case "PUBLIC_TRANSPORT": return createIcon(WORKING_PUBLIC_TRANSPORT, false, true);
-                case "TRAFFIC_ROAD_SIGNS": return createIcon(WORKING_ROAD_SIGNS, false, true);
-                case "ANIMALS": return createIcon(WORKING_ANIMALS, false, true);
-            }
-        }
-        else if (state === "REDIRECTED") {
-            switch (type) {
-                case "ROAD": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "LIGHTNING": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "GREEN_SPACES": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "BUILDINGS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "ANIMALS": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-            }
-        }
-        else if (state === "SOLVED") {
-            switch (type) {
-                case "ROAD": return createIcon(SOLVED_ROAD, false);
-                case "LIGHTNING": return createIcon(SOLVED_LIGHTNING, false);
-                case "PUBLIC_DISORDER": return createIcon(SOLVED_PUBLIC_DISORDER, false);
-                case "PUBLIC_DOMAIN": return createIcon(SOLVED_PUBLIC_DOMAIN, false);
-                case "GREEN_SPACES": return createIcon(SOLVED_GREEN_SPACES, false);
-                case "BUILDINGS": return createIcon(SOLVED_BUILDINGS, false);
-                case "PUBLIC_TRANSPORT": return createIcon(SOLVED_PUBLIC_TRANSPORT, false);
-                case "TRAFFIC_ROAD_SIGNS": return createIcon(SOLVED_ROAD_SIGNS, false);
-                case "ANIMALS": return createIcon(SOLVED_ANIMALS, false);
-            }
-        }
-        return null;
+        console.log(leafletPip)
+
+        return (
+            <div>
+                <MapContainer
+                    center={position}
+                    zoom={13}
+                    className={classes.wrapper}
+                    minZoom={12}
+                    // bounds={oradeaBounds}
+                    // maxBounds={oradeaBounds}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url={url}
+                        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+                        // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
+                        opacity={1}
+                    />
+                    <Polygon pathOptions={{color: 'blue'}} positions={polygonCoordinates}/>
+                    {issues &&
+                        issues.map((issue) => {
+                                const icon = getMarkerImage(issue.type, issue.state);
+                                return <Marker position={issue.address} icon={icon}
+                                               key={issue.id}>
+                                    <Popup>
+                                        <div>
+                                            <CategoryIcon style={{marginRight: "8px"}}/>
+                                            {convertAPITypesToUI(issue.type)}
+                                        </div>
+                                        <div>
+                                            <NavigationIcon style={{marginRight: "8px"}}/>
+                                            {convertAPIStatesToUI(issue.state)}
+                                        </div>
+                                        <div>
+                                            <AddLocationAltIcon style={{marginRight: "8px"}}/>
+                                            {computeDateForPopup(issue.reportedDate)}
+                                        </div>
+                                        <div>
+                                            <DescriptionIcon style={{marginRight: "8px"}}/>
+                                            {computeDescriptionForPopup(issue.description)}
+                                        </div>
+                                    </Popup>
+                                </Marker>
+                            }
+                        )})}
+                    <DraggableMarker passMarkerPosition={setMarkerPosition} polygonCoordinates={polygonCoordinates}/>
+                </MapContainer>
+                <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
+                <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>
+            </div>
+        );
     }
-
-    const url = passBackgroundCol == 'white' ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
-        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
-
-    useEffect(() => {
-        filterAlIssues();
-    }, [passIsIssueAdded]);
-
-    return (
-        <div>
-            <MapContainer
-                center={position}
-                zoom={13}
-                scrollWheelZoom={false}
-                className={classes.wrapper}
-            >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url={url}
-                    // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
-                    // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
-                    opacity={1}
-                />
-                {/*<Polygon color='purple" positions={test}/>*/}
-                {issues &&
-                    issues.map((issue) => {
-                            const icon = getMarkerImage(issue.type, issue.state);
-                            return <Marker position={issue.address} icon={icon}
-                                           key={issue.id}>
-                                <Popup>
-                                    {issue.type}
-                                    <br/> Easily customizable.
-                                </Popup>
-                            </Marker>
-                        }
-                    )})}
-                <DraggableMarker passMarkerPosition={setMarkerPosition}/>
-            </MapContainer>
-            <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
-            <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>
-        </div>
-    );
-};
+;
 
 export default IssueMapOSM;

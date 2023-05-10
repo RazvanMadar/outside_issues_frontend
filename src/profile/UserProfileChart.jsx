@@ -38,11 +38,11 @@ const UserProfileChart = () => {
                                    format="fixedPoint"
                                    customizeText={customizeLabel}
                                    backgroundColor="none">
-                                <Connector visible={true}></Connector>
                             </Label>
+                            <Connector visible={true}></Connector>
+                            <Legend visible={false}></Legend>
                         </Series>
-                        <Legend visible={false}></Legend>
-                    </PieChart>
+                 </PieChart>
                 ))
                 }
             </div>

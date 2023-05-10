@@ -8,15 +8,15 @@ import Chart, {
 } from 'devextreme-react/chart';
 import {Format} from "devextreme-react/pie-chart";
 
-const SimpleArray = ({data, desktopScreen}) => {
+const SimpleArray = ({data, desktopScreen, title}) => {
     const onPointClick = (e) => {
         e.target.select();
     }
 
     return (
-        <div style={{width: desktopScreen ? "45%" : "100%"}}>
+        <div style={{width: desktopScreen ? "45%" : "98%"}}>
             <Chart id="chart"
-                   title="Grafic probleme raportate"
+                   title={title}
                    dataSource={data}
                    onPointClick={(e) => onPointClick(e)}
             >

@@ -5,33 +5,45 @@ const endpoint = {
     rejected: "/api/rejected",
 };
 
-const addRejected = (email, callback) => {
+const addRejected = (token, email, callback) => {
     const request = new Request(backend_api + endpoint.rejected + "?email=" + email, {
         method: "POST",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const getRejectedForCitizen = (id, callback) => {
+const getRejectedForCitizen = (token, id, callback) => {
     const request = new Request(backend_api + endpoint.rejected + "/" + id, {
-        method: "GET"
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 }
 
-const getAllRejected = (callback) => {
+const getAllRejected = (token, callback) => {
     const request = new Request(backend_api + endpoint.rejected, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);
 };
 
-const getAllRejectedForCitizen = (id, email, callback) => {
+const getAllRejectedForCitizen = (token, id, email, callback) => {
     const request = new Request(backend_api + endpoint.rejected + "/citizen?id=" + id + "&email=" + email, {
         method: "GET",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
     });
 
     restApi.makeRequest(request, callback);

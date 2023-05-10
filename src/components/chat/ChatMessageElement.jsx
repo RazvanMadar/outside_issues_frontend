@@ -1,14 +1,17 @@
 import {getChatMessageFormat} from "../../common/utils";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getCitizenImage} from "../../api/citizen-image";
 
-const ChatMessageElement = ({messages, chatId, passToImages}) => {
+const ChatMessageElement = ({messages, chatId, passToImages, passIsAddedMessage}) => {
     const email = localStorage.getItem("email");
     const userId = localStorage.getItem("userId")
     const [fromImage, setFromImage] = useState(null);
+    const myDivRef = useRef(null);
+
+    const token = localStorage.getItem("token")
 
     const getFromImage = () => {
-        return getCitizenImage(userId, (result, status, err) => {
+        return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 setFromImage(URL.createObjectURL(result));
             } else if (status === 403) {
@@ -19,12 +22,21 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
         });
     };
 
+    const scrollToBottom = () => {
+        if (myDivRef.current) {
+            myDivRef.current.scrollTop = myDivRef.current.scrollHeight - myDivRef.current.clientHeight;
+        }
+    }
+
+
     useEffect(() => {
         getFromImage();
-    }, []);
+        scrollToBottom();
+    }, [messages]);
 
 
-    return (<div>
+    return (<div ref={myDivRef}
+                 style={{position: "relative", height: "65vh", overflowY: "auto"}}>
         {messages.map((msg) => (
             msg.fromCitizen == email ?
                 <div className="d-flex flex-row justify-content-end">
@@ -62,7 +74,7 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
                             {msg.message}
                         </p>
                         <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                            12:00 PM | Aug 13
+                            {getChatMessageFormat(msg.date)}
                         </p>
                     </div>
                 </div>))}

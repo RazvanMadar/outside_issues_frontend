@@ -31,10 +31,12 @@ const IssueDetails = ({passIsUpdated}) => {
     const height = 480;
     const [mapUrl, setMapUrl] = useState('');
 
+    const token = localStorage.getItem("token")
+
     const navigate = useNavigate();
 
     const findAnIssueById = (id) => {
-        return findIssueById(id, (result, status, err) => {
+        return findIssueById(token, id, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     findAnCitizenByEmail(result.citizenEmail);
@@ -58,7 +60,7 @@ const IssueDetails = ({passIsUpdated}) => {
     };
 
     const findAnCitizenByEmail = (email) => {
-        return findCitizenByEmail(email, (result, status, err) => {
+        return findCitizenByEmail(token, email, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     setCitizen(result);
@@ -70,7 +72,7 @@ const IssueDetails = ({passIsUpdated}) => {
     };
 
     const getMainIssueImage = () => {
-        return getFirstImage(id, (result, status, err) => {
+        return getFirstImage(token, id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setMainImage(URL.createObjectURL(result));
@@ -83,7 +85,7 @@ const IssueDetails = ({passIsUpdated}) => {
     };
 
     const getSecondIssueImage = () => {
-        return getSecondImage(id, (result, status, err) => {
+        return getSecondImage(token, id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setSecondImage(URL.createObjectURL(result));
@@ -96,7 +98,7 @@ const IssueDetails = ({passIsUpdated}) => {
     };
 
     const getThirdIssueImage = () => {
-        return getThirdImage(id, (result, status, err) => {
+        return getThirdImage(token, id, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setThirdImage(URL.createObjectURL(result));
@@ -111,7 +113,7 @@ const IssueDetails = ({passIsUpdated}) => {
     const updateAnIssue = () => {
         const enteredType = convertUITypesToAPI(typeInputRef.current.value);
         const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
-        return updateIssue(id, enteredType, enteredState, (result, status, err) => {
+        return updateIssue(token, id, enteredType, enteredState, (result, status, err) => {
             if (result !== null && status === 200) {
                 passIsUpdated((prev) => !prev)
                 navigate("/issues");

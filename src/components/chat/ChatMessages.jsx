@@ -15,10 +15,12 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     const userId = localStorage.getItem("userId");
     const myDivRef = useRef(null);
     const email = localStorage.getItem("email");
+
+    const token = localStorage.getItem("token")
     // const [isAddedMessage, setIsAddedMessage] = useState(false);
 
     const getAllChatMessages = () => {
-        return getChatMessages(userId, passChatId, (result, status, err) => {
+        return getChatMessages(token, userId, passChatId, (result, status, err) => {
                 if (result !== null && status === 200) {
                     setMessages(result);
                 } else {
@@ -29,7 +31,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     };
 
     const getFromImage = () => {
-        return getCitizenImage(userId, (result, status, err) => {
+        return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setFromImage(URL.createObjectURL(result));
@@ -41,12 +43,6 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
         });
     };
 
-    const scrollToBottom = () => {
-        if (myDivRef.current) {
-            myDivRef.current.scrollTop = myDivRef.current.scrollHeight - myDivRef.current.clientHeight;
-        }
-    }
-
     const handleInputChange = (event) => {
         setMessage(event.target.value);
     }
@@ -54,7 +50,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     const sendMessageToUser = () => {
         if (message != null && message.length > 0) {
             const data = {message: message, fromEmail: email, toEmail: passToEmail}
-            return sendMessageViaWebSocket(data, (result, status, err) => {
+            return sendMessageViaWebSocket(token, data, (result, status, err) => {
                 if (result != null && status == 200) {
                     passSetIsAddedMessage((prev) => !prev);
                     // setIsAddedMessage((prev) => !prev)
@@ -68,17 +64,21 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            sendMessageToUser();
+        }
+    }
+
     useEffect(() => {
         getFromImage();
         getAllChatMessages();
-        scrollToBottom();
     }, [passIsAddedMessage, passChatId])
 
     return (
         <div>
-            <div ref={myDivRef}
-                 style={{position: "relative", height: "65vh", overflowY: "auto"}}>
-            <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages} fromImage={fromImage}/>
+            <div key={passChatId}>
+            <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages} fromImage={fromImage} passIsAddedMessage={passIsAddedMessage}/>
             </div>
 
             <div
@@ -94,14 +94,15 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                        type="text"
                        className="form-control form-control-lg"
                        id="exampleFormControlInput2"
-                       placeholder="Type message"
+                       placeholder="Scrie un mesaj..."
                     onChange={handleInputChange}
                        value={message}
+                       onKeyDown={handleKeyDown}
                 />
                 <a className="ms-1 text-muted" href="#!">
                     <MDBIcon fas icon="paperclip"/>
                 </a>
-                <a className="ms-3" href="#!">
+                <a className="ms-3" href={`#${passChatId}`}>
                     <MDBIcon fas icon="paper-plane"
                              onClick={sendMessageToUser}
                     />

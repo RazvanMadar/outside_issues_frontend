@@ -36,7 +36,7 @@ const LoginB = ({onLogin}) => {
 
     const addAnImage = (id) => {
         console.log(id, photos[0])
-        return addCitizenImage(id, photos[0], (result, status, err) => {
+        return addCitizenImage(token, id, photos[0], (result, status, err) => {
             if (result !== null && status === 201) {
                 console.log("RESULT", result);
                 // navigate("/login")
@@ -62,7 +62,7 @@ const LoginB = ({onLogin}) => {
             lastName: enteredLastName,
             password: enteredPassword
         };
-        return registerCitizen(data, (result, status, err) => {
+        return registerCitizen(token, data, (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
                     addAnImage(result)

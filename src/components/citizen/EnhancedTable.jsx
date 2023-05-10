@@ -149,8 +149,10 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     const [rejected, setRejected] = useState();
     const emailInputRef = useRef();
 
+    const token = localStorage.getItem("token")
+
     const getAllCitizens = () => {
-        return getCitizens(emailInputRef != null ? emailInputRef.current.value : null, true, currentPage, citizensPerPage, (result, status, err) => {
+        return getCitizens(token, emailInputRef != null ? emailInputRef.current.value : null, true, currentPage, citizensPerPage, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result.content)
                     setCitizens(result.content);
@@ -163,7 +165,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     };
 
     const addToBlacklist = (id) => {
-        return addCitizenToBlacklist(id, (result, status, err) => {
+        return addCitizenToBlacklist(token, id, (result, status, err) => {
                 if (result !== null && status === 201) {
 
                 } else {
@@ -174,7 +176,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     };
 
     const getStatistics = () => {
-        return getBasicStatistics((result, status, err) => {
+        return getBasicStatistics(token, (result, status, err) => {
             if (status === 200 && result !== null) {
                 setData(result);
                 console.log("statistics", result);
@@ -185,7 +187,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     };
 
     const getRejected = () => {
-        return getAllRejected((result, status, err) => {
+        return getAllRejected(token, (result, status, err) => {
             if (status === 200 && result !== null) {
                 const second = {state: result[1].state, val2: result[1].val}
                 setRejected([result[0], second]);
@@ -196,7 +198,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     };
 
     const blockCitizenHandler = (id) => {
-        return addCitizenToBlacklist(id, (result, status, err) => {
+        return addCitizenToBlacklist(token, id, (result, status, err) => {
                 if (result !== null && status === 201) {
                     setNewBlocked((prev) => !prev);
                 } else {
@@ -207,7 +209,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     }
 
     const unblockCitizenHandler = (id) => {
-        return deleteCitizenFromBlacklist(id, (result, status, err) => {
+        return deleteCitizenFromBlacklist(token, id, (result, status, err) => {
                 if (result !== null && status === 200) {
                     setNewUnblocked((prev) => !prev);
                 } else {
@@ -339,7 +341,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
             </Box>
             <div style={{display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center", marginBottom: "1rem"}}>
                 <JSONDataChart desktopScreen={desktopScreen} data={rejected}/>
-                <BasicChart title={'Grafic cetățeni blocați'}desktopScreen={desktopScreen} data={data}/>
+                <BasicChart title={'Grafic cetățeni blocați'} desktopScreen={desktopScreen} data={data}/>
             </div>
         </div>
     );

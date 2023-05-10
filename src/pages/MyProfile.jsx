@@ -34,8 +34,10 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     const lastNameInputRef = useRef();
     const navigate = useNavigate();
 
+    const token = localStorage.getItem("token");
+
     const findCitizenDetailsById = () => {
-        return findCitizenById(userId, (result, status, err) => {
+        return findCitizenById(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 console.log(result);
                 setCitizen(result);
@@ -48,7 +50,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const getImage = () => {
-        return getCitizenImage(userId, (result, status, err) => {
+        return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 setImage(URL.createObjectURL(result));
             } else if (status === 403) {
@@ -60,7 +62,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const getStatistics = () => {
-        return getBasicStatistics(email, (result, status, err) => {
+        return getBasicStatistics(token, email, (result, status, err) => {
             if (status === 200 && result !== null) {
                 result.forEach(res => {
                     res.state = convertAPIStatesToUI(res.state);
@@ -75,6 +77,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
 
     const filterCitizenIssues = () => {
         return filterIssuesByCitizenEmail(
+            token,
             email,
             currentPage,
             issuesPerPage,
@@ -93,7 +96,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const deleteImage = () => {
-        return deleteCitizenImage(userId, (result, status, err) => {
+        return deleteCitizenImage(token, userId, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log("SUCCESS")
                 } else {
@@ -104,7 +107,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const addImage = () => {
-        return addCitizenImage(userId, newImage, (result, status, err) => {
+        return addCitizenImage(token, userId, newImage, (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result)
                 } else {
@@ -116,6 +119,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
 
     const updateAnCitizen = () => {
         return updateCitizen(
+            token,
             {
                 id: userId,
                 email: email,
@@ -136,7 +140,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const getAllRejectedIssuesForCitizen = () => {
-        return getAllRejectedForCitizen(userId, email, (result, status, err) => {
+        return getAllRejectedForCitizen(token, userId, email, (result, status, err) => {
                 if (result !== null && status === 200) {
                     const second = {state: result[1].state, val2: result[1].val}
                     setData2([result[0], second]);
@@ -234,7 +238,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
                     justifyContent: "space-between",
                     margin: "1rem"
                 }}>
-                    <SimpleArray data={data} desktopScreen={desktopScreen}/>
+                    <SimpleArray data={data} desktopScreen={desktopScreen} title={"Grafic probleme raportate"}/>
                     <JSONDataChart data={data2} desktopScreen={desktopScreen}/>
                 </div>
                 <br/>
