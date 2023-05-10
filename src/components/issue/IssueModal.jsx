@@ -23,9 +23,9 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
     const token = localStorage.getItem("token");
     const lat = issue.address.lat;
     const lng = issue.address.lng;
-    const zoom = 12;
-    const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.01},${lng + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lng}&zoom=${zoom}`
-    const iframeRef = useRef(null);
+    const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.01},${lng + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lng}&zoom=${13}`
+    const [height, setHeight] = useState(window.innerHeight);
+    console.log(height)
 
     const getMainIssueImage = () => {
         return getFirstImage(token, issue.id, (result, status, err) => {
@@ -84,7 +84,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
                     Editați sesizarea
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{backgroundColor: passBackgroundColor}}>
+            <Modal.Body style={{backgroundColor: passBackgroundColor, maxHeight: 520, width: "100%", overflowY: 'auto'}}>
                 <img src={mainImage} style={{width: "100%"}} className={classes.imageContainer} alt=""/>
                 <div style={{marginTop: "10px", display: "flex", justifyContent: "space-between"}}>
                     <img src={secondImage} style={{width: "49%"}} className={classes.imageContainer} alt=""/>
@@ -122,7 +122,14 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
                     </div>
                 </div>
                 <br/>
-                Descriere: {issue.description}
+                {/*Descriere: {issue.description}*/}
+                <Input style={{resize: "none"}}
+                       id="description"
+                       name="description"
+                       type="textarea"
+                       value={issue.description}
+                       disabled
+                />
             </Modal.Body>
             <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
                 <Button variant="contained"
