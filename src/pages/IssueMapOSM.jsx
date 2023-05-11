@@ -68,6 +68,7 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import {Input} from "reactstrap";
 import {LatLng, LatLngBounds} from "leaflet";
 import leafletPip from 'leaflet-pip';
+import {Navigate} from "react-router-dom";
 
 const buildIcon = createIcon(build, false);
 // const plannedIcon = createIcon(planned, false);
@@ -112,6 +113,7 @@ const IssueMapOSM = ({
         const isAdmin = localStorage.getItem("role") === "ROLE_ADMIN";
 
         const token = localStorage.getItem("token");
+        const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
         // let plusIcon = createIcon(REGISTERED_ROAD, false);
 
@@ -273,53 +275,59 @@ const IssueMapOSM = ({
 
         return (
             <div>
-                <MapContainer
-                    center={position}
-                    zoom={13}
-                    className={classes.wrapper}
-                    minZoom={12}
-                    // bounds={oradeaBounds}
-                    // maxBounds={oradeaBounds}
-                >
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url={url}
-                        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                        // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
-                        // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
-                        opacity={1}
-                    />
-                    <Polygon pathOptions={{color: 'blue'}} positions={polygonCoordinates}/>
-                    {issues &&
-                        issues.map((issue) => {
-                                const icon = getMarkerImage(issue.type, issue.state);
-                                return <Marker position={issue.address} icon={icon}
-                                               key={issue.id}>
-                                    <Popup>
-                                        <div>
-                                            <CategoryIcon style={{marginRight: "8px"}}/>
-                                            {convertAPITypesToUI(issue.type)}
-                                        </div>
-                                        <div>
-                                            <NavigationIcon style={{marginRight: "8px"}}/>
-                                            {convertAPIStatesToUI(issue.state)}
-                                        </div>
-                                        <div>
-                                            <AddLocationAltIcon style={{marginRight: "8px"}}/>
-                                            {computeDateForPopup(issue.reportedDate)}
-                                        </div>
-                                        <div>
-                                            <DescriptionIcon style={{marginRight: "8px"}}/>
-                                            {computeDescriptionForPopup(issue.description)}
-                                        </div>
-                                    </Popup>
-                                </Marker>
-                            }
-                        )})}
-                    {!isAdmin && <DraggableMarker passMarkerPosition={setMarkerPosition} polygonCoordinates={polygonCoordinates}/>}
-                </MapContainer>
-                <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
-                {!isAdmin && <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>}
+                {!isBlocked ?
+                    <div>
+                        <MapContainer
+                            center={position}
+                            zoom={13}
+                            className={classes.wrapper}
+                            minZoom={12}
+                            // bounds={oradeaBounds}
+                            // maxBounds={oradeaBounds}
+                        >
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url={url}
+                                // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                                // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+                                // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
+                                opacity={1}
+                            />
+                            <Polygon pathOptions={{color: 'blue'}} positions={polygonCoordinates}/>
+                            {issues &&
+                                issues.map((issue) => {
+                                        const icon = getMarkerImage(issue.type, issue.state);
+                                        return <Marker position={issue.address} icon={icon}
+                                                       key={issue.id}>
+                                            <Popup>
+                                                <div>
+                                                    <CategoryIcon style={{marginRight: "8px"}}/>
+                                                    {convertAPITypesToUI(issue.type)}
+                                                </div>
+                                                <div>
+                                                    <NavigationIcon style={{marginRight: "8px"}}/>
+                                                    {convertAPIStatesToUI(issue.state)}
+                                                </div>
+                                                <div>
+                                                    <AddLocationAltIcon style={{marginRight: "8px"}}/>
+                                                    {computeDateForPopup(issue.reportedDate)}
+                                                </div>
+                                                <div>
+                                                    <DescriptionIcon style={{marginRight: "8px"}}/>
+                                                    {computeDescriptionForPopup(issue.description)}
+                                                </div>
+                                            </Popup>
+                                        </Marker>
+                                    }
+                                )})
+                            {!isAdmin &&
+                                <DraggableMarker passMarkerPosition={setMarkerPosition}
+                                                 polygonCoordinates={polygonCoordinates}/>}
+                        </MapContainer>
+                        <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
+                        {!isAdmin && <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>}
+                    </div> : <Navigate to={"/blocked"} replace/>
+                }
             </div>
         );
     }

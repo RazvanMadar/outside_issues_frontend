@@ -4,9 +4,11 @@ import classes from "./Citizens.module.css";
 import {getCitizens} from "../api/citizen-api";
 import {Button, Table} from 'reactstrap';
 import EnhancedTable from "../components/citizen/EnhancedTable";
+import {Navigate} from "react-router-dom";
 
 const Citizens = ({passIsDeleted, passBackgroundColor}) => {
     const [citizens, setCitizens] = useState([]);
+    const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
     // const getAllCitizens = () => {
     //     return getCitizens((result, status, err) => {
@@ -25,7 +27,9 @@ const Citizens = ({passIsDeleted, passBackgroundColor}) => {
     }, [])
 
     return (
-        <EnhancedTable passIsDeleted={passIsDeleted} passBackgroundColor={passBackgroundColor}/>
+        <div>
+            {!isBlocked ? <EnhancedTable passIsDeleted={passIsDeleted} passBackgroundColor={passBackgroundColor}/> : <Navigate to={"/blocked"} replace/>}
+        </div>
     );
 }
 

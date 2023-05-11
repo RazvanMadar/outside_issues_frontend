@@ -4,12 +4,19 @@ import {getCitizenImage} from "../../api/citizen-image";
 import ChatPersons from "./ChatPersons";
 import ChatMessages from "./ChatMessages";
 import {getChatUsersByRole} from "../../api/citizen-api";
+import {Navigate} from "react-router-dom";
 
 //
 // COD LUAT DUPA https://mdbootstrap.com/docs/react/extended/chat/#!
 //
 
-export default function MyChat({passBackgroundColor, passPersons, passSetPersons, passReceivedNewUserMessage, passSetReceivedNewUserMessage}) {
+export default function MyChat({
+                                   passBackgroundColor,
+                                   passPersons,
+                                   passSetPersons,
+                                   passReceivedNewUserMessage,
+                                   passSetReceivedNewUserMessage
+                               }) {
     const [toImages, setToImages] = useState([]);
     const [isAddedMessage, setIsAddedMessage] = useState(false);
     const [fromImage, setFromImage] = useState();
@@ -25,6 +32,7 @@ export default function MyChat({passBackgroundColor, passPersons, passSetPersons
     const [searchOn, setSearchOn] = useState(false);
 
     const token = localStorage.getItem("token")
+    const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
     const getChatPersons = () => {
         return getChatUsersByRole(token, chatUsersRole, citizenName, (result, status, err) => {
@@ -65,56 +73,68 @@ export default function MyChat({passBackgroundColor, passPersons, passSetPersons
     }, [passReceivedNewUserMessage, searchOn])
 
     return (
-        <div style={{height: "calc(100vh - 60px)"}}>
-            <MDBContainer fluid className="py-5" style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8", height: "100%"}}>
-                <MDBRow>
-                    <MDBCol md="12">
-                        <MDBCard id="chat3" style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>
-                            <MDBCardBody>
-                                <MDBRow>
-                                    <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
-                                        <div className="p-3">
-                      {/*                      <MDBInputGroup className="rounded mb-3">*/}
-                      {/*                          <input*/}
-                      {/*                              className="form-control rounded"*/}
-                      {/*                              placeholder="Search"*/}
-                      {/*                              type="search"*/}
-                      {/*                              onKeyDown={handleKeyDown}*/}
-                      {/*                              onChange={handleInputChange}*/}
-                      {/*                          />*/}
-                      {/*                          <span*/}
-                      {/*                              className="input-group-text border-0"*/}
-                      {/*                              id="search-addon"*/}
-                      {/*                          >*/}
-                      {/*  {isAdmin && <MDBIcon fas icon="search" onClick={() => setSearchOn((prev) => !prev)}/>}*/}
-                      {/*</span>*/}
-                      {/*                      </MDBInputGroup>*/}
+        <div>
+            {!isBlocked ?
+                <div style={{height: "calc(100vh - 60px)"}}>
+                    <MDBContainer fluid className="py-5" style={{
+                        backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
+                        height: "100%"
+                    }}>
+                        <MDBRow>
+                            <MDBCol md="12">
+                                <MDBCard id="chat3"
+                                         style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>
+                                    <MDBCardBody>
+                                        <MDBRow>
+                                            <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
+                                                <div className="p-3">
+                                                    {/*                      <MDBInputGroup className="rounded mb-3">*/}
+                                                    {/*                          <input*/}
+                                                    {/*                              className="form-control rounded"*/}
+                                                    {/*                              placeholder="Search"*/}
+                                                    {/*                              type="search"*/}
+                                                    {/*                              onKeyDown={handleKeyDown}*/}
+                                                    {/*                              onChange={handleInputChange}*/}
+                                                    {/*                          />*/}
+                                                    {/*                          <span*/}
+                                                    {/*                              className="input-group-text border-0"*/}
+                                                    {/*                              id="search-addon"*/}
+                                                    {/*                          >*/}
+                                                    {/*  {isAdmin && <MDBIcon fas icon="search" onClick={() => setSearchOn((prev) => !prev)}/>}*/}
+                                                    {/*</span>*/}
+                                                    {/*                      </MDBInputGroup>*/}
 
-                                            <ChatPersons passChatId={chatId} passSetChatId={setChatId} passSetToEmail={setToEmail}
-                                                         passIsAddedMessage={isAddedMessage}
-                                                         passSetIsAddedMessage={setIsAddedMessage}
-                                                         passChatLatestMessages={latestMessages} passPersons={passPersons}
-                                                         passSetPersons={passSetPersons} passSetReceivedNewUserMessage={passSetReceivedNewUserMessage}
-                                                // passToImages={toImages}
-                                                // passSetToImages={setToImages}
-                                            />
+                                                    <ChatPersons passChatId={chatId} passSetChatId={setChatId}
+                                                                 passSetToEmail={setToEmail}
+                                                                 passIsAddedMessage={isAddedMessage}
+                                                                 passSetIsAddedMessage={setIsAddedMessage}
+                                                                 passChatLatestMessages={latestMessages}
+                                                                 passPersons={passPersons}
+                                                                 passSetPersons={passSetPersons}
+                                                                 passSetReceivedNewUserMessage={passSetReceivedNewUserMessage}
+                                                        // passToImages={toImages}
+                                                        // passSetToImages={setToImages}
+                                                    />
 
-                                        </div>
-                                    </MDBCol>
-                                    <MDBCol md="6" lg="7" xl="8">
-                                        {chatId != null && <ChatMessages passChatId={chatId} passToEmail={toEmail}
-                                                                         passIsAddedMessage={isAddedMessage}
-                                                                         passSetIsAddedMessage={setIsAddedMessage}
-                                                                         passPersons={passPersons}
-                                                                         passToImages={toImages}/>}
+                                                </div>
+                                            </MDBCol>
+                                            <MDBCol md="6" lg="7" xl="8">
+                                                {chatId != null &&
+                                                    <ChatMessages passChatId={chatId} passToEmail={toEmail}
+                                                                  passIsAddedMessage={isAddedMessage}
+                                                                  passSetIsAddedMessage={setIsAddedMessage}
+                                                                  passPersons={passPersons}
+                                                                  passToImages={toImages}/>}
 
-                                    </MDBCol>
-                                </MDBRow>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+                                            </MDBCol>
+                                        </MDBRow>
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
+                </div> : <Navigate to={"/blocked"} replace/>
+            }
         </div>
     );
 }

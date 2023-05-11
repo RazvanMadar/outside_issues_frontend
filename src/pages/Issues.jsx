@@ -44,11 +44,11 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
     const [order, setOrder] = useState('desc');
     const [orderAsc, setOrderAsc] = useState(false);
     const [orderDesc, setOrderDesc] = useState(true);
-    const isBlocked = localStorage.getItem("isBlocked");
     const isLoggedIn = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email")
 
     const token = localStorage.getItem("token")
+    const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
     const filterAllIssues = () => {
         return filterIssues(
@@ -143,68 +143,70 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
             {/*    onDisconnect={() => console.log("Disconnected!")}*/}
             {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
             {/*/>}*/}
-            <Container>
-                <br/>
-                <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}
-                     className={classes.filter}>
-                    <Button
-                        style={{margin: "1rem"}}
-                        startIcon={<ManageSearchIcon style={{color: "white"}}/>}
-                        variant="contained"
-                        onClick={() => setModalShow(true)}
-                    >
-                        Filtrează sesizările
-                    </Button>
-                    Sortare după:
-                    <div style={{display: "inline-block", margin: "1rem"}}>
-                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category"
-                               id="category" innerRef={sortInputRef}
-                               onChange={() => setSort(convertUISortDataToAPI(sortInputRef.current.value))}>
-                            {SortData.map((data) => <option key={data.id}
-                                                            style={{maxWidth: "1rem"}}>{data.title}</option>)}
-                        </Input>
+            {!isBlocked ?
+                <Container>
+                    <br/>
+                    <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}
+                         className={classes.filter}>
+                        <Button
+                            style={{margin: "1rem"}}
+                            startIcon={<ManageSearchIcon style={{color: "white"}}/>}
+                            variant="contained"
+                            onClick={() => setModalShow(true)}
+                        >
+                            Filtrează sesizările
+                        </Button>
+                        Sortare după:
+                        <div style={{display: "inline-block", margin: "1rem"}}>
+                            <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category"
+                                   id="category" innerRef={sortInputRef}
+                                   onChange={() => setSort(convertUISortDataToAPI(sortInputRef.current.value))}>
+                                {SortData.map((data) => <option key={data.id}
+                                                                style={{maxWidth: "1rem"}}>{data.title}</option>)}
+                            </Input>
+                        </div>
+                        <Checkbox icon={<UploadOutlinedIcon/>} checkedIcon={<FileUploadIcon style={{color: "black"}}/>}
+                                  checked={orderAsc} onClick={handleOrderAsc}/>
+                        <Checkbox icon={<DownloadOutlinedIcon/>}
+                                  checkedIcon={<FileDownloadIcon style={{color: "black"}}/>}
+                                  checked={orderDesc} onClick={handleOrderDesc}/>
+                        <FilterMap
+                            show={modalShow}
+                            onHide={() => setModalShow(false)}
+                            passFilteredIssues={setIssues}
+                            passSetCurrentPage={setCurrentPage}
+                            passIssuesPerPage={issuesPerPage}
+                            passSetTotalPages={setTotalPages}
+                            passSetIsFiltered={setIsFiltered}
+                            passSetType={setType}
+                            passSetState={setState}
+                            passSetFromDate={setFromDate}
+                            passSetToDate={setToDate}
+                            passSort={sort}
+                            passOrder={order}
+                            passBackgroundColor={passBackgroundColor}
+                        />
                     </div>
-                    <Checkbox icon={<UploadOutlinedIcon/>} checkedIcon={<FileUploadIcon style={{color: "black"}}/>}
-                              checked={orderAsc} onClick={handleOrderAsc}/>
-                    <Checkbox icon={<DownloadOutlinedIcon/>} checkedIcon={<FileDownloadIcon style={{color: "black"}}/>}
-                              checked={orderDesc} onClick={handleOrderDesc}/>
-                    <FilterMap
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        passFilteredIssues={setIssues}
-                        passSetCurrentPage={setCurrentPage}
-                        passIssuesPerPage={issuesPerPage}
-                        passSetTotalPages={setTotalPages}
-                        passSetIsFiltered={setIsFiltered}
-                        passSetType={setType}
-                        passSetState={setState}
-                        passSetFromDate={setFromDate}
-                        passSetToDate={setToDate}
-                        passSort={sort}
-                        passOrder={order}
-                        passBackgroundColor={passBackgroundColor}
-                    />
-                </div>
-                <br/>
-                {issues.length > 0 ? (
-                    <Row>
-                        {issues.map((issue) => (
-                            <Col key={issue.id}
-                                // className="bg-light border"
-                                 style={{display: "flex", alignItems: "center", justifyContent: "center"}}
-                            >
-                                <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}
-                                           passIsDeleted={setIsDeleted} passBackgroundColor={passBackgroundColor}
-                                           key={issue.id} passIsUpdated={setIsUpdated}/>
-                            </Col>
-                        ))}
-                    </Row>
-                ) : ""}
-                <br/>
-                <Pagination count={totalPages} showFirstButton showLastButton color="primary"
-                            onChange={handleChangePage}/>
-                <br/>
-            </Container>
+                    <br/>
+                    {issues.length > 0 ? (
+                        <Row>
+                            {issues.map((issue) => (
+                                <Col key={issue.id}
+                                    // className="bg-light border"
+                                     style={{display: "flex", alignItems: "center", justifyContent: "center"}}
+                                >
+                                    <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}
+                                               passIsDeleted={setIsDeleted} passBackgroundColor={passBackgroundColor}
+                                               key={issue.id} passIsUpdated={setIsUpdated}/>
+                                </Col>
+                            ))}
+                        </Row>
+                    ) : ""}
+                    <br/>
+                    <Pagination count={totalPages} showFirstButton showLastButton color="primary"
+                                onChange={handleChangePage}/>
+                    <br/>
+                </Container> : <Navigate to={"/blocked"} replace/>}
         </div>
     );
 };
