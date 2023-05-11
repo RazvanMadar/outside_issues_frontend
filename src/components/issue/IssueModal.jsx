@@ -1,5 +1,4 @@
 import Modal from "react-bootstrap/Modal";
-import BasicChart from "../../chart/BasicChart";
 import Button from "@mui/material/Button";
 import React, {useEffect, useRef, useState} from "react";
 import {getFirstImage, getSecondImage, getThirdImage} from "../../api/issue-image-api";
@@ -8,9 +7,16 @@ import classes from "./IssueModal.module.css"
 import {Input} from "reactstrap";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {StateData} from "../../staticdata/StateData";
-import {computeDateForPopup, convertAPIStatesToUI, convertAPITypesToUI} from "../../common/utils";
+import {
+    computeDateForPopup,
+    convertAPIStatesToUI,
+    convertAPITypesToUI,
+    convertUIStatesToAPI,
+    convertUITypesToAPI
+} from "../../common/utils";
+import {updateIssue} from "../../api/issue-api";
 
-const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
+const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
     const [secondImage, setSecondImage] = useState(null);
     const [thirdImage, setThirdImage] = useState(null);
@@ -25,7 +31,6 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
     const lng = issue.address.lng;
     const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.01},${lng + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lng}&zoom=${13}`
     const [height, setHeight] = useState(window.innerHeight);
-    console.log(height)
 
     const getMainIssueImage = () => {
         return getFirstImage(token, issue.id, (result, status, err) => {
@@ -65,6 +70,21 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
             }
         });
     };
+
+    const updateAnIssue = () => {
+        const enteredType = convertUITypesToAPI(typeInputRef.current.value);
+        const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
+        return updateIssue(token, issue.id, enteredType, enteredState, (result, status, err) => {
+            if (result !== null && status === 200) {
+                passIsUpdated((prev) => !prev)
+                onHide();
+            } else if (status === 403) {
+                setForbidden(true);
+            } else {
+                console.log(err);
+            }
+        });
+    }
 
     useEffect(() => {
         getMainIssueImage();
@@ -132,6 +152,12 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor}) => {
                 />
             </Modal.Body>
             <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
+                <Button variant="contained"
+                        color="primary"
+                    // className={classes.filterButton}
+                        onClick={updateAnIssue}
+                >Actualizează
+                </Button>
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}

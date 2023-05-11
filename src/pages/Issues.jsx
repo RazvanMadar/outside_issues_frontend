@@ -17,10 +17,11 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import {Navigate, useLocation} from "react-router-dom";
+import SockJsClient from "react-stomp";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
+const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsUpdated, isAdded}) => {
     // const issues_url = "http://localhost:8080/api/issues";
     const location = useLocation();
     const issues_url = location.state ? location.state : url;
@@ -45,8 +46,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
     const [orderDesc, setOrderDesc] = useState(true);
     const isBlocked = localStorage.getItem("isBlocked");
     const isLoggedIn = localStorage.getItem("isLogged");
-
-    console.log(passBackgroundColor);;
+    const email = localStorage.getItem("email")
 
     const token = localStorage.getItem("token")
 
@@ -118,11 +118,31 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
             addCitizensReactions(reactionsToSend);
             localStorage.removeItem("reactions");
         }
-    }, [issues_url, currentPage, isFiltered, isDeleted, sort, order]);
+    }, [issues_url, currentPage, isFiltered, isDeleted, isUpdated, sort, order, isAdded]);
+
+    // const onConnected = () => {
+    //     console.log("Connected!!!");
+    // };
+
+    // const onMessageReceived = (msg) => {
+    //     if (msg.to === email) {
+    //         filterAllIssues();
+    //     }
+    // };
 
     return (
         // style={{backgroundColor: "grey"}}
         <div>
+            {/*{email !== null && <SockJsClient*/}
+            {/*    url={SOCKET_URL}*/}
+            {/*    topics={[*/}
+            {/*        "/topic/message",*/}
+            {/*        "/user/" + email + "/private",*/}
+            {/*    ]}*/}
+            {/*    onConnect={onConnected}*/}
+            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
+            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
+            {/*/>}*/}
             {isLoggedIn ? <Container>
                 <br/>
                 <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}
@@ -137,7 +157,8 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                     </Button>
                     Sortare după:
                     <div style={{display: "inline-block", margin: "1rem"}}>
-                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category" id="category" innerRef={sortInputRef}
+                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category"
+                               id="category" innerRef={sortInputRef}
                                onChange={() => setSort(convertUISortDataToAPI(sortInputRef.current.value))}>
                             {SortData.map((data) => <option key={data.id}
                                                             style={{maxWidth: "1rem"}}>{data.title}</option>)}
@@ -173,7 +194,8 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                                  style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                             >
                                 <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}
-                                           passIsDeleted={setIsDeleted} passBackgroundColor={passBackgroundColor} key={issue.id}/>
+                                           passIsDeleted={setIsDeleted} passBackgroundColor={passBackgroundColor}
+                                           key={issue.id} passIsUpdated={setIsUpdated}/>
                             </Col>
                         ))}
                     </Row>
@@ -182,7 +204,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted}) => {
                 <Pagination count={totalPages} showFirstButton showLastButton color="primary"
                             onChange={handleChangePage}/>
                 <br/>
-            </Container> : <Navigate to={"/login"}/> }
+            </Container> : <Navigate to={"/login"}/>}
         </div>
     );
 };

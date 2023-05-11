@@ -9,7 +9,7 @@ import Typical from 'react-typical'
 
 // react-typical FROM https://www.youtube.com/watch?v=t7ePHIsKnnI
 
-const Home = () => {
+const Home = ({isAdded, isUpdated, isDeleted}) => {
     const [data, setData] = useState();
     const [data2, setData2] = useState();
     const [data3, setData3] = useState();
@@ -20,11 +20,11 @@ const Home = () => {
     const getStatistics = () => {
         return getBasicStatistics(token, null, (result, status, err) => {
             if (status === 200 && result !== null) {
-                result.forEach(res => {
-                    res.state = convertAPIStatesToUI(res.state);
+                const sum = result.reduce((accumulator, currentValue) => accumulator + currentValue.val, 0);
+                const updatedArray = result.map((obj) => {
+                    return {state: convertAPIStatesToUI(obj.state), val: (obj.val / 1.0) / sum};
                 })
-                setData(result);
-                console.log(result);
+                setData(updatedArray);
             } else {
                 console.log(err);
             }
@@ -72,7 +72,7 @@ const Home = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [isAdded, isUpdated, isDeleted]);
 
     return (
         <div>
@@ -93,8 +93,8 @@ const Home = () => {
                 justifyContent: desktopScreen && "center",
                 marginBottom: "1rem"
             }}>
-                <FilledPieChart data={data3} desktopScreen={desktopScreen}/>
-                <BasicChart title={'Grafic sesizări pe status'} data={data} desktopScreen={desktopScreen}/>
+                <FilledPieChart data={data3} desktopScreen={desktopScreen} title={'Grafic sesizări pe categorii'}/>
+                <FilledPieChart data={data} desktopScreen={desktopScreen} title={'Grafic sesizări pe status'}/>
             </div>
             <div style={{
                 display: desktopScreen && "flex",

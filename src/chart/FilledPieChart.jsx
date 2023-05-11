@@ -6,12 +6,12 @@ import PieChart, {
     Legend,
 } from 'devextreme-react/pie-chart';
 
-const FilledPieChart = ({desktopScreen, data}) => {
+const FilledPieChart = ({desktopScreen, data, title}) => {
     return (
         <div style={{width: desktopScreen ? "50%" : "100%"}}>
             <PieChart
                 className="pie"
-                title="Grafic sesizări pe categorii"
+                title={title}
                 palette="Soft"
                 sizeGroup="piesGroup"
                 dataSource={data}

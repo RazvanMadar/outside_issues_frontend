@@ -98,7 +98,7 @@ const position = {lat: 47.05292, lng: 21.91375}
 // http://overpass-turbo.eu/
 //
 
-const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}) => {
+const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
         const [forbidden, setForbidden] = useState(false);
         const [issues, setIssues] = useState([]);
         const [openFilterModal, setOpenFilterModal] = useState(false);
@@ -132,7 +132,7 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}
                 }
             );
         };
-        console.log(passBackgroundCol);
+
         const getMarkerImage = (type, state) => {
             if (state === "REGISTERED") {
                 switch (type) {
@@ -248,7 +248,7 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded}
 
         useEffect(() => {
             filterAlIssues();
-        }, [passIsIssueAdded]);
+        }, [passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated]);
 
         const oradeaBounds = new LatLngBounds(
             new LatLng(47.06269, 21.85967),

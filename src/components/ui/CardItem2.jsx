@@ -46,7 +46,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passBackgroundColor}) => {
+const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
     const [likeButton, setLikeButton] = useState(false);
@@ -234,7 +234,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     useEffect(() => {
         geMainImage();
         getReactionsForCurrentUserAndIssue();
-    }, [issue.id]);
+    }, [issue.id, passIsUpdated]);
 
     return (
         <div
@@ -380,9 +380,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                 </CardBody>
             </Card>
             <IssueModal show={modalShow} issue={issue} onHide={() => setModalShow(false)}
-                        // passIsIssueAdded={passIsIssueAdded}
-                        // passIsIssueUpdated={passIsIssueUpdated}
-                        // passIsIssueDeleted={passIsIssueDeleted}
+                        passIsUpdated={passIsUpdated}
                         passBackgroundColor={passBackgroundColor}/>
         </div>
     );

@@ -24,6 +24,8 @@ function App() {
     const [isIssueAdded, setIsIssueAdded] = useState(false);
     const [isIssueDeleted, setIsIssueDeleted] = useState(false);
     const [isIssueUpdated, setIsIssueUpdated] = useState(false);
+    const [persons, setPersons] = useState([]);
+    const [receivedNewUserMessage, setReceivedNewUserMessage] = useState(false);
     const [backgroundColor, setBackgroundColor] = useState(
         localStorage.getItem('dark_mode') ? localStorage.getItem("dark_mode") : "white"
     );
@@ -35,13 +37,13 @@ function App() {
             <AuthProvider>
                 <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}
                          passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated}
-                         passIsIssueDeleted={isIssueDeleted}/>
+                         passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded} passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted} passPersons={persons} passSetPersons={setPersons} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/" element={<Home isDeleted={isIssueDeleted} isAdded={isIssueAdded} isUpdated={isIssueUpdated}/>}/>
                     {/*<Route path="/chart" element={<BasicChart/>}/>*/}
                     <Route path="/issues"
                            element={<Issues url={url} passBackgroundColor={backgroundColor} isDeleted={isIssueDeleted}
-                                            setIsDeleted={setIsIssueDeleted}/>}/>
+                                            setIsDeleted={setIsIssueDeleted} isUpdated={isIssueUpdated} setIsUpdated={setIsIssueUpdated} isAdded={isIssueAdded}/>}/>
                     <Route path="/profile"
                            element={<MyProfile passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated}
                                                passBackgroundColor={backgroundColor}/>}/>
@@ -49,7 +51,7 @@ function App() {
                     <Route path="/add-issue" element={<AddIssuePage/>}/>
                     <Route path="/map"
                            element={<IssueMapOSM passBackgroundCol={backgroundColor} passIsIssueAdded={isIssueAdded}
-                                                 passSetIsIssuesAdded={setIsIssueAdded}/>}/>
+                                                 passSetIsIssuesAdded={setIsIssueAdded} passIsIssueUpdated={isIssueUpdated} passIsIssueDeleted={isIssueDeleted}/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/citizens"
                            element={<Citizens passIsDeleted={isIssueDeleted} passBackgroundColor={backgroundColor}/>}/>
@@ -59,7 +61,7 @@ function App() {
                                                                  setIsIssueDeleted={setIsIssueDeleted}/>}/>
                     <Route path="/loginB" element={<LoginPage/>}/>
                     <Route path="/logout" element={<Logout/>}/>
-                    <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}/>}/>
+                    <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor} passPersons={persons} passSetPersons={setPersons} passReceivedNewUserMessage={receivedNewUserMessage} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>}/>
                 </Routes>
             </AuthProvider>
         </Router>

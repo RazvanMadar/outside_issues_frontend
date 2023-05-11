@@ -10,8 +10,11 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import Switch from '@mui/material/Switch';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import SockJsClient from "react-stomp";
 
-const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
+const SOCKET_URL = 'http://localhost:8080/ws-message';
+
+const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passSetIsIssueAdded, passSetIsIssueDeleted, passSetIsIssueUpdated, passPersons, passSetPersons, passSetReceivedNewUserMessage}) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
@@ -64,9 +67,41 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
         };
     }, [backgroundColor, isLoggedIn, isBlocked])
 
+    const onConnected = () => {
+        console.log("Connected!!!");
+    };
+
+    const onMessageReceived = (msg) => {
+        if (msg.to !== null) {
+            if (msg.to === email) {
+                passSetIsIssueAdded((prev) => !prev)
+                passSetIsIssueUpdated((prev) => !prev)
+            }
+        }
+        else if (msg.fromEmail !== null && msg.toEmail !== null) {
+            if (msg.fromEmail === email || msg.toEmail === email) {
+                if (!passPersons.some(item => item.email === msg.fromEmail)) {
+                    passSetReceivedNewUserMessage((prev) => !prev)
+                }
+                passIsIssueAdded((prev) => !prev);
+                console.log(msg.message);
+            }
+        }
+    };
+
 
     return (
         <>
+            {email !== null && <SockJsClient
+                url={SOCKET_URL}
+                topics={[
+                    "/topic/message",
+                    "/user/" + email + "/private",
+                ]}
+                onConnect={onConnected}
+                onDisconnect={() => console.log("Disconnected!")}
+                onMessage={(msg) => onMessageReceived(msg)}
+            />}
             <IconContext.Provider value={{color: "undefined"}}>
                 <div className="navbar" style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}>
                     <Link to="#" className="menu-bars">
