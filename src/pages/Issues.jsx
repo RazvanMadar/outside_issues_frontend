@@ -143,7 +143,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
             {/*    onDisconnect={() => console.log("Disconnected!")}*/}
             {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
             {/*/>}*/}
-            {isLoggedIn ? <Container>
+            <Container>
                 <br/>
                 <div style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : '#BCBEC8'}}
                      className={classes.filter}>
@@ -204,7 +204,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
                 <Pagination count={totalPages} showFirstButton showLastButton color="primary"
                             onChange={handleChangePage}/>
                 <br/>
-            </Container> : <Navigate to={"/login"}/>}
+            </Container>
         </div>
     );
 };

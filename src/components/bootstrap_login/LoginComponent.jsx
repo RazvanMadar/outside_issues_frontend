@@ -20,9 +20,10 @@ const LoginComponent = ({onLogin}) => {
     localStorage.removeItem("isBlocked");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
-    onLogin(false);
 
     useEffect(() => {
+        onLogin(false);
+
         const handleResize = () => {
             setWidth(window.innerWidth);
             setComponent(window.innerWidth > 768 ? <LoginB onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);

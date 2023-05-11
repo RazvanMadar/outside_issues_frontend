@@ -118,7 +118,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                             <option value="">{type}</option>
                             {CategoryData.map((cat) => {
                                 if (cat.id > 1 && cat.title !== type)
-                                    return <option style={{maxWidth: "1rem"}}>{cat.title}</option>
+                                    return <option key={cat.id} style={{maxWidth: "1rem"}}>{cat.title}</option>
                             })}
                         </Input>
                         Starea sesizării
@@ -126,7 +126,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                             <option value="">{state}</option>
                             {StateData.map((st) => {
                                 if (st.id > 1 && st.title !== state)
-                                    return <option style={{maxWidth: "1rem"}}>{st.title}</option>
+                                    return <option key={st.id} style={{maxWidth: "1rem"}}>{st.title}</option>
                             })}
                         </Input>
                         <br/>

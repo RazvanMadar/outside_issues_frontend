@@ -98,13 +98,18 @@ const position = {lat: 47.05292, lng: 21.91375}
 // http://overpass-turbo.eu/
 //
 
-const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
+const IssueMapOSM = ({
+                         passBackgroundCol,
+                         passIsIssueAdded,
+                         passSetIsIssuesAdded,
+                         passIsIssueDeleted,
+                         passIsIssueUpdated
+                     }) => {
         const [forbidden, setForbidden] = useState(false);
         const [issues, setIssues] = useState([]);
-        const [openFilterModal, setOpenFilterModal] = useState(false);
 
-        // const [isIssueAdded, setIsIssueAdded] = useState(false);
         const [markerPosition, setMarkerPosition] = useState(position);
+        const isAdmin = localStorage.getItem("role") === "ROLE_ADMIN";
 
         const token = localStorage.getItem("token");
 
@@ -265,7 +270,6 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
             new LatLng(47.02844, 21.85749),
             new LatLng(47.04657, 21.84707)
         );
-        console.log(leafletPip)
 
         return (
             <div>
@@ -312,10 +316,10 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
                                 </Marker>
                             }
                         )})}
-                    <DraggableMarker passMarkerPosition={setMarkerPosition} polygonCoordinates={polygonCoordinates}/>
+                    {!isAdmin && <DraggableMarker passMarkerPosition={setMarkerPosition} polygonCoordinates={polygonCoordinates}/>}
                 </MapContainer>
                 <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
-                <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>
+                {!isAdmin && <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>}
             </div>
         );
     }

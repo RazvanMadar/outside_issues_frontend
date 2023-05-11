@@ -203,7 +203,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                                placeholder="road">
                             {CategoryData.map((cat) => {
                                 if (cat.id > 1)
-                                    return <option style={{maxWidth: "1rem"}}>{cat.title}</option>
+                                    return <option key={cat.id} style={{maxWidth: "1rem"}}>{cat.title}</option>
                             })}
                         </Input>
                     </FormGroup>

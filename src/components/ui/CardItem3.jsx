@@ -15,7 +15,7 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import {useNavigate} from "react-router-dom";
 import Slide from '@mui/material/Slide';
 
-const CardItem3 = ({issue, key, passBackgroundColor, passIsUpdated}) => {
+const CardItem3 = ({issue, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
     const [likeButton, setLikeButton] = useState(false);
@@ -49,7 +49,7 @@ const CardItem3 = ({issue, key, passBackgroundColor, passIsUpdated}) => {
 
     useEffect(() => {
         geMainImage();
-    }, [issue.id, passIsUpdated]);
+    }, [issue.id, issue]);
 
     return (
         <div

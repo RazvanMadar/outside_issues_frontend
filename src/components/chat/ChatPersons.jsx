@@ -108,14 +108,15 @@ const ChatPersons = ({
             <div style={{position: "relative", height: "400px", overflowY: "auto"}}>
 
                 <MDBTypography listUnStyled className="mb-0">
-                    <li className="p-2 border-bottom">
-                        {passPersons.map((person) => (
-                            <ChatPersonElement person={person}
-                                               passChatId={passChatId} passSetChatId={passSetChatId}
-                                               passSetToEmail={passSetToEmail} passIsAddedMessage={passIsAddedMessage}
-                            />
-                        ))}
-                    </li>
+                        {passPersons.map((person) => {
+                            return <li key={person.email} className="p-2 border-bottom">
+                                <ChatPersonElement person={person}
+                                                   passChatId={passChatId} passSetChatId={passSetChatId}
+                                                   passSetToEmail={passSetToEmail}
+                                                   passIsAddedMessage={passIsAddedMessage}
+                                />
+                            </li>
+                        })}
                 </MDBTypography>
             </div>
         </div>)

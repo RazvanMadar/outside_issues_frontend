@@ -22,7 +22,7 @@ const authenticate = (data, login, navigate, onLogin) => {
             localStorage.setItem("isLogged", "true");
             localStorage.setItem("role", response.data.role);
             if (response.data.blocked === false) {
-                navigate("/issues");
+                navigate("/");
             } else {
                 localStorage.setItem("isBlocked", "true");
                 navigate("/blocked");

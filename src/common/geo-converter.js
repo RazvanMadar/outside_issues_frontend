@@ -20,7 +20,7 @@ const createIcon = (icon, type, isWorkingIcon) =>
         iconUrl: icon,
         iconRetinaUrl: icon,
         popupAnchor: [-0, -0],
-        iconSize: isWorkingIcon ? [21, 21] : type ? [35, 35] : [17, 17],
+        iconSize: isWorkingIcon ? [21, 21] : type ? [36, 36] : [17, 17],
     });
 
 export {getCoordinatesFromAddress, createIcon};

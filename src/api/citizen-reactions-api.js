@@ -6,7 +6,15 @@ const endpoint = {
 };
 
 const getReactionsForSomeCitizenAndIssue = (token, citizenId, issueId, callback) => {
-    const request = new Request(backend_api + endpoint.reaction + "?citizenId=" + citizenId + "&issueId=" + issueId, {
+    let urlPath = backend_api + endpoint.reaction + "?";
+    if (citizenId !== null) {
+        urlPath = urlPath + "citizenId=" + citizenId + "&";;
+    }
+    if (issueId !== null) {
+        urlPath = urlPath + "issueId=" + issueId;
+    }
+
+    const request = new Request(urlPath, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,

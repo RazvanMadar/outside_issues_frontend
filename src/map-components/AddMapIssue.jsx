@@ -6,11 +6,11 @@ import AddForm from "./AddForm";
 
 const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
   const [isShown, setIsShown] = useState(false);
-  const role = localStorage.getItem("role");
+  // const role = localStorage.getItem("role");
 
   return (
     <div className={classes.main}>
-      {role !== "ROLE_ADMIN" && !isShown && (
+      {!isShown && (
         <Button
           variant="contained"
           startIcon={<AddLocationAltIcon style={{ color: "white" }} />}

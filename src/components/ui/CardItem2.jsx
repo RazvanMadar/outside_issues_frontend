@@ -234,7 +234,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     useEffect(() => {
         geMainImage();
         getReactionsForCurrentUserAndIssue();
-    }, [issue.id, passIsUpdated]);
+    }, [issue.id, issue]);
 
     return (
         <div

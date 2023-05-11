@@ -73,7 +73,7 @@ const SliderComponent = () => {
         <div className={classes.sliderContainer}>
             <Slider {...settings}>
                 {sliderImages.map((item, idx) => (
-                    <div className={classes.slider} style={{ border: variable ? '5px solid #A9AAB4' : '5px solid #fff' }} >
+                    <div key={idx} className={classes.slider} style={{ border: variable ? '5px solid #A9AAB4' : '5px solid #fff' }} >
                         <div
                             key={idx}
                             className={classes.sliderImage}
