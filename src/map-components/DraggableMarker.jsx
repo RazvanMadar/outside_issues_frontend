@@ -3,8 +3,8 @@ import { Marker } from "react-leaflet";
 import { createIcon } from "../common/geo-converter";
 import useGeoLocation from "../hooks/useGeoLocation";
 import marker from "../pages/images/gps.png";
-import { pointInLayer } from "leaflet-pip";
 import L from 'leaflet';
+import { booleanPointInPolygon } from '@turf/turf';
 
 const center = {
   lat: 47.06329517311617,
@@ -16,6 +16,7 @@ const flagIcon = createIcon(marker, true);
 const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
   const currentLocation = useGeoLocation();
   const [position, setPosition] = useState(center);
+  const [lastValidPosition, setLastValidPosition] = useState(center);
   const markerRef = useRef(null);
 
   const eventHandlers = useMemo(
@@ -24,25 +25,24 @@ const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
         const marker = markerRef.current;
         if (marker != null) {
           const newMarkerPosition = marker.getLatLng();
-          const insidePolygon = pointInLayer(newMarkerPosition, L.geoJSON(polygonCoordinates));
-
-          if (!insidePolygon) {
-            marker.setLatLng(center);
-            setPosition(center);
-            passMarkerPosition(center);
+          const point = [newMarkerPosition.lng, newMarkerPosition.lat];
+          const polygon = L.polygon(polygonCoordinates).toGeoJSON();
+          if (!booleanPointInPolygon(point, polygon)) {
+            marker.setLatLng(lastValidPosition);
+            setPosition(lastValidPosition);
+            passMarkerPosition(lastValidPosition);
           } else {
             setPosition(newMarkerPosition);
             passMarkerPosition(newMarkerPosition);
           }
-
-          // setPosition(marker.getLatLng());
-          // passMarkerPosition(marker.getLatLng());
           console.log(marker.getLatLng());
         }
       },
     }),
     [passMarkerPosition, polygonCoordinates]
   );
+
+  const markerOptions = useMemo(() => ({ draggable: true }), []);
 
   return (
     // {currentLocation.loaded && setPosition(currentLocation.coordinates)}
@@ -52,6 +52,7 @@ const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
       position={position}
       ref={markerRef}
       icon={flagIcon}
+      {...markerOptions}
     ></Marker>
   );
 };

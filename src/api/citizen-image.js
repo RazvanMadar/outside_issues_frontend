@@ -6,15 +6,26 @@ const endpoint = {
 };
 
 const addCitizenImage = (token, id, image, callback) => {
-    const formData = new FormData();
-    formData.append("image", image);
-    const request = new Request(backend_api + endpoint.image + "/" + id, {
-        method: "POST",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-        body: formData,
-    });
+    let request;
+    if (image == null) {
+        request = new Request(backend_api + endpoint.image + "/" + id, {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        });
+    }
+    else {
+        const formData = new FormData();
+        formData.append("image", image);
+        request = new Request(backend_api + endpoint.image + "/" + id, {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+            body: formData
+        });
+    }
 
     restApi.makeRequest(request, callback);
 };

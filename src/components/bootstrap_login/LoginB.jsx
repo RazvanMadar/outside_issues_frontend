@@ -22,6 +22,8 @@ const LoginB = ({onLogin}) => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [photos, setPhotos] = useState([]);
+    const [deleteImage, setDeleteImage] = useState(false);
+
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
     };
@@ -37,9 +39,17 @@ const LoginB = ({onLogin}) => {
     const addAnImage = (id) => {
         console.log(id, photos[0])
         return addCitizenImage(token, id, photos[0], (result, status, err) => {
-            if (result !== null && status === 201) {
-                console.log("RESULT", result);
-                // navigate("/login")
+            if (status === 201) {
+                firstNameRegisterInputRef.current.value = "";
+                lastNameRegisterInputRef.current.value = "";
+                emailRegisterInputRef.current.value = "";
+                passwordRegisterInputRef.current.value = "";
+                phoneRegisterInputRef.current.value = "";
+                setPhotos([]);
+                if (result !== null) {
+                    setDeleteImage((prev) => !prev)
+                }
+                setSignUp((prev) => !prev);
             } else if (status === 403) {
                 // setForbidden(true);
             } else {
@@ -64,7 +74,7 @@ const LoginB = ({onLogin}) => {
         };
         return registerCitizen(token, data, (result, status, err) => {
                 if (result !== null && status === 201) {
-                    console.log(result);
+                    console.log("AICI E PRIMA DATA SI S-A ADAUGAT USER-UL", result);
                     addAnImage(result)
                 } else {
                     console.log(err);
@@ -100,7 +110,7 @@ const LoginB = ({onLogin}) => {
                         />
                         <input className={classes.input} type="text" placeholder="Număr de telefon"
                                ref={phoneRegisterInputRef}/>
-                        <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"} numberOfPhotos={1}/>
+                        <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"} numberOfPhotos={1} deleteImage={deleteImage}/>
                         <br/>
                         <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
                     </form>

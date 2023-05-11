@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import classes from "./ImageBox.module.css";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 // luata de pe git -> https://www.youtube.com/watch?v=PDtW-XAshqs
-const ImageBox = ({passIsPhoto, title, numberOfPhotos}) => {
+const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
     const [selectedImages, setSelectedImages] = useState([]);
 
     const onSelectFile = (event) => {
@@ -33,6 +33,11 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos}) => {
         });
         URL.revokeObjectURL(image);
     }
+
+    useEffect(() => {
+        console.log("se sterge", selectedImages[0])
+        deleteHandler(selectedImages[0], 1);
+    }, [deleteImage])
 
     return (
         <div>

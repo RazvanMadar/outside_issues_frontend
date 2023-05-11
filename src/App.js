@@ -11,25 +11,22 @@ import LoginComponent from "./components/bootstrap_login/LoginComponent";
 import {AuthProvider} from "./context/AuthContext";
 import {useState} from "react";
 import Logout from "./components/bootstrap_login/Logout";
-import IssueDetails from "./pages/IssueDetails";
 import Citizens from "./pages/Citizens";
 import MyChat from "./components/chat/MyChat";
 import MyProfile from "./pages/MyProfile";
-import IssueDetails2 from "./pages/IssueDetails2";
 import BlockedPage from "./pages/BlockedPage";
-import withBlockRedirect from "./hooks/redictBlockedUser";
 import NotFound from "./pages/NotFound";
+import RequireAuthentication from "./navigation/RequireAuthentication";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ForbiddenPage from "./pages/ForbiddenPage";
+
+const ROLES = {
+    CITIZEN: 'ROLE_USER',
+    ADMIN: 'ROLE_ADMIN',
+    UNNECESSARY: 'ALL'
+}
 
 function App() {
-    const HomePageWithBlockRedirect = withBlockRedirect(Home);
-    const IssuesPageWithBlockRedirect = withBlockRedirect(Issues);
-    const MyProfilePageWithBlockRedirect = withBlockRedirect(MyProfile);
-    const AddIssuePageWithBlockRedirect = withBlockRedirect(AddIssuePage);
-    const IssueMapPageWithBlockRedirect = withBlockRedirect(IssueMapOSM);
-    const RegisterPageWithBlockRedirect = withBlockRedirect(RegisterPage);
-    const CitizensPageWithBlockRedirect = withBlockRedirect(Citizens);
-    const MyChatPageWithBlockRedirect = withBlockRedirect(MyChat);
-
     const url = "http://localhost:8080/api/issues";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isIssueAdded, setIsIssueAdded] = useState(false);
@@ -40,6 +37,8 @@ function App() {
     const [backgroundColor, setBackgroundColor] = useState(
         localStorage.getItem('dark_mode') ? localStorage.getItem("dark_mode") : "white"
     );
+    const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
+    const role = localStorage.getItem('role');
 
     return (
         // <NewLayout>
@@ -48,32 +47,85 @@ function App() {
             <AuthProvider>
                 <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}
                          passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated}
-                         passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded} passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted} passPersons={persons} passSetPersons={setPersons} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
+                         passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded}
+                         passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted}
+                         passPersons={persons} passSetPersons={setPersons}
+                         passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
                 <Routes>
-                    <Route path="/" element={<HomePageWithBlockRedirect isDeleted={isIssueDeleted} isAdded={isIssueAdded} isUpdated={isIssueUpdated}/>}/>
-                    {/*<Route path="/chart" element={<BasicChart/>}/>*/}
-                    <Route path="/issues"
-                           element={<IssuesPageWithBlockRedirect url={url} passBackgroundColor={backgroundColor} isDeleted={isIssueDeleted}
-                                            setIsDeleted={setIsIssueDeleted} isUpdated={isIssueUpdated} setIsUpdated={setIsIssueUpdated} isAdded={isIssueAdded}/>}/>
-                    <Route path="/profile"
-                           element={<MyProfilePageWithBlockRedirect passIsDeleted={isIssueDeleted} passIsUpdated={isIssueUpdated}
-                                               passBackgroundColor={backgroundColor}/>}/>
-                    {/*<Route path="/issues/:id" element={<IssueDetails2 passIsUpdated={setIsIssueUpdated}/>}/>*/}
-                    <Route path="/add-issue" element={<AddIssuePageWithBlockRedirect/>}/>
-                    <Route path="/map"
-                           element={<IssueMapPageWithBlockRedirect passBackgroundCol={backgroundColor} passIsIssueAdded={isIssueAdded}
-                                                 passSetIsIssuesAdded={setIsIssueAdded} passIsIssueUpdated={isIssueUpdated} passIsIssueDeleted={isIssueDeleted}/>}/>
-                    <Route path="/register" element={<RegisterPageWithBlockRedirect/>}/>
-                    <Route path="/citizens"
-                           element={<CitizensPageWithBlockRedirect passIsDeleted={isIssueDeleted} passBackgroundColor={backgroundColor}/>}/>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/"
+                               element={<Home isDeleted={isIssueDeleted} isAdded={isIssueAdded}
+                                              isUpdated={isIssueUpdated}/>}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/issues"
+                               element={<Issues url={url} passBackgroundColor={backgroundColor}
+                                                isDeleted={isIssueDeleted}
+                                                setIsDeleted={setIsIssueDeleted}
+                                                isUpdated={isIssueUpdated}
+                                                setIsUpdated={setIsIssueUpdated}
+                                                isAdded={isIssueAdded}/>}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.CITIZEN]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/profile" element={<MyProfile passIsDeleted={isIssueDeleted}
+                                                                   passIsUpdated={isIssueUpdated}
+                                                                   passBackgroundColor={backgroundColor}/>}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/add-issue" element={<AddIssuePage/>}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/map"
+                               element={<IssueMapOSM passBackgroundCol={backgroundColor}
+                                                     passIsIssueAdded={isIssueAdded}
+                                                     passSetIsIssuesAdded={setIsIssueAdded}
+                                                     passIsIssueUpdated={isIssueUpdated}
+                                                     passIsIssueDeleted={isIssueDeleted}/>}/>
+                    </Route>
+
+                    <Route path="/register" element={<RegisterPage/>}/>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.ADMIN]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/citizens"
+                               element={<Citizens passIsDeleted={isIssueDeleted}
+                                                  passBackgroundColor={backgroundColor}/>}/>
+                    </Route>
+
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
-                    <Route path="/blocked" element={<BlockedPage url={url} backgroundColor={backgroundColor}
-                                                                 isIssueDeleted={isIssueDeleted}
-                                                                 setIsIssueDeleted={setIsIssueDeleted}/>}/>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/blocked" element={<BlockedPage url={url} backgroundColor={backgroundColor}
+                                                                     isIssueDeleted={isIssueDeleted}
+                                                                     setIsIssueDeleted={setIsIssueDeleted}/>}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/unauthorized" element={<UnauthorizedPage />}/>
+                    </Route>
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/forbidden" element={<ForbiddenPage />}/>
+                    </Route>
+
                     <Route path="/loginB" element={<LoginPage/>}/>
+
                     <Route path="/logout" element={<Logout/>}/>
-                    <Route path="/chat" element={<MyChatPageWithBlockRedirect passBackgroundColor={backgroundColor} passPersons={persons} passSetPersons={setPersons} passReceivedNewUserMessage={receivedNewUserMessage} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>}/>
-                    <Route path="*" element={<NotFound />} />
+
+                    <Route element={<RequireAuthentication allowedRoles={[ROLES.CITIZEN, ROLES.ADMIN]} isBlocked={isBlocked} role={role}/>}>
+                        <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}
+                                                             passPersons={persons}
+                                                             passSetPersons={setPersons}
+                                                             passReceivedNewUserMessage={receivedNewUserMessage}
+                                                             passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>}/>
+                    </Route>
+
+                    <Route path="*" element={<NotFound/>}/>
+
                 </Routes>
             </AuthProvider>
         </Router>
