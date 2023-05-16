@@ -46,6 +46,21 @@ monthsMap.set("10", "Octombrie");
 monthsMap.set("11", "Noiembrie");
 monthsMap.set("12", "Decembrie");
 
+const romanianMonths = new Map();
+romanianMonths.set("Jan", "Ian");
+romanianMonths.set("Feb", "Feb");
+romanianMonths.set("Mar", "Mar");
+romanianMonths.set("Apr", "Apr");
+romanianMonths.set("May", "Mai");
+romanianMonths.set("Jun", "Iun");
+romanianMonths.set("Jul", "Iul");
+romanianMonths.set("Aug", "Aug");
+romanianMonths.set("Sep", "Sep");
+romanianMonths.set("Oct", "Oct");
+romanianMonths.set("Nov", "Noi");
+romanianMonths.set("Dec", "Dec");
+
+
 const getBackgroundColorForState = (state) => {
     let backgroundColor;
     // return "#7895B2"
@@ -97,6 +112,14 @@ const convertUITypesToAPI = (type) => {
     }
     if (type === "Toate categoriile") {
         return null;
+    }
+}
+
+const getRomanianMonth = (month) => {
+    for (const [key, value] of romanianMonths) {
+        if (month === key) {
+            return value;
+        }
     }
 }
 
@@ -3646,6 +3669,7 @@ export {
     computeDescriptionForPopup,
     getMonthFromIndex,
     getMonthFromIndexes,
+    getRomanianMonth,
     cityBoundary,
     cityBoundary2,
     test,

@@ -10,6 +10,8 @@ const LoginComponent = ({onLogin}) => {
     const [component, setComponent] = useState(width > 768 ? <LoginB onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);
     // const { isLogged } = useContext(AuthContext);
 
+    console.log(window.innerHeight)    // 569 pe TV ul de acasa
+
     const isLogged = localStorage.getItem("isLogged");
     const navigate = useNavigate();
     localStorage.removeItem("userId");

@@ -92,6 +92,18 @@ const polygonCoordinates = [new LatLng(47.06269, 21.85967),
     new LatLng(47.04657, 21.84707)
 ];
 
+const rectangleCoordinates = [
+    new LatLng(47.02749, 21.86040), // Stanga jos
+    new LatLng(47.02749, 21.95793), // Dreapta jos
+    new LatLng(47.09099, 21.95793),   // Dreapta sus
+    new LatLng(47.09099, 21.86040),  // Stanga sus
+];
+//
+// new LatLng(47.06269, 21.86040), // Stanga jos
+//     new LatLng(47.06269, 21.95793), // Dreapta jos
+//     new LatLng(47.09074, 21.95793),   // Dreapta sus
+//     new LatLng(47.09074, 21.86040),  // Stanga sus
+
 // const position = {lat: 47.059390150750204, lng: 21.912248426593525};
 const position = {lat: 47.05292, lng: 21.91375}
 
@@ -294,6 +306,7 @@ const IssueMapOSM = ({
                                 opacity={1}
                             />
                             <Polygon pathOptions={{color: 'blue'}} positions={polygonCoordinates}/>
+                            <Polygon pathOptions={{color: 'red'}} positions={rectangleCoordinates}/>
                             {issues &&
                                 issues.map((issue) => {
                                         const icon = getMarkerImage(issue.type, issue.state);
