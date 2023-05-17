@@ -62,12 +62,11 @@ const findCitizensByName = (token, name, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const registerCitizen = (token, data, callback) => {
-    const request = new Request(backend_api + endpoint.citizen, {
+const registerCitizen = (data, isAuth, callback) => {
+    const request = new Request(backend_api + endpoint.citizen + "/auth/?isAuth=" + isAuth, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + token
         },
         body: JSON.stringify(data),
     });

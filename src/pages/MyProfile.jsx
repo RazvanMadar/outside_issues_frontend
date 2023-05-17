@@ -108,7 +108,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
     };
 
     const addImage = () => {
-        return addCitizenImage(token, userId, newImage, (result, status, err) => {
+        return addCitizenImage(userId, newImage, (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result)
                 } else {

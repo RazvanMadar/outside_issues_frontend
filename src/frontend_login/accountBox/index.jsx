@@ -104,7 +104,7 @@ const expandingTransition = {
 export function AccountBox({onLogin}) {
     const [isExpanded, setExpanded] = useState(false);
     const [active, setActive] = useState("signin");
-    const [photos, setPhotos] = useState([]);
+    // const [photos, setPhotos] = useState([]);
 
     const playExpandingAnimation = () => {
         setExpanded(true);
@@ -156,7 +156,7 @@ export function AccountBox({onLogin}) {
                 </TopContainer>
                 <InnerContainer>
                     {active === "signin" && <LoginForm onLogin={onLogin}/>}
-                    {active === "signup" && <SignupForm onLogin={onLogin} setPhotos={setPhotos}/>}
+                    {active === "signup" && <SignupForm onLogin={onLogin}/>}
                 </InnerContainer>
             </BoxContainer>
         </AccountContext.Provider>

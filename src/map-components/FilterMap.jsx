@@ -20,7 +20,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
     const [toDate, setToDate] = useState(null);
     const typeInputRef = useRef();
     const stateInputRef = useRef();
-    const fromDateInputRef = useRef();
+    let fromDateInputRef = useRef();
     const toDateInputRef = useRef();
 
     const token = localStorage.getItem("token");
@@ -35,7 +35,8 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
         const enteredState = convertUIStatesToAPI(stateInputRef.current.value);
         const enteredFromDate = fromDateInputRef.current.value !== '' ? formatDate(fromDateInputRef.current.value) : null;
         const enteredToDate = toDateInputRef.current.value !== '' ? formatDate(toDateInputRef.current.value) : null;
-        console.log(enteredType, enteredState, enteredFromDate, enteredToDate)
+        setFromDate(null)
+        setToDate(null)
         return filterIssues(
             token,
             enteredType,
@@ -49,7 +50,6 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
             passOrder,
             (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log("AICI ", result);
                     passFilteredIssues(result.content)
                     passSetTotalPages(result.totalPages);
                     passSetCurrentPage(0);
@@ -63,6 +63,12 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 }
             }
         );
+    };
+
+    const closeHandle = () => {
+        setFromDate(null)
+        setToDate(null)
+        onHide();
     };
 
     return (
@@ -141,7 +147,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
-                        onClick={onHide}>Închide
+                        onClick={closeHandle}>Închide
                 </Button>
             </Modal.Footer>
         </Modal>

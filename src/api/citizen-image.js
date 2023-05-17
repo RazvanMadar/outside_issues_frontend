@@ -5,14 +5,11 @@ const endpoint = {
     image: "/api/citizen/images",
 };
 
-const addCitizenImage = (token, id, image, callback) => {
+const addCitizenImage = (id, image, callback) => {
     let request;
     if (image == null) {
         request = new Request(backend_api + endpoint.image + "/" + id, {
             method: "POST",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
         });
     }
     else {
@@ -20,9 +17,6 @@ const addCitizenImage = (token, id, image, callback) => {
         formData.append("image", image);
         request = new Request(backend_api + endpoint.image + "/" + id, {
             method: "POST",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
             body: formData
         });
     }

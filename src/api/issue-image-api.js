@@ -5,14 +5,11 @@ const endpoint = {
     image: "/api/images",
 };
 
-const addImage = (token, id, image, number, callback) => {
+const addImage = (id, image, number, callback) => {
     const formData = new FormData();
     formData.append("image", image);
     const request = new Request(backend_api + endpoint.image + "/" + id + "?number=" + number, {
         method: "POST",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
         body: formData,
     });
 

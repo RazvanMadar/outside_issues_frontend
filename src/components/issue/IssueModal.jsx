@@ -15,6 +15,7 @@ import {
     convertUITypesToAPI
 } from "../../common/utils";
 import {updateIssue} from "../../api/issue-api";
+import {sendEmail} from "../../api/email-api";
 
 const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
@@ -77,6 +78,16 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
         return updateIssue(token, issue.id, enteredType, enteredState, (result, status, err) => {
             if (result !== null && status === 200) {
                 passIsUpdated((prev) => !prev)
+                if (issue.state !== enteredState || issue.type !== enteredType) {
+                    let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost modificată.`;
+                    if (enteredType !== undefined && issue.type !== enteredType) {
+                        content += `\nTipul a fost schimbat în: ${typeInputRef.current.value}`;
+                    }
+                    if (enteredState !== undefined && issue.state !== enteredState) {
+                        content += `\nStarea a fost trecută în: ${stateInputRef.current.value}`;
+                    }
+                    sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id});
+                }
                 onHide();
             } else if (status === 403) {
                 setForbidden(true);
@@ -84,6 +95,16 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                 console.log(err);
             }
         });
+    }
+
+    const sendAnEmail = (data) => {
+        return sendEmail(token, data, (result, status, err) => {
+            if (status === 403) {
+                setForbidden(true);
+            } else {
+                console.log(err);
+            }
+        })
     }
 
     useEffect(() => {
@@ -134,7 +155,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                         <br/>
                         Data: {computeDateForPopup(issue.reportedDate)}
                         <br/>
-                        Raportată de: {issue.citizenEmail} (pot pune aici buton de Block)
+                        Raportată de: {issue.citizenEmail !== null ? issue.citizenEmail: "Senzorii platformei"}
                     </div>
                     <div style={{width: "49%"}}>
                         {issue.hasLocation && <iframe style={{width: "100%", height: "100%"}} title="Map"

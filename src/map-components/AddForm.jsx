@@ -29,6 +29,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const email = localStorage.getItem("email");
     const [currentMail, setCurrentMail] = useState(
         localStorage.getItem("email") ? localStorage.getItem("email") : "");
+    const [citizenExists, setCitizenExists] = useState(false);
 
     const token = localStorage.getItem("token");
 
@@ -52,9 +53,14 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 setAuthorized(true);
                 passIsIssueAdded((prev) => !prev);
                 addAnImage(result);
-                const content = "Sesizarea făcută de dumneavoastră de tipul " + convertAPITypesToUI(issue.type) + " a fost înregistrată cu succes."
-                    + "\nVă mulțumim pentru contribuția dumneavoastră la menținerea si dezvoltarea orașului!";
-                // sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: currentMail, content: content, issueId: result});
+                const content = `Sesizarea cu numărul ${result}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost înregistrată cu succes.`
+                    + `\nVă mulțumim pentru contribuția dumneavoastră la menținerea si dezvoltarea orașului Oradea!`;
+                sendAnEmail({
+                    subject: "Sesizare Primăria Oradea",
+                    toEmail: currentMail,
+                    content: content,
+                    issueId: result
+                });
             } else if (status === 403) {
                 setForbidden(true);
             } else {
@@ -65,11 +71,26 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const registerAnCitizen = (citizen) => {
         console.log(citizen);
-        return registerCitizen(token, citizen, (result, status, err) => {
+        return registerCitizen(citizen, false,(result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
+                    setCitizenExists(false);
+                    const currentEmail = !isLogged ? emailInputRef.current.value : null
+                    addAnIssue({
+                        type: convertUITypesToAPI(categoryInputRef.current.value),
+                        state: "REGISTERED",
+                        reportedDate: getCurrentDate(),
+                        description: descriptionInputRef.current.value,
+                        likesNumber: 0,
+                        dislikesNumber: 0,
+                        address: checkIfLocation(),
+                        hasLocation: hasLocation(),
+                        actualLocation: issueAdr,
+                        citizenEmail: isLogged ? email : currentEmail
+                    });
+                    passIsShown(false);
                 } else {
-                    console.log(err);
+                    setCitizenExists(true);
                 }
             }
         )
@@ -85,7 +106,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
 
     const addAnImage = (id) => {
         photos.map((img, index) => {
-            return addImage(token, id, img, getNumberFromIndex(index), (result, status, err) => {
+            return addImage(id, img, getNumberFromIndex(index), (result, status, err) => {
                 if (result !== null && status === 201) {
                     console.log(result);
                     setAuthorized(true);
@@ -102,24 +123,10 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         return checkbox.current.checked ? markerPosition : {lat: null, lng: null};
     }
 
-    // const checkIfLocation = () => {
-    //     let latitude, longitude, address;
-    //     if (checkbox.current.checked) {
-    //         latitude = markerPosition.lat;
-    //         longitude = markerPosition.lng;
-    //         address = computeAddressFromCoordinates(latitude, longitude);
-    //     } else {
-    //         latitude = null;
-    //         longitude = null;
-    //         address = "Fără adresă";
-    //     }
-    //     console.log(address)
-    //     return {lat: latitude, lng: longitude, adr: address};
-    // }
 
     const computeAddressFromCoordinates = (address) => {
         setIssueAdr("Fără adresă");
-        return getAddressFromCoordinates(token, address, (result, status, err) => {
+        return getAddressFromCoordinates(address, (result, status, err) => {
             console.log(result);
             if (result !== null && status === 200) {
                 console.log(result);
@@ -156,7 +163,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     }
 
     const handleAddIssue = () => {
-        passIsShown(false);
         const currentEmail = !isLogged ? emailInputRef.current.value : null
         if (!isLogged) {
             setCurrentMail(currentEmail);
@@ -169,20 +175,21 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 password: null
             };
             registerAnCitizen(data);
+        } else {
+            addAnIssue({
+                type: convertUITypesToAPI(categoryInputRef.current.value),
+                state: "REGISTERED",
+                reportedDate: getCurrentDate(),
+                description: descriptionInputRef.current.value,
+                likesNumber: 0,
+                dislikesNumber: 0,
+                address: checkIfLocation(),
+                hasLocation: hasLocation(),
+                actualLocation: issueAdr,
+                citizenEmail: isLogged ? email : currentEmail
+            });
+            passIsShown(false);
         }
-
-        addAnIssue({
-            type: convertUITypesToAPI(categoryInputRef.current.value),
-            state: "REGISTERED",
-            reportedDate: getCurrentDate(),
-            description: descriptionInputRef.current.value,
-            likesNumber: 0,
-            dislikesNumber: 0,
-            address: checkIfLocation(),
-            hasLocation: hasLocation(),
-            actualLocation: issueAdr,
-            citizenEmail: isLogged ? email : currentEmail
-        });
     }
 
     useEffect(() => {
@@ -228,6 +235,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         <Input type="email" name="email" id="email" innerRef={emailInputRef}
                                placeholder="Email">
                         </Input>
+                        {citizenExists && <p>Există un cont cu acest nume! Autentifică-te</p>}
                         <Input type="text" name="email" id="email" innerRef={phoneInputRef}
                                placeholder="Telefon (opțional...)" style={{marginTop: "5px", marginBottom: "5px"}}>
                         </Input>

@@ -108,7 +108,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
             if (result !== null && status === 200) {
                 console.log(result);
                 rejectIssue();
-                let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul " + convertAPITypesToUI(issue.type) + " a fost ștearsă.`;
+                let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost ștearsă.`;
                 if (deleteReasonInputRef.current.value.length > 0)
                     content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
                 sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id});

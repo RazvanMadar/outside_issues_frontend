@@ -99,9 +99,9 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                        value={message}
                        onKeyDown={handleKeyDown}
                 />
-                <a className="ms-1 text-muted" href="#!">
-                    <MDBIcon fas icon="paperclip"/>
-                </a>
+                {/*<a className="ms-1 text-muted" href="#!">*/}
+                {/*    <MDBIcon fas icon="paperclip"/>*/}
+                {/*</a>*/}
                 <a className="ms-3" href={`#${passChatId}`}>
                     <MDBIcon fas icon="paper-plane"
                              onClick={sendMessageToUser}
