@@ -18,17 +18,8 @@ import Slide from '@mui/material/Slide';
 const CardItem3 = ({issue, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
     const [forbidden, setForbidden] = useState(null);
-    const [likeButton, setLikeButton] = useState(false);
-    const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
-    const [nrOfDislikes, setNrOfDislikes] = useState(issue.dislikesNumber);
-    const [openDialog, setOpenDialog] = useState(false);
-    const deleteReasonInputRef = useRef('');
-    const navigate = useNavigate();
 
-    const isLogged = localStorage.getItem("isLogged");
-    const userId = localStorage.getItem("userId");
-    const role = localStorage.getItem("role");
     const backgroundColor = getBackgroundColorForState(issue.state);
 
     const token = localStorage.getItem("token")

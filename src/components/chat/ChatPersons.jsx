@@ -15,7 +15,10 @@ const ChatPersons = ({
                          passSetIsAddedMessage,
                          passPersons,
                          passSetPersons,
-                         passSetReceivedNewUserMessage
+                         passSetReceivedNewUserMessage,
+                         passReceivedNewUserMessage,
+                         messages,
+                         passIsMessageAdded
                      }) => {
     const [persons, setPersons] = useState([]);
     const [latestMessages, setLatestMessages] = useState([]);
@@ -77,46 +80,48 @@ const ChatPersons = ({
         // });
     };
 
-    const onConnected = () => {
-        console.log("Connected!!!");
-    };
-
-    const onMessageReceived = (msg) => {
-        console.log(email, msg)
-        if (msg.fromEmail === email || msg.toEmail === email) {
-            console.log(passPersons)
-            if (!passPersons.some(item => item.email === msg.fromEmail)) {
-                passSetReceivedNewUserMessage((prev) => !prev)
-            }
-            passSetIsAddedMessage((prev) => !prev);
-            console.log(msg.message);
-        }
-    };
+    // const onConnected = () => {
+    //     console.log("Connected!!!");
+    // };
+    //
+    // const onMessageReceived = (msg) => {
+    //     console.log(email, msg)
+    //     if (msg.fromEmail === email || msg.toEmail === email) {
+    //         console.log(passPersons)
+    //         if (!passPersons.some(item => item.email === msg.fromEmail)) {
+    //             passSetReceivedNewUserMessage((prev) => !prev)
+    //         }
+    //         passSetIsAddedMessage((prev) => !prev);
+    //         console.log(msg.message);
+    //     }
+    // };
 
     return (
         <div>
-            <SockJsClient
-                url={SOCKET_URL}
-                topics={[
-                    "/topic/message",
-                    "/user/" + email + "/private",
-                ]}
-                onConnect={onConnected}
-                onDisconnect={() => console.log("Disconnected!")}
-                onMessage={(msg) => onMessageReceived(msg)}
-            />
+            {/*<SockJsClient*/}
+            {/*    url={SOCKET_URL}*/}
+            {/*    topics={[*/}
+            {/*        "/topic/message",*/}
+            {/*        "/user/" + email + "/private",*/}
+            {/*    ]}*/}
+            {/*    onConnect={onConnected}*/}
+            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
+            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
+            {/*/>*/}
             <div style={{position: "relative", height: "400px", overflowY: "auto"}}>
 
                 <MDBTypography listUnStyled className="mb-0">
-                        {passPersons.map((person) => {
-                            return <li key={person.email} className="p-2 border-bottom">
-                                <ChatPersonElement person={person}
-                                                   passChatId={passChatId} passSetChatId={passSetChatId}
-                                                   passSetToEmail={passSetToEmail}
-                                                   passIsAddedMessage={passIsAddedMessage}
-                                />
-                            </li>
-                        })}
+                    {passPersons.map((person) => {
+                        return <li key={person.email} className="p-2 border-bottom">
+                            <ChatPersonElement person={person}
+                                               passChatId={passChatId} passSetChatId={passSetChatId}
+                                               passSetToEmail={passSetToEmail}
+                                               passIsAddedMessage={passIsAddedMessage}
+                                               messages={messages}
+                                               passReceivedNewUserMessage={passReceivedNewUserMessage}
+                            />
+                        </li>
+                    })}
                 </MDBTypography>
             </div>
         </div>)

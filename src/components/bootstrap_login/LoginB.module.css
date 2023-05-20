@@ -71,6 +71,11 @@
   text-align: center;
 }
 
+.invalid {
+  font-weight: bold;
+  color: red;
+}
+
 .input {
   background-color: #eee;
   border: none;
@@ -88,7 +93,7 @@
   overflow: hidden;
   width: 768px;
   max-width: 100%;
-  min-height: 600px;
+  min-height: 590px;
   display: flex;
   justify-content: center;
   align-items: center;

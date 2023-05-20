@@ -16,6 +16,11 @@ const LoginB = ({onLogin}) => {
     const emailRegisterInputRef = useRef();
     const passwordRegisterInputRef = useRef();
     const phoneRegisterInputRef = useRef();
+    const [isValidAccount, setIsValidAccount] = useState(true);
+    const [isIncomplete, setIsIncomplete] = useState(false);
+    const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isValidPassword, setIsValidPassword] = useState(true);
+    const [isValidPhone, setIsValidPhone] = useState(true);
 
     const {isLogged, token, userId, login, logout} = useContext(AuthContext);
     const navigate = useNavigate();
@@ -32,12 +37,17 @@ const LoginB = ({onLogin}) => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        const data = {email: enteredEmail, password: enteredPassword};
-        authenticate(data, login, navigate, onLogin);
+        if (enteredEmail === "" || enteredPassword === "") {
+            setIsIncomplete(true);
+            setIsValidAccount(true);
+        } else {
+            setIsIncomplete(false);
+            const data = {email: enteredEmail, password: enteredPassword};
+            authenticate(data, login, navigate, onLogin, setIsValidAccount);
+        }
     };
 
     const addAnImage = (id) => {
-        console.log(id, photos[0])
         return addCitizenImage(id, photos[0], (result, status, err) => {
             if (status === 201) {
                 firstNameRegisterInputRef.current.value = "";
@@ -49,6 +59,11 @@ const LoginB = ({onLogin}) => {
                 if (result !== null) {
                     setDeleteImage((prev) => !prev)
                 }
+                setIsValidEmail(true);
+                setIsIncomplete(false);
+                setIsValidPassword(true);
+                setIsValidPhone(true);
+                setIsValidAccount(true);
                 setSignUp((prev) => !prev);
             } else if (status === 403) {
                 // setForbidden(true);
@@ -58,6 +73,22 @@ const LoginB = ({onLogin}) => {
         })
     };
 
+    const isCorrectEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    const isCorrectPhoneNumber = (phoneNumber) => {
+        if (phoneNumber.length < 10)
+            return false;
+        if (phoneNumber[0] === '0' && phoneNumber[1] === '7' && phoneNumber.length === 10)
+            return true;
+        if (phoneNumber[0] === "+" && phoneNumber[1] === "4" && phoneNumber[2] === "0" && phoneNumber[3] === "7" && phoneNumber.length === 12)
+            return true;
+        return false;
+    }
+
+
     const registerHandler = (event) => {
         event.preventDefault();
         const enteredFirstName = firstNameRegisterInputRef.current.value;
@@ -65,22 +96,55 @@ const LoginB = ({onLogin}) => {
         const enteredEmail = emailRegisterInputRef.current.value;
         const enteredPassword = passwordRegisterInputRef.current.value;
         const enteredPhone = phoneRegisterInputRef.current.value;
-        const data = {
-            email: enteredEmail,
-            phoneNumber: enteredPhone,
-            firstName: enteredFirstName,
-            lastName: enteredLastName,
-            password: enteredPassword
-        };
-        return registerCitizen(data, true,(result, status, err) => {
-                if (result !== null && status === 201) {
-                    console.log("AICI E PRIMA DATA SI S-A ADAUGAT USER-UL", result);
-                    addAnImage(result)
-                } else {
-                    console.log(err);
+        if (enteredFirstName === "" || enteredLastName === "" || enteredEmail === "" || enteredPassword === "" || enteredPhone === "") {
+            setIsIncomplete(true);
+            setIsValidAccount(true);
+            setIsValidEmail(true);
+            setIsValidPassword(true);
+            setIsValidPhone(true);
+        }
+        else if (!isCorrectEmail(enteredEmail)) {
+            setIsValidEmail(false);
+            setIsIncomplete(false);
+            setIsValidAccount(true);
+            setIsValidPassword(true);
+            setIsValidPhone(true);
+        }
+        else if (enteredPassword.length < 8) {
+            setIsValidPassword(false);
+            setIsIncomplete(false);
+            setIsValidEmail(true);
+            setIsValidAccount(true);
+            setIsValidPhone(true);
+        }
+        else if (!isCorrectPhoneNumber(enteredPhone)) {
+            setIsValidPhone(false);
+            setIsValidPassword(true);
+            setIsIncomplete(false);
+            setIsValidEmail(true);
+            setIsValidAccount(true);
+        }
+        else {
+            const data = {
+                email: enteredEmail,
+                phoneNumber: enteredPhone,
+                firstName: enteredFirstName,
+                lastName: enteredLastName,
+                password: enteredPassword
+            };
+            return registerCitizen(data, true, (result, status, err) => {
+                    if (result !== null && status === 201) {
+                        addAnImage(result)
+                    } else {
+                        setIsValidAccount(false);
+                        setIsIncomplete(false);
+                        setIsValidEmail(true);
+                        setIsValidPassword(true);
+                        setIsValidPhone(true);
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
 
@@ -110,8 +174,15 @@ const LoginB = ({onLogin}) => {
                         />
                         <input className={classes.input} type="text" placeholder="Număr de telefon"
                                ref={phoneRegisterInputRef}/>
-                        <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"} numberOfPhotos={1} deleteImage={deleteImage}/>
-                        <br/>
+                        <div style={{marginBottom: "5px"}}>
+                            <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"} numberOfPhotos={1}
+                                      deleteImage={deleteImage}/>
+                        </div>
+                        {!isValidAccount && <p className={classes.invalid}>Emailul există deja!</p>}
+                        {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
+                        {!isValidEmail && <p className={classes.invalid}>Emailul nu e valid!</p>}
+                        {!isValidPassword && <p className={classes.invalid}>Minim 8 caractere pentru parolă!</p>}
+                        {!isValidPhone && <p className={classes.invalid}>Numărul de telefon nu e valid!</p>}
                         <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
                     </form>
                 </div>
@@ -137,6 +208,8 @@ const LoginB = ({onLogin}) => {
                         />
                         {/*<Link to="/">Ți-ai uitat parola?</Link>*/}
                         <br/>
+                        {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
+                        {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
                         <button className={classes.button} onClick={submitHandler}>
                             Autentificare
                         </button>

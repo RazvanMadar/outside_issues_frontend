@@ -1,15 +1,11 @@
 import axios from "axios";
 
 const login_api = "http://localhost:8080/login";
-const register_api = "http://localhost:8080/register";
 
-const authenticate = (data, login, navigate, onLogin) => {
+const authenticate = (data, login, navigate, onLogin, setIsValidAccount) => {
     axios
         .post(login_api, data)
         .then((response) => {
-            // const isBlocked = localStorage.getItem("isBlocked");
-            // if (isBlocked !== null) {
-            // }
             localStorage.removeItem("isBlocked");
             console.log(response.data);
 
@@ -21,6 +17,7 @@ const authenticate = (data, login, navigate, onLogin) => {
             localStorage.setItem("token", response.data.accessToken);
             localStorage.setItem("isLogged", "true");
             localStorage.setItem("role", response.data.role);
+            setIsValidAccount(true);
             if (response.data.blocked === false) {
                 navigate("/");
             } else {
@@ -29,7 +26,7 @@ const authenticate = (data, login, navigate, onLogin) => {
             }
         })
         .catch((err) => {
-            console.log(err);
+            setIsValidAccount(false);
         });
 };
 

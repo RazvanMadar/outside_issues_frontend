@@ -19,13 +19,13 @@ export const StateData = [
         title: "În lucru",
         // icon: <RestaurantMenuIcon />,
     },
+    // {
+    //     id: 5,
+    //     title: "Redirecționată",
+    //     // icon: <RestaurantMenuIcon />,
+    // },
     {
         id: 5,
-        title: "Redirecționată",
-        // icon: <RestaurantMenuIcon />,
-    },
-    {
-        id: 6,
         title: "Rezolvată",
         // icon: <RestaurantMenuIcon />,
     }

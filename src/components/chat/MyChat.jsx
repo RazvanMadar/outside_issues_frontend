@@ -15,10 +15,13 @@ export default function MyChat({
                                    passPersons,
                                    passSetPersons,
                                    passReceivedNewUserMessage,
-                                   passSetReceivedNewUserMessage
+                                   passSetReceivedNewUserMessage,
+                                   passIsMessageAdded,
+                                   passSetIsMessageAdded
                                }) {
     const [toImages, setToImages] = useState([]);
-    const [isAddedMessage, setIsAddedMessage] = useState(false);
+    // const [isAddedMessage, setIsAddedMessage] = useState(false);
+    const [messages, setMessages] = useState([]);
     const [fromImage, setFromImage] = useState();
     const [toImage, setToImage] = useState();
     const [chatId, setChatId] = useState();
@@ -106,12 +109,15 @@ export default function MyChat({
 
                                                     <ChatPersons passChatId={chatId} passSetChatId={setChatId}
                                                                  passSetToEmail={setToEmail}
-                                                                 passIsAddedMessage={isAddedMessage}
-                                                                 passSetIsAddedMessage={setIsAddedMessage}
+                                                                 passIsAddedMessage={passIsMessageAdded}
+                                                                 passSetIsAddedMessage={passSetIsMessageAdded}
                                                                  passChatLatestMessages={latestMessages}
                                                                  passPersons={passPersons}
                                                                  passSetPersons={passSetPersons}
+                                                                 passReceivedNewUserMessage={passReceivedNewUserMessage}
                                                                  passSetReceivedNewUserMessage={passSetReceivedNewUserMessage}
+                                                                 messages={messages}
+                                                                 passIsMessageAdded={passIsMessageAdded}
                                                         // passToImages={toImages}
                                                         // passSetToImages={setToImages}
                                                     />
@@ -121,10 +127,12 @@ export default function MyChat({
                                             <MDBCol md="6" lg="7" xl="8">
                                                 {chatId != null &&
                                                     <ChatMessages passChatId={chatId} passToEmail={toEmail}
-                                                                  passIsAddedMessage={isAddedMessage}
-                                                                  passSetIsAddedMessage={setIsAddedMessage}
+                                                                  passIsAddedMessage={passIsMessageAdded}
+                                                                  passSetIsAddedMessage={passSetIsMessageAdded}
                                                                   passPersons={passPersons}
-                                                                  passToImages={toImages}/>}
+                                                                  passToImages={toImages}
+                                                                  messages={messages} setMessages={setMessages}
+                                                    />}
 
                                             </MDBCol>
                                         </MDBRow>

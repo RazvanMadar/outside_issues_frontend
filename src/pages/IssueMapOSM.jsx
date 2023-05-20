@@ -305,8 +305,8 @@ const IssueMapOSM = ({
                                 // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                                 opacity={1}
                             />
-                            <Polygon pathOptions={{color: 'blue'}} positions={polygonCoordinates}/>
-                            <Polygon pathOptions={{color: 'red'}} positions={rectangleCoordinates}/>
+                            <Polygon pathOptions={{color: 'grey'}} positions={polygonCoordinates}/>
+                            {/*<Polygon pathOptions={{color: 'red'}} positions={rectangleCoordinates}/>*/}
                             {issues &&
                                 issues.map((issue) => {
                                         const icon = getMarkerImage(issue.type, issue.state);

@@ -7,7 +7,10 @@ const ChatPersonElement = ({
                                passSetChatId,
                                passChatId,
                                passSetToEmail,
-                               passIsAddedMessage
+                               passIsAddedMessage,
+                               messages,
+                               passReceivedNewUserMessage,
+                               passIsMessageAdded
                            }) => {
     const [latestMessage, setLatestMessage] = useState(null);
     const [image, setImage] = useState(null);
@@ -75,7 +78,7 @@ const ChatPersonElement = ({
     useEffect(() => {
         getImage();
         findLatestMessageByCitizenId();
-    }, [passIsAddedMessage]);
+    }, [passIsAddedMessage, messages]);
 
     return (<div>
         <a

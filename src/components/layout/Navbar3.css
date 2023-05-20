@@ -45,7 +45,7 @@
 
 .nav-menu {
   /*background-color: #060b26;*/
-  background-color: #AEBDCA;
+  /*background-color: #AEBDCA;*/
   width: 200px;
   height: 100vh;
   display: flex;
@@ -92,7 +92,7 @@
 }
 
 .navbar-toggle {
-  background-color: #AEBDCA;
+  /*background-color: #AEBDCA;*/
   /*background-color: #39375B;*/
   width: 100%;
   height: 80px;

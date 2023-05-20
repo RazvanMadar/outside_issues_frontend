@@ -2,7 +2,7 @@ import {getChatMessageFormat} from "../../common/utils";
 import {useEffect, useRef, useState} from "react";
 import {getCitizenImage} from "../../api/citizen-image";
 
-const ChatMessageElement = ({messages, chatId, passToImages, passIsAddedMessage}) => {
+const ChatMessageElement = ({messages, chatId, passToImages}) => {
     const email = localStorage.getItem("email");
     const userId = localStorage.getItem("userId")
     const [fromImage, setFromImage] = useState(null);
@@ -28,7 +28,6 @@ const ChatMessageElement = ({messages, chatId, passToImages, passIsAddedMessage}
         }
     }
 
-
     useEffect(() => {
         getFromImage();
         scrollToBottom();
@@ -39,7 +38,7 @@ const ChatMessageElement = ({messages, chatId, passToImages, passIsAddedMessage}
                  style={{position: "relative", height: "65vh", overflowY: "auto"}}>
         {messages.map((msg) => (
             msg.fromCitizen == email ?
-                <div className="d-flex flex-row justify-content-end">
+                <div className="d-flex flex-row justify-content-end" key={msg.date}>
                     <div>
                         <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
                             {msg.message}

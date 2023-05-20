@@ -12,8 +12,6 @@ const LoginComponent = ({onLogin}) => {
 
     console.log(window.innerHeight)    // 569 pe TV ul de acasa
 
-    const isLogged = localStorage.getItem("isLogged");
-    const navigate = useNavigate();
     localStorage.removeItem("userId");
     localStorage.removeItem("email");
     localStorage.removeItem("token");

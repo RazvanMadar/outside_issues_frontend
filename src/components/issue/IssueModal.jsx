@@ -155,7 +155,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                         <br/>
                         Data: {computeDateForPopup(issue.reportedDate)}
                         <br/>
-                        Raportată de: {issue.citizenEmail !== null ? issue.citizenEmail: "Senzorii platformei"}
+                        Raportat de: {issue.citizenEmail !== null ? issue.citizenEmail: "Senzorii platformei"}
                     </div>
                     <div style={{width: "49%"}}>
                         {issue.hasLocation && <iframe style={{width: "100%", height: "100%"}} title="Map"

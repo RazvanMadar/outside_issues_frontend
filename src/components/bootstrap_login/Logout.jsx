@@ -1,6 +1,6 @@
 import LoginComponent from "./LoginComponent";
 
-const Logout = () => {
+const Logout = ({onLogin}) => {
     localStorage.removeItem("userId");
     localStorage.removeItem("email");
     localStorage.removeItem("token");
@@ -8,6 +8,7 @@ const Logout = () => {
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
     localStorage.removeItem("isBlocked");
+    onLogin(false);
     return (
       <LoginComponent />
     );

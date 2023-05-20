@@ -14,8 +14,22 @@ import {filterIssues} from "../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
 
 
-const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSetTotalPages, passIssuesPerPage, passSetIsFiltered,
-                       passSetType, passSetState, passSetFromDate, passSetToDate, passSort, passOrder, passBackgroundColor}) => {
+const FilterMap = ({
+                       show,
+                       onHide,
+                       passFilteredIssues,
+                       passSetCurrentPage,
+                       passSetTotalPages,
+                       passIssuesPerPage,
+                       passSetIsFiltered,
+                       passSetType,
+                       passSetState,
+                       passSetFromDate,
+                       passSetToDate,
+                       passSort,
+                       passOrder,
+                       passBackgroundColor
+                   }) => {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const typeInputRef = useRef();
@@ -84,10 +98,11 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{backgroundColor: passBackgroundColor}}>
-                <Form style={{ display: "flex", flexWrap: "wrap" }}>
+                <Form style={{display: "flex", flexWrap: "wrap"}}>
                     <Form.Group className="mb-3" style={{width: "45%"}} controlId="exampleForm.ControlInput1">
                         <Form.Label>Categoria sesizării</Form.Label>
-                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category" id="category" innerRef={typeInputRef}>
+                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category"
+                               id="category" innerRef={typeInputRef}>
                             {CategoryData.map((cat) => <option key={cat.id}
                                                                style={{maxWidth: "1rem"}}>{cat.title}</option>)}
                         </Input>
@@ -95,7 +110,8 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                     <Form.Group className="mb-3" style={{marginLeft: "2rem", width: "45%"}}
                                 controlId="exampleForm.ControlInput1">
                         <Form.Label>Starea sesizării</Form.Label>
-                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="state" id="category" innerRef={stateInputRef}>
+                        <Input style={{backgroundColor: passBackgroundColor}} type="select" name="state" id="category"
+                               innerRef={stateInputRef}>
                             {StateData.map((st) => <option key={st.id}
                                                            style={{maxWidth: "1rem"}}>{st.title}</option>)}
                         </Input>

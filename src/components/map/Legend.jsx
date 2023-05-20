@@ -117,7 +117,7 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
             {isExtended ? <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues}
                                           passButtonId={buttonId} passSetButtonId={setButtonId} passBackgroundCol={passBackgroundCol} passBoldButton={boldButton} passSetBoldButton={setBoldButton}/>
                 :
-                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.3rem", top: "13rem"}}
+                <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.2rem", top: "13rem"}}
                                              onClick={() => setIsExtended(true)}/>
                 // <div className={classes.arrow}>
                 //     <span className={classes.spanArrow}></span>

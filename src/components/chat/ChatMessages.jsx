@@ -7,8 +7,8 @@ import noPhoto from "../../pages/images/no_photo.png";
 import {sendMessageViaWebSocket} from "../../api/web-socket-api";
 import ChatMessageElement from "./ChatMessageElement";
 
-const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages}) => {
-    const [messages, setMessages] = useState([]);
+const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages, messages, setMessages}) => {
+    // const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [fromImage, setFromImage] = useState();
     const [toImage, setToImage] = useState();

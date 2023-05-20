@@ -15,7 +15,7 @@ import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
 import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 
-const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
+const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIsIssueUpdated}) => {
     const userId = localStorage.getItem("userId");
     const email = localStorage.getItem("email")
     const [citizen, setCitizen] = useState(null);
@@ -133,6 +133,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
                         deleteImage();
                         addImage();
                     }
+                    passSetIsIssueUpdated((prev) => !prev);
                 } else {
                     console.log(err);
                 }
@@ -171,8 +172,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor}) => {
             filterCitizenIssues();
         }
     }, [currentPage, passIsDeleted, passIsUpdated])
-
-    console.log("PE PROFIL", userId, citizen, isBlocked)
 
     return (<div>
         {isBlocked ? <Navigate to={"/blocked"} replace/> :

@@ -32,6 +32,7 @@ function App() {
     const [isIssueAdded, setIsIssueAdded] = useState(false);
     const [isIssueDeleted, setIsIssueDeleted] = useState(false);
     const [isIssueUpdated, setIsIssueUpdated] = useState(false);
+    const [isMessageAdded, setIsMessageAdded] = useState(false);
     const [persons, setPersons] = useState([]);
     const [receivedNewUserMessage, setReceivedNewUserMessage] = useState(false);
     const [backgroundColor, setBackgroundColor] = useState(
@@ -50,7 +51,7 @@ function App() {
                          passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded}
                          passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted}
                          passPersons={persons} passSetPersons={setPersons}
-                         passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
+                         passSetReceivedNewUserMessage={setReceivedNewUserMessage} passIsMessageAdded={isMessageAdded} passSetIsMessageAdded={setIsMessageAdded}/>
                 <Routes>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
@@ -72,6 +73,7 @@ function App() {
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.CITIZEN]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/profile" element={<MyProfile passIsDeleted={isIssueDeleted}
                                                                    passIsUpdated={isIssueUpdated}
+                                                                   passSetIsIssueUpdated={setIsIssueUpdated}
                                                                    passBackgroundColor={backgroundColor}/>}/>
                     </Route>
 
@@ -114,14 +116,16 @@ function App() {
 
                     <Route path="/loginB" element={<LoginPage/>}/>
 
-                    <Route path="/logout" element={<Logout/>}/>
+                    <Route path="/logout" element={<Logout onLogin={setIsLoggedIn}/>}/>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.CITIZEN, ROLES.ADMIN]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}
                                                              passPersons={persons}
                                                              passSetPersons={setPersons}
                                                              passReceivedNewUserMessage={receivedNewUserMessage}
-                                                             passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>}/>
+                                                             passSetReceivedNewUserMessage={setReceivedNewUserMessage}
+                                                             passIsMessageAdded={isMessageAdded} passSetIsMessageAdded={setIsMessageAdded}
+                        />}/>
                     </Route>
 
                     <Route path="*" element={<NotFound/>}/>

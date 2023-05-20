@@ -19,7 +19,6 @@ import {getReactionsForSomeCitizenAndIssue} from "../../api/citizen-reactions-ap
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import IssueDetails from "../../pages/IssueDetails";
 import {useNavigate} from "react-router-dom";
 import {deleteIssueById} from "../../api/issue-api";
 import Button from '@mui/material/Button';
@@ -62,21 +61,24 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     const role = localStorage.getItem("role");
     const backgroundColor = getBackgroundColorForState(issue.state);
     const [modalShow, setModalShow] = useState(false);
+    const isAdmin = "ROLE_ADMIN" === localStorage.getItem("role") ? true : false;
 
     const token = localStorage.getItem("token")
 
     const getReactionsForCurrentUserAndIssue = () => {
-        return getReactionsForSomeCitizenAndIssue(token, userId, issue.id, (result, status, err) => {
-            if (status === 200) {
-                if (result !== null && result === 1) {
-                    setLikeButton(true);
-                } else if (result !== null && result === -1) {
-                    setDislikeButton(true);
+        if (!isAdmin) {
+            return getReactionsForSomeCitizenAndIssue(token, userId, issue.id, (result, status, err) => {
+                if (status === 200) {
+                    if (result !== null && result === 1) {
+                        setLikeButton(true);
+                    } else if (result !== null && result === -1) {
+                        setDislikeButton(true);
+                    }
+                } else {
+                    console.log(err);
                 }
-            } else {
-                console.log(err);
-            }
-        });
+            });
+        }
     };
 
     const geMainImage = () => {
@@ -111,7 +113,12 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                 let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost ștearsă.`;
                 if (deleteReasonInputRef.current.value.length > 0)
                     content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
-                sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id});
+                sendAnEmail({
+                    subject: "Sesizare Primăria Oradea",
+                    toEmail: issue.citizenEmail,
+                    content: content,
+                    issueId: issue.id
+                });
             } else {
                 console.log(err);
             }
@@ -228,7 +235,7 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
 
     // useEffect(() => {
     //     console.log("intra?")
-        // handleCardColor();
+    // handleCardColor();
     // }, [localStorage.getItem("dark_mode")])
 
     useEffect(() => {
@@ -289,13 +296,14 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                                 {convertAPIStatesToUI(issue.state).toLowerCase()}
                             </div>
                             <IconButton aria-label="edit" style={{position: "absolute", left: "85px", bottom: "7px"}}
-                                        // onClick={handleEdit}
-                                onClick={() => setModalShow(true)}
+                                // onClick={handleEdit}
+                                        onClick={() => setModalShow(true)}
                             >
                                 <BorderColorIcon/>
                             </IconButton>
                             <IconButton aria-label="delete"
-                                        style={{position: "absolute", left: "120px", bottom: "7px"}} onClick={handleOpenDialog}>
+                                        style={{position: "absolute", left: "120px", bottom: "7px"}}
+                                        onClick={handleOpenDialog}>
                                 <DeleteIcon/>
                             </IconButton>
                             <Dialog
@@ -379,9 +387,9 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                     }
                 </CardBody>
             </Card>
-            <IssueModal show={modalShow} issue={issue} onHide={() => setModalShow(false)}
-                        passIsUpdated={passIsUpdated}
-                        passBackgroundColor={passBackgroundColor}/>
+            {isAdmin && modalShow && <IssueModal show={modalShow} issue={issue} onHide={() => setModalShow(false)}
+                                    passIsUpdated={passIsUpdated}
+                                    passBackgroundColor={passBackgroundColor}/>}
         </div>
     );
 };

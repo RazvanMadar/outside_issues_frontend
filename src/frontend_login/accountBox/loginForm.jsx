@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {
     BoldLink,
     BoxContainer,
@@ -12,6 +12,7 @@ import { AccountContext } from "./accountContext";
 import {authenticate} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
+import classes from "../../components/bootstrap_login/LoginB.module.css";
 
 export function LoginForm({onLogin}) {
     const { switchToSignup } = useContext(AccountContext);
@@ -19,13 +20,22 @@ export function LoginForm({onLogin}) {
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const navigate = useNavigate();
+    const [isValidAccount, setIsValidAccount] = useState(true);
+    const [isIncomplete, setIsIncomplete] = useState(false);
 
     const submitHandler = (event) => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        const data = {email: enteredEmail, password: enteredPassword};
-        authenticate(data, login, navigate, onLogin);
+        if (enteredEmail === "" || enteredPassword === "") {
+            setIsIncomplete(true);
+            setIsValidAccount(true);
+        }
+        else {
+            setIsIncomplete(false);
+            const data = {email: enteredEmail, password: enteredPassword};
+            authenticate(data, login, navigate, onLogin, setIsValidAccount);
+        }
     };
 
     return (
@@ -37,6 +47,8 @@ export function LoginForm({onLogin}) {
             <Marginer direction="vertical" margin={10} />
             {/*<MutedLink href="#">Ți-ai uitat parola?</MutedLink>*/}
             <Marginer direction="vertical" margin="1.6em" />
+            {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
+            {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
             <SubmitButton type="submit" onClick={submitHandler}>Autentificare</SubmitButton>
             <Marginer direction="vertical" margin="1em" />
             <MutedLink href="#">

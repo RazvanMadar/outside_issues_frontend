@@ -14,7 +14,21 @@ import SockJsClient from "react-stomp";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passSetIsIssueAdded, passSetIsIssueDeleted, passSetIsIssueUpdated, passPersons, passSetPersons, passSetReceivedNewUserMessage}) => {
+const Navbar3 = ({
+                     isLoggedIn,
+                     passBackgroundColor,
+                     passIsIssueAdded,
+                     passIsIssueDeleted,
+                     passIsIssueUpdated,
+                     passSetIsIssueAdded,
+                     passSetIsIssueDeleted,
+                     passSetIsIssueUpdated,
+                     passPersons,
+                     passSetPersons,
+                     passSetReceivedNewUserMessage,
+                     passIsMessageAdded,
+                     passSetIsMessageAdded
+                 }) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
@@ -72,18 +86,18 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     };
 
     const onMessageReceived = (msg) => {
-        if (msg.to !== null) {
+        if (msg.to !== undefined) {
             if (msg.to === email) {
                 passSetIsIssueAdded((prev) => !prev)
                 passSetIsIssueUpdated((prev) => !prev)
             }
-        }
-        else if (msg.fromEmail !== null && msg.toEmail !== null) {
+        } else if (msg.fromEmail !== undefined && msg.toEmail !== undefined) {
             if (msg.fromEmail === email || msg.toEmail === email) {
                 if (!passPersons.some(item => item.email === msg.fromEmail)) {
                     passSetReceivedNewUserMessage((prev) => !prev)
                 }
-                passIsIssueAdded((prev) => !prev);
+                // passIsIssueAdded((prev) => !prev);
+                passSetIsMessageAdded((prev) => !prev);
                 console.log(msg.message);
             }
         }
@@ -114,12 +128,12 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                                 onClick={handleChangeColor}/>
                     </div>}
                     {((isLoggedIn || isLogged) && isUser) && !isBlocked && <button className="email"
-                                                                                                onClick={() => setModalShow(true)}
+                                                                                   onClick={() => setModalShow(true)}
                     >{firstName} {lastName}
                     </button>}
                     {isBlocked && <div className="admin">CONT BLOCAT</div>}
                     {((isLoggedIn || isLogged) && isAdmin) && <div className="admin">ADMINISTRATOR</div>}
-                    <ProfileModal
+                    {isUser && <ProfileModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         userId={userId}
@@ -127,11 +141,12 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                         passIsIssueUpdated={passIsIssueUpdated}
                         passIsIssueDeleted={passIsIssueDeleted}
                         passBackgroundColor={backgroundColor}
-                    />
+                    />}
                 </div>
-                <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
+                <nav style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}
+                     className={sidebar ? "nav-menu active" : "nav-menu"}>
                     <ul className="nav-menu-items" onClick={showSidebar}>
-                        <li className="navbar-toggle">
+                        <li style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}} className="navbar-toggle">
                             <Link to="#" className="menu-bars">
                                 <AiIcons.AiOutlineClose style={{color: "black"}}/>
                             </Link>
@@ -170,7 +185,7 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                         {isBlocked &&
                             <li key={8} className={"nav-text"}>
                                 <Link to={"/login"} style={{color: "black"}}>
-                                    <VpnKeyIcon />
+                                    <VpnKeyIcon/>
                                     <span className="span" style={{color: "black"}}>Deconectare</span>
                                 </Link>
                             </li>}
