@@ -27,28 +27,6 @@ const getLatestChatMessage = (token, from, to, callback) => {
     restApi.makeRequest(request, callback);
 }
 
-const findLatestMessageByEmail = (token, email, callback) => {
-    const request = new Request(backend_api + endpoint.message + "/email/" + email, {
-        method: "GET",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    });
-
-    restApi.makeRequest(request, callback);
-}
-
-const findLatestMessageById = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.message + "/latest/" + id, {
-        method: "GET",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    });
-
-    restApi.makeRequest(request, callback);
-}
-
 const sendMessage = (token, data, callback) => {
     const request = new Request(backend_api + endpoint.message, {
         method: "POST",
@@ -63,4 +41,4 @@ const sendMessage = (token, data, callback) => {
 }
 
 
-export {getChatMessages, sendMessage, getLatestChatMessage, findLatestMessageByEmail, findLatestMessageById};
+export {getChatMessages, sendMessage, getLatestChatMessage};

@@ -3,18 +3,6 @@ import L from "leaflet";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_KEY);
 
-const getCoordinatesFromAddress = (props) => {
-    Geocode.fromAddress(props).then(
-        (response) => {
-            const {lat, lng} = response.results[0].geometry.location;
-            return {lat, lng};
-        },
-        (error) => {
-            console.error(error);
-        }
-    );
-};
-
 const createIcon = (icon, type, isWorkingIcon) =>
     new L.Icon({
         iconUrl: icon,
@@ -23,4 +11,4 @@ const createIcon = (icon, type, isWorkingIcon) =>
         iconSize: isWorkingIcon ? [21, 21] : type ? [36, 36] : [17, 17],
     });
 
-export {getCoordinatesFromAddress, createIcon};
+export { createIcon};

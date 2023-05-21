@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import classes from "./Legend.module.css";
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -74,14 +73,12 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 <div className={classes.field}>
                     <div className="w-3 h-3 opacity-90 rounded-full">
                         <AddCircleIcon className={classes.icon} onClick={() => {
-                            // filterAllIssues("REGISTERED");
                             setType(null);
                             setState("REGISTERED");
                             handleChangeState("button1")
                         }}/>
                         <button id="button1" className={classes.legendText} style={getButtonStyle("button1")}
                                 onClick={() => {
-                                    // filterAllIssues("REGISTERED");
                                     setType(null);
                                     setState("REGISTERED");
                                     handleChangeState("button1");
@@ -91,14 +88,12 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
                     <WatchLaterIcon className={classes.icon} onClick={() => {
-                        // filterAllIssues("PLANNED");
                         setType(null);
                         setState("PLANNED");
                         handleChangeState("button2")
                     }}/>
                     <button id="button2" className={classes.legendText} style={getButtonStyle("button2")}
                             onClick={() => {
-                                // filterAllIssues("PLANNED");
                                 setType(null);
                                 setState("PLANNED");
                                 handleChangeState("button2");
@@ -107,14 +102,12 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
                     <BuildCircleIcon className={classes.icon} onClick={() => {
-                        // filterAllIssues("WORKING");
                         setType(null);
                         setState("WORKING");
                         handleChangeState("button3")
                     }}/>
                     <button id="button3" className={classes.legendText} style={getButtonStyle("button3")}
                             onClick={() => {
-                                // filterAllIssues("WORKING")
                                 setType(null);
                                 setState("WORKING");
                                 handleChangeState("button3");
@@ -123,14 +116,12 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
                     <CheckCircleIcon className={classes.icon} onClick={() => {
-                        // filterAllIssues("SOLVED");
                         setType(null);
                         setState("SOLVED");
                         handleChangeState("button5")
                     }}/>
                     <button id="button5" className={classes.legendText} style={getButtonStyle("button5")}
                             onClick={() => {
-                                // filterAllIssues("SOLVED")
                                 setType(null);
                                 setState("SOLVED");
                                 handleChangeState("button5")
@@ -150,10 +141,6 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 :
                 <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.2rem", top: "14rem"}}
                                              onClick={() => setIsExtended(true)}/>
-                // <div className={classes.arrow}>
-                //     <span className={classes.spanArrow}></span>
-                //     <span className={classes.spanArrow}></span>
-                // </div>
             }
         </div>
     );

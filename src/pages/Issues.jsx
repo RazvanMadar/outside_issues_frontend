@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import CardItem2 from "../components/ui/CardItem2";
+import CardItem2 from "../components/issue/CardItem2";
 import {filterIssues} from "../api/issue-api";
 import {Button} from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import classes from "./Issues.module.css";
-import FilterMap from "../map-components/FilterMap";
+import FilterMap from "../modal/FilterMap";
 import Pagination from '@mui/material/Pagination';
 import {addCitizenReaction} from "../api/citizen-reactions-api";
 import {Input} from "reactstrap";
@@ -17,7 +17,6 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import {Navigate, useLocation} from "react-router-dom";
-import SockJsClient from "react-stomp";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
@@ -193,7 +192,6 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
                         <Row>
                             {issues.map((issue) => (
                                 <Col key={issue.id}
-                                    // className="bg-light border"
                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                                 >
                                     <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}

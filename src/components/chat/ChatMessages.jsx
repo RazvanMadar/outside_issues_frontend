@@ -1,23 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
-import {getChatMessageFormat} from "../../common/utils";
 import {MDBIcon} from "mdb-react-ui-kit";
 import {getChatMessages} from "../../api/message-api";
 import {getCitizenImage} from "../../api/citizen-image";
-import noPhoto from "../../pages/images/no_photo.png";
 import {sendMessageViaWebSocket} from "../../api/web-socket-api";
 import ChatMessageElement from "./ChatMessageElement";
 
 const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages, messages, setMessages}) => {
-    // const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [fromImage, setFromImage] = useState();
-    const [toImage, setToImage] = useState();
     const userId = localStorage.getItem("userId");
-    const myDivRef = useRef(null);
     const email = localStorage.getItem("email");
 
     const token = localStorage.getItem("token")
-    // const [isAddedMessage, setIsAddedMessage] = useState(false);
 
     const getAllChatMessages = () => {
         return getChatMessages(token, userId, passChatId, (result, status, err) => {
@@ -53,7 +47,6 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
             return sendMessageViaWebSocket(token, data, (result, status, err) => {
                 if (result != null && status == 200) {
                     passSetIsAddedMessage((prev) => !prev);
-                    // setIsAddedMessage((prev) => !prev)
                     setMessage("");
                 } else if (status === 403) {
                     // setForbidden(true);
@@ -104,9 +97,6 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                        value={message}
                        onKeyDown={handleKeyDown}
                 />
-                {/*<a className="ms-1 text-muted" href="#!">*/}
-                {/*    <MDBIcon fas icon="paperclip"/>*/}
-                {/*</a>*/}
                 <a className="ms-3" href={`#${passChatId}`}>
                     <MDBIcon fas icon="paper-plane"
                              onClick={sendMessageToUser}

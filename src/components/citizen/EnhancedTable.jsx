@@ -19,7 +19,6 @@ import Button from "@mui/material/Button";
 import BasicChart from "../../chart/BasicChart";
 import JSONDataChart from "../../chart/JSONDataChart";
 import {getAllRejected} from "../../api/rejected-issues-api";
-import FilledPieChart from "../../chart/FilledPieChart";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -251,7 +250,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         setCurrentPage(0);
     };
 
-    // Avoid a layout jump when reaching the last page with empty rows.
+    // Avoid a navbar jump when reaching the last page with empty rows.
     const emptyRows =
         currentPage > 0 ? Math.max(0, (1 + currentPage) * citizensPerPage - totalElements) : 0;
 

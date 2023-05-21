@@ -7,12 +7,11 @@ import {convertAPIStatesToUI} from "../common/utils";
 import SimpleArray from "../chart/SimpleArray";
 import {Col, Row} from "react-bootstrap";
 import Pagination from "@mui/material/Pagination";
-import CardItem3 from "../components/ui/CardItem3";
+import CardItem3 from "../components/issue/CardItem3";
 import Button from "@mui/material/Button";
-import ImageBoxProfile from "../map-components/ImageBoxProfile";
+import ImageBoxProfile from "../imagebox/ImageBoxProfile";
 import {Navigate, useNavigate} from "react-router-dom";
 import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
-import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 
 const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIsIssueUpdated}) => {
@@ -32,7 +31,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     const [order, setOrder] = useState('desc');
     const firstNameInputRef = useRef();
     const lastNameInputRef = useRef();
-    const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
@@ -146,7 +144,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                 if (result !== null && status === 200) {
                     const second = {state: result[1].state, val2: result[1].val}
                     setData2([result[0], second]);
-                    // setData2(result);
                 } else {
                     console.log(err);
                 }
@@ -205,12 +202,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                                         onClick={updateAnCitizen}
                                 >Actualizează profilul
                                 </Button>
-                                {/*<Button variant="contained"*/}
-                                {/*        color="error"*/}
-                                {/*        onClick={() => navigate("/issues")}*/}
-                                {/*>*/}
-                                {/*    Ieșire*/}
-                                {/*</Button>*/}
                             </Form>
                         </div>
                         <div

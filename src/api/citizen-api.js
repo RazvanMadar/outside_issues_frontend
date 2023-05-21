@@ -51,17 +51,6 @@ const findCitizenByEmail = (token, email, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const findCitizensByName = (token, name, callback) => {
-    const request = new Request(backend_api + endpoint.citizen + "/name/" + name, {
-        method: "GET",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    });
-
-    restApi.makeRequest(request, callback);
-};
-
 const registerCitizen = (data, isAuth, callback) => {
     const request = new Request(backend_api + endpoint.citizen + "/auth/?isAuth=" + isAuth, {
         method: "POST",
@@ -98,4 +87,4 @@ const getChatUsersByRole = (token, name, searchPerson, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen, findCitizensByName};
+export {findCitizenById, findCitizenByEmail, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen};

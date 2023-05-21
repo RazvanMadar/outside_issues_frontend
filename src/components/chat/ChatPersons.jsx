@@ -1,11 +1,8 @@
 import {MDBTypography} from "mdb-react-ui-kit";
-import React, {useState} from "react";
-import {getLatestChatMessage} from "../../api/message-api";
+import React from "react";
 import {getChatUsersByRole} from "../../api/citizen-api";
-import SockJsClient from "react-stomp";
 import ChatPersonElement from "./ChatPersonElement";
 
-const SOCKET_URL = 'http://localhost:8080/ws-message';
 
 const ChatPersons = ({
                          passChatId,
@@ -20,7 +17,6 @@ const ChatPersons = ({
                          messages,
                          passIsMessageAdded
                      }) => {
-    const [latestMessages, setLatestMessages] = useState([]);
     const chatUsersRole = localStorage.getItem("role");
 
     const token = localStorage.getItem("token")
@@ -38,34 +34,8 @@ const ChatPersons = ({
         );
     }
 
-    // const onConnected = () => {
-    //     console.log("Connected!!!");
-    // };
-    //
-    // const onMessageReceived = (msg) => {
-    //     console.log(email, msg)
-    //     if (msg.fromEmail === email || msg.toEmail === email) {
-    //         console.log(passPersons)
-    //         if (!passPersons.some(item => item.email === msg.fromEmail)) {
-    //             passSetReceivedNewUserMessage((prev) => !prev)
-    //         }
-    //         passSetIsAddedMessage((prev) => !prev);
-    //         console.log(msg.message);
-    //     }
-    // };
-
     return (
         <div>
-            {/*<SockJsClient*/}
-            {/*    url={SOCKET_URL}*/}
-            {/*    topics={[*/}
-            {/*        "/topic/message",*/}
-            {/*        "/user/" + email + "/private",*/}
-            {/*    ]}*/}
-            {/*    onConnect={onConnected}*/}
-            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
-            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
-            {/*/>*/}
             <div style={{position: "relative", height: "400px", overflowY: "auto"}}>
 
                 <MDBTypography listUnStyled className="mb-0">

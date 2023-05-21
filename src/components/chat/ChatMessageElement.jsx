@@ -56,7 +56,7 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
                         height="50"
                     />
                 </div> :
-                <div className="d-flex flex-row justify-content-start">
+                <div className="d-flex flex-row justify-content-start" key={msg.date}>
                     <img
                         src={passToImages.find((element) => element.id === chatId) != null ?
                             passToImages.find((element) => element.id === chatId).image : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"}

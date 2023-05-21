@@ -2,9 +2,8 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import classes from "./SliderComponent.module.css";
-import oradea2 from '../pages/images/oradea2.jpg'
 
-import {sliderImages} from "./data";
+import {sliderImages} from "../staticdata/SliderData";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import BasicChart from "../chart/BasicChart";
 import {getBasicStatistics, getTypeStatistics, getYearStatistics} from "../api/issue-api";
 import SliderComponent from "../slider/SliderComponent";
 import SimpleArray from "../chart/SimpleArray";

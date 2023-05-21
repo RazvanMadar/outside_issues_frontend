@@ -8,6 +8,7 @@ import roadSignPlaceholder from "../pages/images/roadSignPlaceholder.jpg";
 import animalPlaceholder from "../pages/images/animalPlaceholder.jpg";
 import publicOrderPlaceholder from "../pages/images/publicOrderPlaceholder.png";
 import noPhoto from "../pages/images/no_photo.png";
+import L from "leaflet";
 
 const typesMap = new Map();
 typesMap.set("ROAD", "Drumuri");
@@ -194,10 +195,6 @@ const computeDateForPopup = (date) => {
 }
 
 const computeDescriptionForPopup = (description) => {
-    // if (description.length < 10) {
-    //     return description;
-    // }
-    // const newDescription = description.slice(0, 10) + "\n" + description.slice(10);
     if (description.length == 0)
         return "Nu are descriere"
     return description.length > 25 ? description.substring(0, 26) + "..." : description;

@@ -10,8 +10,6 @@ const AuthContext = createContext({
     logout: () => {},
 });
 
-const useAuth = () => useContext(AuthContext);
-
 // Create a provider component to wrap around your application
 const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
@@ -46,4 +44,4 @@ const AuthProvider = ({ children }) => {
     );
 };
 
-export { AuthContext, AuthProvider, useAuth };
+export { AuthContext, AuthProvider };

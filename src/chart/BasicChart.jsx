@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PieChart, {Connector, Export, Format, Label, Legend, Series, Tooltip,} from 'devextreme-react/pie-chart';
+import PieChart, {Connector, Format, Label, Legend, Series, Tooltip,} from 'devextreme-react/pie-chart';
 
 // COPY PASTE DEVEXPRESS DOUGHNUT
 const BasicChart = ({data, title, desktopScreen}) => {
@@ -24,7 +24,6 @@ const BasicChart = ({data, title, desktopScreen}) => {
                         <Connector visible={true}/>
                     </Label>
                 </Series>
-                {/*<Export enabled={true}/>*/}
                 <Legend
                     margin={0}
                     horizontalAlignment="right"

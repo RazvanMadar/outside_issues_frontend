@@ -2,15 +2,12 @@ import "./App.css";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Issues from "./pages/Issues";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
-import AddIssuePage from "./pages/AddIssuePage";
 import IssueMapOSM from "./pages/IssueMapOSM";
-import Navbar3 from "./components/layout/Navbar3";
-import LoginComponent from "./components/bootstrap_login/LoginComponent";
+import Navbar3 from "./components/navbar/Navbar3";
+import LoginComponent from "./pages/LoginComponent";
 import {AuthProvider} from "./context/AuthContext";
 import {useState} from "react";
-import Logout from "./components/bootstrap_login/Logout";
+import Logout from "./components/login/Logout";
 import Citizens from "./pages/Citizens";
 import MyChat from "./components/chat/MyChat";
 import MyProfile from "./pages/MyProfile";
@@ -86,8 +83,6 @@ function App() {
                                                      passIsIssueUpdated={isIssueUpdated}
                                                      passIsIssueDeleted={isIssueDeleted}/>}/>
                     </Route>
-
-                    <Route path="/register" element={<RegisterPage/>}/>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.ADMIN]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/citizens"

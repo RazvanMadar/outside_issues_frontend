@@ -121,11 +121,6 @@ const ChatPersonElement = ({
                 <p className="small text-muted mb-1">
                     {latestMessage != null && getElapsedTime(latestMessage.date, latestMessage.message)}
                 </p>
-
-                {/*<span*/}
-                {/*    className="badge bg-danger rounded-pill float-end">*/}
-                {/*                2*/}
-                {/*              </span>*/}
             </div>
         </a>
     </div>)

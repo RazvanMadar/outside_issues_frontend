@@ -20,12 +20,8 @@ export default function MyChat({
                                    passSetIsMessageAdded
                                }) {
     const [toImages, setToImages] = useState([]);
-    // const [isAddedMessage, setIsAddedMessage] = useState(false);
     const [messages, setMessages] = useState([]);
     const [chatId, setChatId] = useState();
-    const userId = localStorage.getItem("userId");
-    const myDivRef = useRef(null);
-    const email = localStorage.getItem("email");
     const [toEmail, setToEmail] = useState();
     const [latestMessages, setLatestMessages] = useState([]);
     const chatUsersRole = localStorage.getItem("role");
@@ -89,22 +85,6 @@ export default function MyChat({
                                         <MDBRow>
                                             <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
                                                 <div className="p-3">
-                                                    {/*                      <MDBInputGroup className="rounded mb-3">*/}
-                                                    {/*                          <input*/}
-                                                    {/*                              className="form-control rounded"*/}
-                                                    {/*                              placeholder="Search"*/}
-                                                    {/*                              type="search"*/}
-                                                    {/*                              onKeyDown={handleKeyDown}*/}
-                                                    {/*                              onChange={handleInputChange}*/}
-                                                    {/*                          />*/}
-                                                    {/*                          <span*/}
-                                                    {/*                              className="input-group-text border-0"*/}
-                                                    {/*                              id="search-addon"*/}
-                                                    {/*                          >*/}
-                                                    {/*  {isAdmin && <MDBIcon fas icon="search" onClick={() => setSearchOn((prev) => !prev)}/>}*/}
-                                                    {/*</span>*/}
-                                                    {/*                      </MDBInputGroup>*/}
-
                                                     <ChatPersons passChatId={chatId} passSetChatId={setChatId}
                                                                  passSetToEmail={setToEmail}
                                                                  passIsAddedMessage={passIsMessageAdded}
@@ -116,10 +96,7 @@ export default function MyChat({
                                                                  passSetReceivedNewUserMessage={passSetReceivedNewUserMessage}
                                                                  messages={messages}
                                                                  passIsMessageAdded={passIsMessageAdded}
-                                                        // passToImages={toImages}
-                                                        // passSetToImages={setToImages}
                                                     />
-
                                                 </div>
                                             </MDBCol>
                                             <MDBCol md="6" lg="7" xl="8">
@@ -131,7 +108,6 @@ export default function MyChat({
                                                                   passToImages={toImages}
                                                                   messages={messages} setMessages={setMessages}
                                                     />}
-
                                             </MDBCol>
                                         </MDBRow>
                                     </MDBCardBody>
