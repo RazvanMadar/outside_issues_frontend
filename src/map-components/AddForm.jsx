@@ -18,7 +18,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const descriptionInputRef = useRef();
     const categoryInputRef = useRef();
     const emailInputRef = useRef();
-    const phoneInputRef = useRef();
     const [forbidden, setForbidden] = useState(false);
     const [authorized, setAuthorized] = useState(false);
     const [issueAdr, setIssueAdr] = useState('');
@@ -30,6 +29,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const [currentMail, setCurrentMail] = useState(
         localStorage.getItem("email") ? localStorage.getItem("email") : "");
     const [citizenExists, setCitizenExists] = useState(false);
+    const [isValidEmail, setIsValidEmail] = useState(true);
 
     const token = localStorage.getItem("token");
 
@@ -43,6 +43,11 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 console.log(err);
             }
         })
+    }
+
+    const isCorrectEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
 
     const addAnIssue = (issue) => {
@@ -126,7 +131,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const computeAddressFromCoordinates = (address) => {
         setIssueAdr("Fără adresă");
         return getAddressFromCoordinates(address, (result, status, err) => {
-            console.log(result);
             if (result !== null && status === 200) {
                 console.log(result);
                 let issueAddress = "";
@@ -164,16 +168,21 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const handleAddIssue = () => {
         const currentEmail = !isLogged ? emailInputRef.current.value : null
         if (!isLogged) {
-            setCurrentMail(currentEmail);
-            const currentPhone = phoneInputRef.current.value;
-            const data = {
-                email: currentEmail,
-                phoneNumber: currentPhone.length > 0 ? currentPhone : null,
-                firstName: null,
-                lastName: null,
-                password: null
-            };
-            registerAnCitizen(data);
+            if (currentEmail === null || currentEmail === '' || !isCorrectEmail(currentEmail)) {
+                setIsValidEmail(false);
+                setCitizenExists(false);
+            } else {
+                setIsValidEmail(true);
+                setCitizenExists(false);
+                setCurrentMail(currentEmail);
+                const data = {
+                    email: currentEmail,
+                    firstName: null,
+                    lastName: null,
+                    password: null
+                };
+                registerAnCitizen(data);
+            }
         } else {
             addAnIssue({
                 type: convertUITypesToAPI(categoryInputRef.current.value),
@@ -195,7 +204,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         computeAddressFromCoordinates(checkIfLocation());
     }, [passIsShown, isChecked])
 
-    const formHeight = isLogged ? 480 : 610
+    const formHeight = isLogged ? 480 : 590
     return (
         <div className={classes.wrapper} style={{height: formHeight}}>
             <Form>
@@ -234,10 +243,8 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         <Input type="email" name="email" id="email" innerRef={emailInputRef}
                                placeholder="Email">
                         </Input>
-                        {citizenExists && <p>Există un cont cu acest nume! Autentifică-te</p>}
-                        <Input type="text" name="email" id="email" innerRef={phoneInputRef}
-                               placeholder="Telefon (opțional...)" style={{marginTop: "5px", marginBottom: "5px"}}>
-                        </Input>
+                        {citizenExists && <p className={classes.invalid}>Există acest cont! Autentifică-te</p>}
+                        {!isValidEmail && <p className={classes.invalid}>Acest email nu este corect!</p>}
                         <Link to="/login" style={{textDecoration: "none", color: "#7895B2"}}>
                             Ai deja cont? Autentifică-te aici
                         </Link>

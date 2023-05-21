@@ -153,7 +153,7 @@ const FilterMap = ({
                     </Form.Group>
                 </Form>
             </Modal.Body>
-            <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
+            <Modal.Footer style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
                 <Button variant="contained"
                         color="primary"
                         className={classes.filterButton}

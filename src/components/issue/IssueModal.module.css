@@ -3,3 +3,11 @@
     background-color: black;
     border-radius: 10px
 }
+
+.filterButton {
+    width: 40%
+}
+
+.cancelButton {
+    width: 40%;
+}

@@ -20,11 +20,7 @@ const ChatPersons = ({
                          messages,
                          passIsMessageAdded
                      }) => {
-    const [persons, setPersons] = useState([]);
     const [latestMessages, setLatestMessages] = useState([]);
-    const [toImages, setToImages] = useState([]);
-    const email = localStorage.getItem("email");
-    // const chatUsersRole = localStorage.getItem("role") === "ROLE_ADMIN" ? "ROLE_USER" : "ROLE_ADMIN";
     const chatUsersRole = localStorage.getItem("role");
 
     const token = localStorage.getItem("token")
@@ -41,44 +37,6 @@ const ChatPersons = ({
             }
         );
     }
-
-    // const getImages = (users) => {
-    //     users.map((person) => {
-    //         return getCitizenImage(person.citizenId, (result, status, err) => {
-    //             if (result !== null && status === 200) {
-    //                 passSetToImages(images => [...(images || []), {
-    //                     id: person.citizenId,
-    //                     image: URL.createObjectURL(result)
-    //                 }]);
-    //             } else if (status === 403) {
-    //                 // setForbidden(true);
-    //             } else {
-    //                 passSetToImages(images => [...images, {
-    //                     id: person.citizenId,
-    //                     image: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-    //                 }]);
-    //             }
-    //         });
-    //     });
-    // }
-
-    const getLatestMessages = () => {
-        // users.map((person) => {
-        //     getLatestChatMessage(userId, person.citizenId, (result, status, err) => {
-        getLatestChatMessage(token, 14, 16, (result, status, err) => {
-            if (result !== null && status === 200) {
-                // setLatestMessages(messages => [...(messages || []), {
-                //     id: person.citizenId,
-                //     result: result
-                // }]);
-                setLatestMessages(result)
-                console.log(latestMessages)
-            } else {
-                console.log(err);
-            }
-        });
-        // });
-    };
 
     // const onConnected = () => {
     //     console.log("Connected!!!");

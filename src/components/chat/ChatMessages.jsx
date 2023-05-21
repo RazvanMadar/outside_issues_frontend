@@ -71,8 +71,12 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     }
 
     useEffect(() => {
-        getFromImage();
-        getAllChatMessages();
+        const timer = setTimeout(() => {
+            getFromImage();
+            getAllChatMessages();
+        }, 300);
+
+        return () => clearTimeout(timer);
     }, [passIsAddedMessage, passChatId])
 
     return (
@@ -95,7 +99,8 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                        className="form-control form-control-lg"
                        id="exampleFormControlInput2"
                        placeholder="Scrie un mesaj..."
-                    onChange={handleInputChange}
+                       onChange={handleInputChange}
+                       maxLength={255}
                        value={message}
                        onKeyDown={handleKeyDown}
                 />

@@ -22,7 +22,6 @@ const ChatPersonElement = ({
     const findLatestMessageByCitizenId = () => {
         return getLatestChatMessage(token, person.citizenId, userId, (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log(result);
                     setLatestMessage(result);
                 } else {
                     console.log(err);
@@ -75,6 +74,11 @@ const ChatPersonElement = ({
         });
     }
 
+    const restrictLatestMessageSize = (message) => {
+        console.log(message)
+        return message !== null && message.length > 15 ? message.substring(0, 15) + "..." : message;
+    }
+
     useEffect(() => {
         getImage();
         findLatestMessageByCitizenId();
@@ -105,9 +109,9 @@ const ChatPersonElement = ({
                     {latestMessage != null ? (
                         <>
                             {latestMessage.fromCitizen === email ? (
-                                <p className="small text-muted">Tu: {latestMessage.message}</p>
+                                <p className="small text-muted">Tu: {restrictLatestMessageSize(latestMessage.message)}</p>
                             ) : (
-                                <p className="small text-muted">{latestMessage.message}</p>
+                                <p className="small text-muted">{restrictLatestMessageSize(latestMessage.message)}</p>
                             )}
                         </>
                     ) : "Nu aveți mesaje."}

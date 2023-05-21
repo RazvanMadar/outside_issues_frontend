@@ -22,7 +22,7 @@ const LoginComponent = ({onLogin}) => {
     localStorage.removeItem("lastName");
 
     useEffect(() => {
-        onLogin(false);
+        // onLogin(false);
 
         const handleResize = () => {
             setWidth(window.innerWidth);

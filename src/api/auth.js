@@ -7,7 +7,6 @@ const authenticate = (data, login, navigate, onLogin, setIsValidAccount) => {
         .post(login_api, data)
         .then((response) => {
             localStorage.removeItem("isBlocked");
-            console.log(response.data);
 
             onLogin(true);
             localStorage.setItem("userId", response.data.userId);

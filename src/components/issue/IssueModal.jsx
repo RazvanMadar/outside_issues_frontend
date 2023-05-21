@@ -172,10 +172,10 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                        disabled
                 />
             </Modal.Body>
-            <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
+            <Modal.Footer style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
                 <Button variant="contained"
                         color="primary"
-                    // className={classes.filterButton}
+                        className={classes.filterButton}
                         onClick={updateAnIssue}
                 >Actualizează
                 </Button>

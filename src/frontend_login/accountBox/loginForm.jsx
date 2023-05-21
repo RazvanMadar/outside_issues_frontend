@@ -45,7 +45,6 @@ export function LoginForm({onLogin}) {
                 <Input type="password" placeholder="Parolă" ref={passwordInputRef}/>
             </FormContainer>
             <Marginer direction="vertical" margin={10} />
-            {/*<MutedLink href="#">Ți-ai uitat parola?</MutedLink>*/}
             <Marginer direction="vertical" margin="1.6em" />
             {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
             {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}

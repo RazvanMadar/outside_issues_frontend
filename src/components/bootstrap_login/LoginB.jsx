@@ -1,11 +1,12 @@
 import React, {useContext, useRef, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import classes from "./LoginB.module.css";
 import {authenticate} from "../../api/auth";
 import {AuthContext} from "../../context/AuthContext";
 import {registerCitizen} from "../../api/citizen-api";
 import ImageBox from "../../map-components/ImageBox";
 import {addCitizenImage} from "../../api/citizen-image";
+import {isCorrectEmail, isCorrectPhoneNumber} from "../../common/utils";
 
 const LoginB = ({onLogin}) => {
     const [isSignUp, setSignUp] = useState(false);
@@ -28,10 +29,6 @@ const LoginB = ({onLogin}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [deleteImage, setDeleteImage] = useState(false);
-
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
-    };
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -72,22 +69,6 @@ const LoginB = ({onLogin}) => {
             }
         })
     };
-
-    const isCorrectEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    const isCorrectPhoneNumber = (phoneNumber) => {
-        if (phoneNumber.length < 10)
-            return false;
-        if (phoneNumber[0] === '0' && phoneNumber[1] === '7' && phoneNumber.length === 10)
-            return true;
-        if (phoneNumber[0] === "+" && phoneNumber[1] === "4" && phoneNumber[2] === "0" && phoneNumber[3] === "7" && phoneNumber.length === 12)
-            return true;
-        return false;
-    }
-
 
     const registerHandler = (event) => {
         event.preventDefault();
@@ -206,7 +187,6 @@ const LoginB = ({onLogin}) => {
                             ref={passwordInputRef}
                             required
                         />
-                        {/*<Link to="/">Ți-ai uitat parola?</Link>*/}
                         <br/>
                         {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
                         {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
@@ -226,6 +206,17 @@ const LoginB = ({onLogin}) => {
                                 className={classes.ghost + " " + classes.button}
                                 id="signIn"
                                 onClick={() => {
+                                    firstNameRegisterInputRef.current.value = '';
+                                    lastNameRegisterInputRef.current.value = '';
+                                    emailRegisterInputRef.current.value = '';
+                                    passwordRegisterInputRef.current.value = '';
+                                    phoneRegisterInputRef.current.value = '';
+                                    setDeleteImage((prev) => !prev)
+                                    setIsValidEmail(true);
+                                    setIsIncomplete(false);
+                                    setIsValidPassword(true);
+                                    setIsValidAccount(true);
+                                    setIsValidPhone(true);
                                     setSignUp((prev) => !prev);
                                 }}
                             >
@@ -241,6 +232,13 @@ const LoginB = ({onLogin}) => {
                                 className={classes.ghost + " " + classes.button}
                                 id="signUp"
                                 onClick={() => {
+                                    emailInputRef.current.value = '';
+                                    passwordInputRef.current.value = '';
+                                    setIsValidEmail(true);
+                                    setIsIncomplete(false);
+                                    setIsValidPassword(true);
+                                    setIsValidAccount(true);
+                                    setIsValidPhone(true);
                                     setSignUp((prev) => !prev);
                                 }}
                             >
