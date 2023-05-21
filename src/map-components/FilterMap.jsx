@@ -58,6 +58,7 @@ const FilterMap = ({
             enteredFromDate,
             enteredToDate,
             false,
+            true,
             0,
             passIssuesPerPage,
             passSort,

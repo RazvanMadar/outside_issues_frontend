@@ -71,6 +71,7 @@ const Navbar3 = ({
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
+        console.log("S-a apelat din NAVBAR3")
 
         const handleResize = () => {
             setDesktopScreen(window.innerWidth > 767);
@@ -154,7 +155,6 @@ const Navbar3 = ({
                         {SidebarData.map((item, index) => {
                             if (isLogged && !isBlocked && item.title !== "Autentificare") {
                                 if (isUser && item.title !== 'Cetățeni') {
-                                    console.log("a intrat aici", item.title)
                                     return (
                                         <li key={index} className={item.cName}>
                                             <Link to={item.path} style={{color: "black"}}>

@@ -58,6 +58,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
             fromDate,
             toDate,
             false,
+            true,
             currentPage,
             issuesPerPage,
             sort,
@@ -132,7 +133,7 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
 
     return (
         // style={{backgroundColor: "grey"}}
-        <div>
+        <div style={{paddingTop: "55px"}}>
             {/*{email !== null && <SockJsClient*/}
             {/*    url={SOCKET_URL}*/}
             {/*    topics={[*/}

@@ -6,8 +6,8 @@ const UnauthorizedPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div>
-            <img src={unauthorized} style={{width: "100%", height: "calc(100vh - 60px)"}}/>
+        <div style={{paddingTop: "55px"}}>
+            <img src={unauthorized} style={{width: "100%", height: "calc(100vh - 55px)"}}/>
             <Button style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)"}} color="primary"
                     variant="contained" onClick={() => navigate(-1)}>
                 Mergi înapoi

@@ -37,7 +37,7 @@ const LoginComponent = ({onLogin}) => {
     }, []);
 
     return (
-        <div>
+        <div style={{paddingTop: "55px"}}>
             {component}
         </div>
     );

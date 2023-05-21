@@ -137,6 +137,7 @@ const IssueMapOSM = ({
                 null,
                 null,
                 true,
+                false,
                 null,
                 1000,
                 null,
@@ -286,7 +287,7 @@ const IssueMapOSM = ({
         );
 
         return (
-            <div>
+            <div style={{paddingTop: "55px"}}>
                 {!isBlocked ?
                     <div>
                         <MapContainer

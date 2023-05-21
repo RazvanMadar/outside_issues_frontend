@@ -176,7 +176,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     return (<div>
         {isBlocked ? <Navigate to={"/blocked"} replace/> :
             citizen !== null &&
-                <div>
+                <div style={{paddingTop: "55px"}}>
                     <div style={{
                         margin: "1rem",
                         display: desktopScreen && "flex",

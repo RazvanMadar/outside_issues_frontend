@@ -76,9 +76,9 @@ export default function MyChat({
     }, [passReceivedNewUserMessage, searchOn])
 
     return (
-        <div>
+        <div style={{paddingTop: "55px"}}>
             {!isBlocked ?
-                <div style={{height: "calc(100vh - 60px)"}}>
+                <div style={{height: "calc(100vh - 55px)"}}>
                     <MDBContainer fluid className="py-5" style={{
                         backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
                         height: "100%"

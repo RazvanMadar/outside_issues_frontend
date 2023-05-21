@@ -27,7 +27,7 @@ const Citizens = ({passIsDeleted, passBackgroundColor}) => {
     }, [])
 
     return (
-        <div>
+        <div style={{paddingTop: "55px"}}>
             {!isBlocked ? <EnhancedTable passIsDeleted={passIsDeleted} passBackgroundColor={passBackgroundColor}/> : <Navigate to={"/blocked"} replace/>}
         </div>
     );

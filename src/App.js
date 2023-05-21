@@ -78,10 +78,6 @@ function App() {
                     </Route>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
-                        <Route path="/add-issue" element={<AddIssuePage/>}/>
-                    </Route>
-
-                    <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/map"
                                element={<IssueMapOSM passBackgroundCol={backgroundColor}
                                                      passIsIssueAdded={isIssueAdded}
@@ -113,8 +109,6 @@ function App() {
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/forbidden" element={<ForbiddenPage />}/>
                     </Route>
-
-                    <Route path="/loginB" element={<LoginPage/>}/>
 
                     <Route path="/logout" element={<Logout onLogin={setIsLoggedIn}/>}/>
 

@@ -42,33 +42,36 @@ const getTypeStatistics = (token, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const filterIssues = (token, type, state, fromDate, toDate, hasLocation, page, size, sort, order, callback) => {
+const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, page, size, sort, order, callback) => {
     let urlPath = backend_api + endpoint.issue + "/filtered?";
-    if (type) {
+    if (type !== null) {
         urlPath += "type=" + type + "&";
     }
-    if (state) {
+    if (state !== null) {
         urlPath += "state=" + state + "&";
     }
-    if (fromDate) {
+    if (fromDate !== null) {
         urlPath += "fromDate=" + fromDate + "&";
     }
-    if (toDate) {
+    if (toDate !== null) {
         urlPath += "toDate=" + toDate + "&";
     }
-    if (hasLocation) {
+    if (hasLocation !== null) {
         urlPath += "hasLocation=" + hasLocation + "&";
     }
-    if (page) {
+    if (all !== null) {
+        urlPath += "all=" + all + "&";
+    }
+    if (page !== null) {
         urlPath += "page=" + page + "&";
     }
-    if (size) {
+    if (size !== null) {
         urlPath += "size=" + size + "&";
     }
-    if (sort) {
+    if (sort !== null) {
         urlPath += "sort=" + sort;
     }
-    if (order) {
+    if (order !== null) {
         urlPath += "," + order;
     }
     urlPath += "&sort=id,desc"

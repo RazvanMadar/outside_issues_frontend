@@ -77,7 +77,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
     }, [isAdded, isUpdated, isDeleted]);
 
     return (
-        <div>
+        <div style={{paddingTop: "55px"}}>
             {
                 !isBlocked ?
                 <div>
