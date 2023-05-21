@@ -46,7 +46,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     }
 
     const addAnIssue = (issue) => {
-        console.log(issue);
         return addIssue(token, issue, (result, status, err) => {
             if (result !== null && status === 201) {
                 console.log(result);

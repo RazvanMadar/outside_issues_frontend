@@ -31,8 +31,12 @@ const getYearStatistics = (token, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const getTypeStatistics = (token, callback) => {
-    const request = new Request(backend_api + endpoint.issue + "/type-statistics?", {
+const getTypeStatistics = (token, email, callback) => {
+    let urlPath = backend_api + endpoint.issue + "/type-statistics?";
+    if (email !== null) {
+        urlPath = urlPath + "email=" + email;
+    }
+    const request = new Request(urlPath, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,

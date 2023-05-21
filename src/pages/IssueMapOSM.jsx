@@ -301,13 +301,9 @@ const IssueMapOSM = ({
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url={url}
-                                // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                                // url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
-                                // url='https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                                 opacity={1}
                             />
                             <Polygon pathOptions={{color: 'grey'}} positions={polygonCoordinates}/>
-                            {/*<Polygon pathOptions={{color: 'red'}} positions={rectangleCoordinates}/>*/}
                             {issues &&
                                 issues.map((issue) => {
                                         const icon = getMarkerImage(issue.type, issue.state);

@@ -127,7 +127,7 @@ const LoginB = ({onLogin}) => {
         else {
             const data = {
                 email: enteredEmail,
-                phoneNumber: enteredPhone,
+                phoneNumber: enteredPhone[0] === "+" ? enteredPhone : "+4" + enteredPhone,
                 firstName: enteredFirstName,
                 lastName: enteredLastName,
                 password: enteredPassword

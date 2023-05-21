@@ -47,7 +47,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
     };
 
     const getAllTypesStatistics = () => {
-        return getTypeStatistics(token, (result, status, err) => {
+        return getTypeStatistics(token, null,(result, status, err) => {
             if (status === 200 && result !== null) {
                 const sum = result.reduce((accumulator, currentValue) => accumulator + currentValue.val, 0);
                 const updatedArray = result.map((obj) => {

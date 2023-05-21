@@ -5,8 +5,8 @@ import {findCitizenById} from "../api/citizen-api";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import classes from "./ProfileModal.module.css";
 import BasicChart from "../chart/BasicChart";
-import {getBasicStatistics} from "../api/issue-api";
-import {convertAPIStatesToUI} from "../common/utils";
+import {getBasicStatistics, getTypeStatistics} from "../api/issue-api";
+import {convertAPIStatesToUI, convertAPITypesToUI} from "../common/utils";
 import noPhoto from "../pages/images/no_photo.png";
 import {getCitizenImage} from "../api/citizen-image";
 
@@ -25,14 +25,13 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
 
     const token = localStorage.getItem("token");
 
-    const getStatistics = () => {
-        return getBasicStatistics(token, email, (result, status, err) => {
+    const getAllTypesStatistics = () => {
+        return getTypeStatistics(token, email,(result, status, err) => {
             if (status === 200 && result !== null) {
                 result.forEach(res => {
-                    res.state = convertAPIStatesToUI(res.state);
+                    res.state = convertAPITypesToUI(res.state);
                 })
                 setData(result);
-                console.log(result);
             } else {
                 console.log(err);
             }
@@ -66,7 +65,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
 
     useEffect(() => {
         findAnCitizenById();
-        getStatistics();
+        getAllTypesStatistics();
         getImage();
 
         const handleResize = () => {

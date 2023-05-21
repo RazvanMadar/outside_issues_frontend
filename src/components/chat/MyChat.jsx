@@ -22,8 +22,6 @@ export default function MyChat({
     const [toImages, setToImages] = useState([]);
     // const [isAddedMessage, setIsAddedMessage] = useState(false);
     const [messages, setMessages] = useState([]);
-    const [fromImage, setFromImage] = useState();
-    const [toImage, setToImage] = useState();
     const [chatId, setChatId] = useState();
     const userId = localStorage.getItem("userId");
     const myDivRef = useRef(null);

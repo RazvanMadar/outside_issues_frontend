@@ -12,6 +12,7 @@ import {StateData} from "../staticdata/StateData";
 import {Input} from "reactstrap";
 import {filterIssues} from "../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
+import roLocale from "date-fns/locale/ro";
 
 
 const FilterMap = ({
