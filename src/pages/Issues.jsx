@@ -16,14 +16,9 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
-import {Navigate, useLocation} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
-const SOCKET_URL = 'http://localhost:8080/ws-message';
-
-const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsUpdated, isAdded}) => {
-    // const issues_url = "http://localhost:8080/api/issues";
-    const location = useLocation();
-    const issues_url = location.state ? location.state : url;
+const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsUpdated, isAdded}) => {
     const [issues, setIssues] = useState([]);
     const [forbidden, setForbidden] = useState(false);
     const [modalShow, setModalShow] = useState(false);
@@ -31,20 +26,16 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFiltered, setIsFiltered] = useState(false);
-    // const [isDeleted, setIsDeleted] = useState(false);
     const [type, setType] = useState(null);
     const [state, setState] = useState(null);
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const [reactions, setReactions] = useState([]);
     const sortInputRef = useRef();
-    const orderInputRef = useRef();
     const [sort, setSort] = useState('reported_date');
     const [order, setOrder] = useState('desc');
     const [orderAsc, setOrderAsc] = useState(false);
     const [orderDesc, setOrderDesc] = useState(true);
-    const isLoggedIn = localStorage.getItem("isLogged");
-    const email = localStorage.getItem("email")
 
     const token = localStorage.getItem("token")
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
@@ -118,31 +109,10 @@ const Issues = ({url, passBackgroundColor, isDeleted, setIsDeleted, isUpdated, s
             addCitizensReactions(reactionsToSend);
             localStorage.removeItem("reactions");
         }
-    }, [issues_url, currentPage, isFiltered, isDeleted, isUpdated, sort, order, isAdded]);
-
-    // const onConnected = () => {
-    //     console.log("Connected!!!");
-    // };
-
-    // const onMessageReceived = (msg) => {
-    //     if (msg.to === email) {
-    //         filterAllIssues();
-    //     }
-    // };
+    }, [currentPage, isFiltered, isDeleted, isUpdated, sort, order, isAdded]);
 
     return (
-        // style={{backgroundColor: "grey"}}
         <div style={{paddingTop: "55px"}}>
-            {/*{email !== null && <SockJsClient*/}
-            {/*    url={SOCKET_URL}*/}
-            {/*    topics={[*/}
-            {/*        "/topic/message",*/}
-            {/*        "/user/" + email + "/private",*/}
-            {/*    ]}*/}
-            {/*    onConnect={onConnected}*/}
-            {/*    onDisconnect={() => console.log("Disconnected!")}*/}
-            {/*    onMessage={(msg) => onMessageReceived(msg)}*/}
-            {/*/>}*/}
             {!isBlocked ?
                 <Container>
                     <br/>

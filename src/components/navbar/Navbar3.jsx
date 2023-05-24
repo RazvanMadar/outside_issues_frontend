@@ -71,7 +71,6 @@ const Navbar3 = ({
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
-        console.log("S-a apelat din NAVBAR3")
 
         const handleResize = () => {
             setDesktopScreen(window.innerWidth > 767);

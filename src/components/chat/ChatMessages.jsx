@@ -5,7 +5,15 @@ import {getCitizenImage} from "../../api/citizen-image";
 import {sendMessageViaWebSocket} from "../../api/web-socket-api";
 import ChatMessageElement from "./ChatMessageElement";
 
-const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages, messages, setMessages}) => {
+const ChatMessages = ({
+                          passChatId,
+                          passToEmail,
+                          passIsAddedMessage,
+                          passSetIsAddedMessage,
+                          passToImages,
+                          messages,
+                          setMessages
+                      }) => {
     const [message, setMessage] = useState("");
     const [fromImage, setFromImage] = useState();
     const userId = localStorage.getItem("userId");
@@ -64,18 +72,15 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     }
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            getFromImage();
-            getAllChatMessages();
-        }, 300);
-
-        return () => clearTimeout(timer);
+        getFromImage();
+        getAllChatMessages();
     }, [passIsAddedMessage, passChatId])
 
     return (
         <div>
             <div key={passChatId}>
-            <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages} fromImage={fromImage} passIsAddedMessage={passIsAddedMessage}/>
+                <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages}
+                                    fromImage={fromImage} passIsAddedMessage={passIsAddedMessage}/>
             </div>
 
             <div

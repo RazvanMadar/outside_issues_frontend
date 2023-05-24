@@ -22,8 +22,6 @@ const CardItem3 = ({issue, passBackgroundColor, passIsUpdated}) => {
     const geMainImage = () => {
         return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
-                // resizeImage(result).then(r => setMainImage(r));
                 setMainImage(URL.createObjectURL(result));
             } else if (status === 403) {
                 setForbidden(true);

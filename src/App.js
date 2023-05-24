@@ -24,7 +24,6 @@ const ROLES = {
 }
 
 function App() {
-    const url = "http://localhost:8080/api/issues";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isIssueAdded, setIsIssueAdded] = useState(false);
     const [isIssueDeleted, setIsIssueDeleted] = useState(false);
@@ -37,11 +36,8 @@ function App() {
     );
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
     const role = localStorage.getItem('role');
-    // const
 
     return (
-        // <NewLayout>
-        // <Router> trebuie sters daca revin la <NewLayout >
         <Router>
             <AuthProvider>
                 <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}
@@ -60,7 +56,7 @@ function App() {
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/issues"
-                               element={<Issues url={url} passBackgroundColor={backgroundColor}
+                               element={<Issues passBackgroundColor={backgroundColor}
                                                 isDeleted={isIssueDeleted}
                                                 setIsDeleted={setIsIssueDeleted}
                                                 isUpdated={isIssueUpdated}
@@ -93,9 +89,7 @@ function App() {
                     <Route path="/login" element={<LoginComponent onLogin={setIsLoggedIn}/>}/>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
-                        <Route path="/blocked" element={<BlockedPage url={url} backgroundColor={backgroundColor}
-                                                                     isIssueDeleted={isIssueDeleted}
-                                                                     setIsIssueDeleted={setIsIssueDeleted}/>}/>
+                        <Route path="/blocked" element={<BlockedPage backgroundColor={backgroundColor}/>}/>
                     </Route>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
@@ -106,7 +100,7 @@ function App() {
                         <Route path="/forbidden" element={<ForbiddenPage />}/>
                     </Route>
 
-                    <Route path="/logout" element={<Logout onLogin={setIsLoggedIn}/>}/>
+                    <Route path="/logout" element={<Logout />}/>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.CITIZEN, ROLES.ADMIN]} isBlocked={isBlocked} role={role}/>}>
                         <Route path="/chat" element={<MyChat passBackgroundColor={backgroundColor}
@@ -123,7 +117,6 @@ function App() {
                 </Routes>
             </AuthProvider>
         </Router>
-        // </NewLayout>
     );
 }
 

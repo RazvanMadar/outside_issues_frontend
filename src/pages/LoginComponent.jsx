@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Login from "../components/login/Login";
-import {AccountBox} from "../components/login/accountBox";
+import MobileForm from "../components/login/MobileForm";
 
 const LoginComponent = ({onLogin}) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const [component, setComponent] = useState(width > 768 ? <Login onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);
+    const [component, setComponent] = useState(width > 768 ? <Login onLogin={onLogin}/> : <MobileForm onLogin={onLogin}/>);
 
     localStorage.removeItem("userId");
     localStorage.removeItem("email");
@@ -20,7 +20,7 @@ const LoginComponent = ({onLogin}) => {
 
         const handleResize = () => {
             setWidth(window.innerWidth);
-            setComponent(window.innerWidth > 768 ? <Login onLogin={onLogin}/> : <AccountBox onLogin={onLogin}/>);
+            setComponent(window.innerWidth > 768 ? <Login onLogin={onLogin}/> : <MobileForm onLogin={onLogin}/>);
         };
 
         window.addEventListener('resize', handleResize);

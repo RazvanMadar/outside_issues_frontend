@@ -1,7 +1,6 @@
-import React, {useState} from "react";
-import {Marker, MapContainer, TileLayer, Popup, Polygon} from "react-leaflet";
+import React, {useEffect, useState} from "react";
+import {MapContainer, Marker, Polygon, Popup, TileLayer} from "react-leaflet";
 import classes from "./IssueMapOSM.module.css";
-import plus from "./images/plus.png";
 import REGISTERED_ROAD from "./images/REGISTERED_ROAD.png";
 import REGISTERED_LIGHTNING from "./images/REGISTERED_LIGHTNING.png";
 import REGISTERED_PUBLIC_DISORDER from "./images/REGISTERED_PUBLIC_DISORDER.png";
@@ -38,39 +37,24 @@ import SOLVED_PUBLIC_TRANSPORT from "./images/SOLVED_PUBLIC_TRANSPORT2.png";
 import SOLVED_BUILDINGS from "./images/SOLVED_BUILDINGS2.png";
 import SOLVED_ROAD_SIGNS from "./images/SOLVED_ROAD_SIGNS2.png";
 import SOLVED_ANIMALS from "./images/SOLVED_ANIMALS2.png";
-
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import build from "./images/build.png";
-import solved from "./images/solved.png";
-import planned from "./images/time.png";
 import Legend from "../components/map/Legend";
 import AddMapIssue from "../components/map/AddMapIssue";
 import {createIcon} from "../common/geo-converter";
 import DraggableMarker from "../components/map/DraggableMarker";
 import {filterIssues} from "../api/issue-api";
-import {useEffect} from "react";
-import {Button} from "@mui/material";
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import {
-    cityBoundary,
-    cityBoundary2,
-    computeDateForPopup, computeDescriptionForPopup, convertAPIStatesToUI,
-    convertAPITypesToUI,
-    test,
-    test2,
-    testTm
+    computeDateForPopup,
+    computeDescriptionForPopup,
+    convertAPIStatesToUI,
+    convertAPITypesToUI
 } from "../common/utils";
-import {simplify} from '@turf/turf';
 import CategoryIcon from '@mui/icons-material/Category';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import DescriptionIcon from '@mui/icons-material/Description';
 import NavigationIcon from '@mui/icons-material/Navigation';
-import {Input} from "reactstrap";
 import {LatLng, LatLngBounds} from "leaflet";
-import leafletPip from 'leaflet-pip';
 import {Navigate} from "react-router-dom";
 
-const buildIcon = createIcon(build, false);
 // const plannedIcon = createIcon(planned, false);
 // const redirectedIcon = createIcon(redirected, false);
 // const solvedIcon = createIcon(solved, false);
@@ -98,13 +82,7 @@ const rectangleCoordinates = [
     new LatLng(47.09099, 21.95793),   // Dreapta sus
     new LatLng(47.09099, 21.86040),  // Stanga sus
 ];
-//
-// new LatLng(47.06269, 21.86040), // Stanga jos
-//     new LatLng(47.06269, 21.95793), // Dreapta jos
-//     new LatLng(47.09074, 21.95793),   // Dreapta sus
-//     new LatLng(47.09074, 21.86040),  // Stanga sus
 
-// const position = {lat: 47.059390150750204, lng: 21.912248426593525};
 const position = {lat: 47.05292, lng: 21.91375}
 
 //
@@ -118,7 +96,6 @@ const IssueMapOSM = ({
                          passIsIssueDeleted,
                          passIsIssueUpdated
                      }) => {
-        const [forbidden, setForbidden] = useState(false);
         const [issues, setIssues] = useState([]);
 
         const [markerPosition, setMarkerPosition] = useState(position);
@@ -295,8 +272,6 @@ const IssueMapOSM = ({
                             zoom={13}
                             className={classes.wrapper}
                             minZoom={12}
-                            // bounds={oradeaBounds}
-                            // maxBounds={oradeaBounds}
                         >
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

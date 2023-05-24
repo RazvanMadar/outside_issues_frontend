@@ -1,6 +1,6 @@
 import LoginComponent from "../../pages/LoginComponent";
 
-const Logout = ({onLogin}) => {
+const Logout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("email");
     localStorage.removeItem("token");

@@ -115,8 +115,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                     setAuthorized(true);
                 } else if (status === 403) {
                     setForbidden(true);
-                } else {
-                    console.log(err);
                 }
             })
         });

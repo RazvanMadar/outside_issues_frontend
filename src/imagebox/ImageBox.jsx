@@ -15,7 +15,6 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
         const imagesArray = selectedFilesArray.map((file) => {
             return URL.createObjectURL(file);
         });
-        console.log(imagesArray)
 
         if (selectedImages.length < numberOfPhotos)
             setSelectedImages((previousImages) => previousImages.concat(imagesArray));
@@ -35,7 +34,6 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
     }
 
     useEffect(() => {
-        console.log("se sterge", selectedImages[0])
         deleteHandler(selectedImages[0], 1);
     }, [deleteImage])
 

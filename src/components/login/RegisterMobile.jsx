@@ -1,14 +1,12 @@
 import React, {useContext, useRef, useState} from "react";
-import {BoldLink, BoxContainer, FormContainer, Input, MutedLink, SubmitButton,} from "./common";
-import {Marginer} from "../marginer";
+import ImageBox from "../../imagebox/ImageBox";
+import {registerCitizen} from "../../api/citizen-api";
+import {addCitizenImage} from "../../api/citizen-image";
+import classes from "./Login.module.css";
+import {isCorrectEmail, isCorrectPhoneNumber} from "../../common/utils";
 import {AccountContext} from "./accountContext";
-import ImageBox from "../../../imagebox/ImageBox";
-import {registerCitizen} from "../../../api/citizen-api";
-import {addCitizenImage} from "../../../api/citizen-image";
-import classes from "../Login.module.css";
-import {isCorrectEmail, isCorrectPhoneNumber} from "../../../common/utils";
 
-export function SignupForm() {
+const RegisterMobile = () => {
     const {switchToSignin} = useContext(AccountContext);
     const firstNameInputRef = useRef();
     const lastNameInputRef = useRef();
@@ -120,14 +118,14 @@ export function SignupForm() {
     }
 
     return (
-        <BoxContainer>
-            <FormContainer>
-                <Input type="text" placeholder="Prenume" ref={firstNameInputRef}/>
-                <Input type="text" placeholder="Nume" ref={lastNameInputRef}/>
-                <Input type="email" placeholder="Email" ref={emailInputRef}/>
-                <Input type="password" placeholder="Parolă" ref={passwordInputRef}/>
-                <Input type="text" placeholder="Număr de telefon" ref={phoneInputRef}/>
-            </FormContainer>
+        <div className={classes.authContainer}>
+            <form className={classes.authForm}>
+                <input className={classes.authInput} type="text" placeholder="Prenume" ref={firstNameInputRef}/>
+                <input className={classes.authInput} type="text" placeholder="Nume" ref={lastNameInputRef}/>
+                <input className={classes.authInput} type="email" placeholder="Email" ref={emailInputRef}/>
+                <input className={classes.authInput} type="password" placeholder="Parolă" ref={passwordInputRef}/>
+                <input className={classes.authInput} type="text" placeholder="Număr de telefon" ref={phoneInputRef}/>
+            </form>
             <div style={{marginTop: "8px"}}>
                 <ImageBox passIsPhoto={setPhotos} title={"Încărcă o poză cu tine"}
                           numberOfPhotos={1} deleteImage={deleteImage}/>
@@ -137,17 +135,14 @@ export function SignupForm() {
             {!isValidEmail && <p className={classes.invalid}>Emailul nu e valid!</p>}
             {!isValidPassword && <p className={classes.invalid}>Minim 8 caractere pentru parolă!</p>}
             {!isValidPhone && <p className={classes.invalid}>Numărul de telefon nu e valid!</p>}
-            <Marginer direction="vertical" margin={8}/>
-            <SubmitButton type="submit" onClick={registerHandler}>Înregistrare</SubmitButton>
-            <Marginer direction="vertical" margin="10px"/>
-            <MutedLink href="#">
-                Ai deja un cont?
-                <BoldLink href="#" onClick={handleChangeContext}>
-                    Autentifică-te
-                </BoldLink>
-            </MutedLink>
+            <button className={classes.submitButton} type="submit" onClick={registerHandler}>Înregistrare</button>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div className={classes.firstLink} onClick={handleChangeContext}>Ai deja un cont?</div>
+                <div onClick={handleChangeContext} className={classes.secondLink}>Autentifică-te</div>
+            </div>
             <br/>
-        </BoxContainer>
+        </div>
     );
 }
 
+export default RegisterMobile;

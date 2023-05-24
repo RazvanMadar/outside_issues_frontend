@@ -80,7 +80,6 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
     const geMainImage = () => {
         return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setMainImage(URL.createObjectURL(result));
             } else if (status === 403) {
                 setForbidden(true);
@@ -144,7 +143,6 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
             setLikeButton(false);
             setNrOfLikes((prev) => prev - 1);
             updateLocalStorageWithReactions(0);
-            console.log(passReactions)
         } else {
             setLikeButton(true);
             setNrOfLikes((prev) => prev + 1);
@@ -225,9 +223,8 @@ const CardItem2 = ({issue, passReactions, passSetReactions, passIsDeleted, passB
                     <CardSubtitle className="mb-2 text-muted" tag="h6" style={{textAlign: "center"}}>
                         {issue.actualLocation}
                     </CardSubtitle>
-                    <CardText style={{textAlign: "center"}}>
-                        {cutFromDescription(issue.description)}
-                    </CardText>
+                    {issue.citizenEmail !== null ? <CardText style={{textAlign: "center"}}>{cutFromDescription(issue.description)}</CardText> :
+                        <CardText style={{textAlign: "center", color: "red", fontWeight: "bold"}}>SENZOR PLATFORMĂ</CardText>}
                     <div className={classes.date}>
                         <DateFormat
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
