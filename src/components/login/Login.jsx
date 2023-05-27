@@ -59,10 +59,6 @@ const Login = ({onLogin}) => {
                 setIsValidPhone(true);
                 setIsValidAccount(true);
                 setSignUp((prev) => !prev);
-            } else if (status === 403) {
-                // setForbidden(true);
-            } else {
-                console.log(err);
             }
         })
     };

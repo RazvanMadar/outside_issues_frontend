@@ -14,20 +14,8 @@ import SockJsClient from "react-stomp";
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Navbar3 = ({
-                     isLoggedIn,
-                     passBackgroundColor,
-                     passIsIssueAdded,
-                     passIsIssueDeleted,
-                     passIsIssueUpdated,
-                     passSetIsIssueAdded,
-                     passSetIsIssueDeleted,
-                     passSetIsIssueUpdated,
-                     passPersons,
-                     passSetPersons,
-                     passSetReceivedNewUserMessage,
-                     passIsMessageAdded,
-                     passSetIsMessageAdded
+const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passPersons,
+                     passSetIsIssueAdded, passSetIsIssueUpdated, passSetReceivedNewUserMessage, passSetIsMessageAdded
                  }) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);

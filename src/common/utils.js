@@ -8,7 +8,43 @@ import roadSignPlaceholder from "../pages/images/roadSignPlaceholder.jpg";
 import animalPlaceholder from "../pages/images/animalPlaceholder.jpg";
 import publicOrderPlaceholder from "../pages/images/publicOrderPlaceholder.png";
 import noPhoto from "../pages/images/no_photo.png";
-import L from "leaflet";
+import {createIcon} from "./geo-converter";
+import REGISTERED_ROAD from "../pages/images/REGISTERED_ROAD.png";
+import REGISTERED_LIGHTNING from "../pages/images/REGISTERED_LIGHTNING.png";
+import REGISTERED_PUBLIC_DISORDER from "../pages/images/REGISTERED_PUBLIC_DISORDER.png";
+import REGISTERED_PUBLIC_DOMAIN from "../pages/images/REGISTERED_PUBLIC_DOMAIN.png";
+import REGISTERED_GREEN_SPACES from "../pages/images/REGISTERED_GREEN_SPACES.png";
+import REGISTERED_BUILDINGS from "../pages/images/REGISTERED_BUILDINGS.png";
+import REGISTERED_PUBLIC_TRANSPORT from "../pages/images/REGISTERED_PUBLIC_TRANSPORT.png";
+import REGISTERED_ROAD_SIGNS from "../pages/images/REGISTERED_ROAD_SIGNS.png";
+import REGISTERED_ANIMALS from "../pages/images/REGISTERED_ANIMALS.png";
+import PLANNED_ROAD from "../pages/images/PLANNED_ROAD2.png";
+import PLANNED_LIGHTNING from "../pages/images/PLANNED_LIGHTNING2.png";
+import PLANNED_PUBLIC_DISORDER from "../pages/images/PLANNED_PUBLIC_DISORDER2.png";
+import PLANNED_PUBLIC_DOMAIN from "../pages/images/PLANNED_PUBLIC_DOMAIN2.png";
+import PLANNED_GREEN_SPACES from "../pages/images/PLANNED_GREEN_SPACES.png";
+import PLANNED_BUILDINGS from "../pages/images/PLANNED_BUILDINGS.png";
+import PLANNED_PUBLIC_TRANSPORT from "../pages/images/PLANNED_PUBLIC_TRANSPORT.png";
+import PLANNED_ROAD_SIGNS from "../pages/images/PLANNED_ROAD_SIGNS2.png";
+import PLANNED_ANIMALS from "../pages/images/PLANNED_ANIMALS2.png";
+import WORKING_ROAD from "../pages/images/WORKING_ROAD.png";
+import WORKING_LIGHTNING from "../pages/images/WORKING_LIGHTNING.png";
+import WORKING_PUBLIC_DISORDER from "../pages/images/WORKING_PUBLIC_DISORDER.png";
+import WORKING_PUBLIC_DOMAIN from "../pages/images/WORKING_PUBLIC_DOMAIN.png";
+import WORKING_GREEN_SPACES from "../pages/images/WORKING_GREEN_SPACES.png";
+import WORKING_BUILDINGS from "../pages/images/WORKING_BUILDINGS.png";
+import WORKING_PUBLIC_TRANSPORT from "../pages/images/WORKING_PUBLIC_TRANSPORT.png";
+import WORKING_ROAD_SIGNS from "../pages/images/WORKING_ROAD_SIGNS.png";
+import WORKING_ANIMALS from "../pages/images/WORKING_ANIMALS.png";
+import SOLVED_PUBLIC_DISORDER from "../pages/images/SOLVED_PUBLIC_DISORDER2.png";
+import SOLVED_ROAD from "../pages/images/SOLVED_ROAD2.png";
+import SOLVED_LIGHTNING from "../pages/images/SOLVED_LIGHTNING2.png";
+import SOLVED_PUBLIC_DOMAIN from "../pages/images/SOLVED_PUBLIC_DOMAIN2.png";
+import SOLVED_GREEN_SPACES from "../pages/images/SOLVED_GREEN_SPACES2.png";
+import SOLVED_BUILDINGS from "../pages/images/SOLVED_BUILDINGS2.png";
+import SOLVED_PUBLIC_TRANSPORT from "../pages/images/SOLVED_PUBLIC_TRANSPORT2.png";
+import SOLVED_ROAD_SIGNS from "../pages/images/SOLVED_ROAD_SIGNS2.png";
+import SOLVED_ANIMALS from "../pages/images/SOLVED_ANIMALS2.png";
 
 const typesMap = new Map();
 typesMap.set("ROAD", "Drumuri");
@@ -64,7 +100,6 @@ romanianMonths.set("Dec", "Dec");
 
 const getBackgroundColorForState = (state) => {
     let backgroundColor;
-    // return "#7895B2"
     switch (state) {
         case "REGISTERED":
             backgroundColor = "#7895B2";
@@ -238,13 +273,160 @@ const getImageRegardingIssueType = (type) => {
 
 const convertAPIStatesToUI = (state) => {
     let value = statesMap.get(state);
-    // const firstLetter = value.charAt(0);
-    // value = replaceAt(value, 0, firstLetter.toLowerCase());
     return value;
 }
 
 const cutFromDescription = (description) => {
     return description.length > 45 ? description.substring(0, 45) + "..." : description;
+}
+
+const getElapsedTime = (date, latestMessage) => {
+    if (latestMessage == null) {
+        return "";
+    }
+    const past = new Date(date);
+    const now = new Date();
+    let elapsedTime = Math.floor((now - past) / 60000);
+    let type = 0;
+    let time = "minute";
+    if (elapsedTime > 59) {
+        elapsedTime /= 60;
+        time = "ore";
+        type = 1;
+    }
+    if (elapsedTime > 23 && type == 1) {
+        elapsedTime /= 24;
+        time = "zile";
+        type = 2;
+    }
+    if (elapsedTime > 29 && type == 2) {
+        elapsedTime /= 30;
+        time = "luni";
+        type = 3;
+    }
+    if (elapsedTime > 11 && type == 3) {
+        elapsedTime /= 12;
+        time = "ani";
+    }
+    return Math.floor(elapsedTime) + " " + time;
+}
+
+const getNumberFromIndex = (index) => {
+    if (index === 0)
+        return "FIRST";
+    if (index === 1)
+        return "SECOND";
+    return "THIRD";
+}
+
+const getMarkerImage = (type, state) => {
+    if (state === "REGISTERED") {
+        switch (type) {
+            case "ROAD":
+                return createIcon(REGISTERED_ROAD, false);
+            case "LIGHTNING":
+                return createIcon(REGISTERED_LIGHTNING, false);
+            case "PUBLIC_DISORDER":
+                return createIcon(REGISTERED_PUBLIC_DISORDER, false);
+            case "PUBLIC_DOMAIN":
+                return createIcon(REGISTERED_PUBLIC_DOMAIN, false);
+            case "GREEN_SPACES":
+                return createIcon(REGISTERED_GREEN_SPACES, false);
+            case "BUILDINGS":
+                return createIcon(REGISTERED_BUILDINGS, false);
+            case "PUBLIC_TRANSPORT":
+                return createIcon(REGISTERED_PUBLIC_TRANSPORT, false);
+            case "TRAFFIC_ROAD_SIGNS":
+                return createIcon(REGISTERED_ROAD_SIGNS, false);
+            case "ANIMALS":
+                return createIcon(REGISTERED_ANIMALS, false);
+        }
+    } else if (state === "PLANNED") {
+        switch (type) {
+            case "ROAD":
+                return createIcon(PLANNED_ROAD, false);
+            case "LIGHTNING":
+                return createIcon(PLANNED_LIGHTNING, false);
+            case "PUBLIC_DISORDER":
+                return createIcon(PLANNED_PUBLIC_DISORDER, false);
+            case "PUBLIC_DOMAIN":
+                return createIcon(PLANNED_PUBLIC_DOMAIN, false);
+            case "GREEN_SPACES":
+                return createIcon(PLANNED_GREEN_SPACES, false);
+            case "BUILDINGS":
+                return createIcon(PLANNED_BUILDINGS, false);
+            case "PUBLIC_TRANSPORT":
+                return createIcon(PLANNED_PUBLIC_TRANSPORT, false);
+            case "TRAFFIC_ROAD_SIGNS":
+                return createIcon(PLANNED_ROAD_SIGNS, false);
+            case "ANIMALS":
+                return createIcon(PLANNED_ANIMALS, false);
+        }
+    } else if (state === "WORKING") {
+        switch (type) {
+            case "ROAD":
+                return createIcon(WORKING_ROAD, false, true);
+            case "LIGHTNING":
+                return createIcon(WORKING_LIGHTNING, false, true);
+            case "PUBLIC_DISORDER":
+                return createIcon(WORKING_PUBLIC_DISORDER, false, true);
+            case "PUBLIC_DOMAIN":
+                return createIcon(WORKING_PUBLIC_DOMAIN, false, true);
+            case "GREEN_SPACES":
+                return createIcon(WORKING_GREEN_SPACES, false, true);
+            case "BUILDINGS":
+                return createIcon(WORKING_BUILDINGS, false, true);
+            case "PUBLIC_TRANSPORT":
+                return createIcon(WORKING_PUBLIC_TRANSPORT, false, true);
+            case "TRAFFIC_ROAD_SIGNS":
+                return createIcon(WORKING_ROAD_SIGNS, false, true);
+            case "ANIMALS":
+                return createIcon(WORKING_ANIMALS, false, true);
+        }
+    } else if (state === "REDIRECTED") {
+        switch (type) {
+            case "ROAD":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "LIGHTNING":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "PUBLIC_DISORDER":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "PUBLIC_DOMAIN":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "GREEN_SPACES":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "BUILDINGS":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "PUBLIC_TRANSPORT":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "TRAFFIC_ROAD_SIGNS":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "ANIMALS":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+        }
+    } else if (state === "SOLVED") {
+        switch (type) {
+            case "ROAD":
+                return createIcon(SOLVED_ROAD, false);
+            case "LIGHTNING":
+                return createIcon(SOLVED_LIGHTNING, false);
+            case "PUBLIC_DISORDER":
+                return createIcon(SOLVED_PUBLIC_DISORDER, false);
+            case "PUBLIC_DOMAIN":
+                return createIcon(SOLVED_PUBLIC_DOMAIN, false);
+            case "GREEN_SPACES":
+                return createIcon(SOLVED_GREEN_SPACES, false);
+            case "BUILDINGS":
+                return createIcon(SOLVED_BUILDINGS, false);
+            case "PUBLIC_TRANSPORT":
+                return createIcon(SOLVED_PUBLIC_TRANSPORT, false);
+            case "TRAFFIC_ROAD_SIGNS":
+                return createIcon(SOLVED_ROAD_SIGNS, false);
+            case "ANIMALS":
+                return createIcon(SOLVED_ANIMALS, false);
+        }
+    }
+    return null;
 }
 
 export {
@@ -265,4 +447,7 @@ export {
     getRomanianMonth,
     isCorrectEmail,
     isCorrectPhoneNumber,
+    getElapsedTime,
+    getNumberFromIndex,
+    getMarkerImage
 }

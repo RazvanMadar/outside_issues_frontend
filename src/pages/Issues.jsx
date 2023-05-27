@@ -164,9 +164,8 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
                                 <Col key={issue.id}
                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                                 >
-                                    <CardItem2 issue={issue} passReactions={reactions} passSetReactions={setReactions}
-                                               passIsDeleted={setIsDeleted} passBackgroundColor={passBackgroundColor}
-                                               key={issue.id} passIsUpdated={setIsUpdated}/>
+                                    <CardItem2 issue={issue} passIsDeleted={setIsDeleted}
+                                               passBackgroundColor={passBackgroundColor} passIsUpdated={setIsUpdated}/>
                                 </Col>
                             ))}
                         </Row>

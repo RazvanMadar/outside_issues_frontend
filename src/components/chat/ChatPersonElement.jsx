@@ -1,22 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {getLatestChatMessage} from "../../api/message-api";
 import {getCitizenImage} from "../../api/citizen-image";
+import {getElapsedTime} from "../../common/utils";
 
-const ChatPersonElement = ({
-                               person,
-                               passSetChatId,
-                               passChatId,
-                               passSetToEmail,
-                               passIsAddedMessage,
-                               messages,
-                               passReceivedNewUserMessage,
-                               passIsMessageAdded
-                           }) => {
+const ChatPersonElement = ({person, passSetChatId, passChatId, passSetToEmail, passIsAddedMessage, messages}) => {
     const [latestMessage, setLatestMessage] = useState(null);
     const [image, setImage] = useState(null);
     const userId = localStorage.getItem("userId")
     const email = localStorage.getItem("email")
-
     const token = localStorage.getItem("token")
 
     const findLatestMessageByCitizenId = () => {
@@ -28,37 +19,6 @@ const ChatPersonElement = ({
                 }
             }
         );
-    }
-
-    const getElapsedTime = (date, latestMessage) => {
-        if (latestMessage == null) {
-            return "";
-        }
-        const past = new Date(date);
-        const now = new Date();
-        let elapsedTime = Math.floor((now - past) / 60000);
-        let type = 0;
-        let time = "minute";
-        if (elapsedTime > 59) {
-            elapsedTime /= 60;
-            time = "ore";
-            type = 1;
-        }
-        if (elapsedTime > 23 && type == 1) {
-            elapsedTime /= 24;
-            time = "zile";
-            type = 2;
-        }
-        if (elapsedTime > 29 && type == 2) {
-            elapsedTime /= 30;
-            time = "luni";
-            type = 3;
-        }
-        if (elapsedTime > 11 && type == 3) {
-            elapsedTime /= 12;
-            time = "ani";
-        }
-        return Math.floor(elapsedTime) + " " + time;
     }
 
     const getImage = () => {
@@ -75,7 +35,6 @@ const ChatPersonElement = ({
     }
 
     const restrictLatestMessageSize = (message) => {
-        console.log(message)
         return message !== null && message.length > 15 ? message.substring(0, 15) + "..." : message;
     }
 

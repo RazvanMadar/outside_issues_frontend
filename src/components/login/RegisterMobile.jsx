@@ -55,10 +55,6 @@ const RegisterMobile = () => {
                 setIsValidPhone(true);
                 setIsValidAccount(true);
                 switchToSignin((prev) => !prev);
-            } else if (status === 403) {
-                // setForbidden(true);
-            } else {
-                console.log(err);
             }
         })
     };

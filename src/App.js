@@ -40,12 +40,11 @@ function App() {
     return (
         <Router>
             <AuthProvider>
-                <Navbar3 isLoggedIn={isLoggedIn} passBackgroundColor={setBackgroundColor}
-                         passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated}
+                <Navbar3 passBackgroundColor={setBackgroundColor} passSetIsMessageAdded={setIsMessageAdded}
+                         passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated} isLoggedIn={isLoggedIn}
                          passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded}
                          passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted}
-                         passPersons={persons} passSetPersons={setPersons}
-                         passSetReceivedNewUserMessage={setReceivedNewUserMessage} passIsMessageAdded={isMessageAdded} passSetIsMessageAdded={setIsMessageAdded}/>
+                         passPersons={persons} passSetReceivedNewUserMessage={setReceivedNewUserMessage} />
                 <Routes>
 
                     <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>
@@ -107,7 +106,6 @@ function App() {
                                                              passPersons={persons}
                                                              passSetPersons={setPersons}
                                                              passReceivedNewUserMessage={receivedNewUserMessage}
-                                                             passSetReceivedNewUserMessage={setReceivedNewUserMessage}
                                                              passIsMessageAdded={isMessageAdded} passSetIsMessageAdded={setIsMessageAdded}
                         />}/>
                     </Route>
@@ -121,4 +119,3 @@ function App() {
 }
 
 export default App;
-

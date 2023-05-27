@@ -38,24 +38,11 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
     };
 
     const filterAllIssues = () => {
-        return filterIssues(
-            token,
-            type,
-            state,
-            null,
-            null,
-            true,
-            all,
-            null,
-            1000,
-            null,
-            null,
-            (result, status, err) => {
+        return filterIssues(token, type, state, null, null, true, all, null,
+            1000, null, null, (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     passFilteredIssues(result.content);
-                } else {
-                    console.log(err);
                 }
             }
         );
@@ -72,59 +59,39 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 <div className={classes.title}>Legendă</div>
                 <div className={classes.field}>
                     <div className="w-3 h-3 opacity-90 rounded-full">
-                        <AddCircleIcon className={classes.icon} onClick={() => {
-                            setType(null);
-                            setState("REGISTERED");
-                            handleChangeState("button1")
+                        <AddCircleIcon className={classes.icon}
+                                       onClick={() => {setType(null); setState("REGISTERED"); handleChangeState("button1")
                         }}/>
                         <button id="button1" className={classes.legendText} style={getButtonStyle("button1")}
-                                onClick={() => {
-                                    setType(null);
-                                    setState("REGISTERED");
-                                    handleChangeState("button1");
+                                onClick={() => {setType(null); setState("REGISTERED"); handleChangeState("button1");
                                 }}>Înregistrată
                         </button>
                     </div>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <WatchLaterIcon className={classes.icon} onClick={() => {
-                        setType(null);
-                        setState("PLANNED");
-                        handleChangeState("button2")
+                    <WatchLaterIcon className={classes.icon}
+                                    onClick={() => {setType(null); setState("PLANNED"); handleChangeState("button2")
                     }}/>
                     <button id="button2" className={classes.legendText} style={getButtonStyle("button2")}
-                            onClick={() => {
-                                setType(null);
-                                setState("PLANNED");
-                                handleChangeState("button2");
+                            onClick={() => {setType(null); setState("PLANNED"); handleChangeState("button2");
                             }}>Planificată
                     </button>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <BuildCircleIcon className={classes.icon} onClick={() => {
-                        setType(null);
-                        setState("WORKING");
-                        handleChangeState("button3")
+                    <BuildCircleIcon className={classes.icon}
+                                     onClick={() => {setType(null); setState("WORKING"); handleChangeState("button3")
                     }}/>
                     <button id="button3" className={classes.legendText} style={getButtonStyle("button3")}
-                            onClick={() => {
-                                setType(null);
-                                setState("WORKING");
-                                handleChangeState("button3");
+                            onClick={() => {setType(null); setState("WORKING"); handleChangeState("button3");
                             }}>În lucru
                     </button>
                 </div>
                 <div className="w-3 h-3 opacity-90 rounded-full">
-                    <CheckCircleIcon className={classes.icon} onClick={() => {
-                        setType(null);
-                        setState("SOLVED");
-                        handleChangeState("button5")
+                    <CheckCircleIcon className={classes.icon}
+                                     onClick={() => {setType(null); setState("SOLVED"); handleChangeState("button5")
                     }}/>
                     <button id="button5" className={classes.legendText} style={getButtonStyle("button5")}
-                            onClick={() => {
-                                setType(null);
-                                setState("SOLVED");
-                                handleChangeState("button5")
+                            onClick={() => {setType(null); setState("SOLVED"); handleChangeState("button5")
                             }}>Rezolvată
                     </button>
                 </div>
@@ -134,10 +101,9 @@ const Legend = ({passFilteredIssues, passBackgroundCol}) => {
                 </button>
             </div>
             {isExtended ?
-                <ExtendedLegend passSetIsExtended={setIsExtended} passFilteredIssues={passFilteredIssues} all={all}
-                                passButtonId={buttonId} passSetButtonId={setButtonId} setType={setType} setState={setState}
-                                passBackgroundCol={passBackgroundCol} passBoldButton={boldButton}
-                                passSetBoldButton={setBoldButton}/>
+                <ExtendedLegend passSetIsExtended={setIsExtended} passButtonId={buttonId} passSetButtonId={setButtonId}
+                                setType={setType} setState={setState} passBackgroundCol={passBackgroundCol}
+                                passBoldButton={boldButton} passSetBoldButton={setBoldButton}/>
                 :
                 <KeyboardDoubleArrowDownIcon style={{position: "absolute", right: "3.2rem", top: "14rem"}}
                                              onClick={() => setIsExtended(true)}/>

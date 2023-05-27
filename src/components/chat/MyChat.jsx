@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow,} from "mdb-react-ui-kit";
 import {getCitizenImage} from "../../api/citizen-image";
 import ChatPersons from "./ChatPersons";
@@ -10,29 +10,19 @@ import {Navigate} from "react-router-dom";
 // COD LUAT DUPA https://mdbootstrap.com/docs/react/extended/chat/#!
 //
 
-export default function MyChat({
-                                   passBackgroundColor,
-                                   passPersons,
-                                   passSetPersons,
-                                   passReceivedNewUserMessage,
-                                   passSetReceivedNewUserMessage,
-                                   passIsMessageAdded,
-                                   passSetIsMessageAdded
-                               }) {
+const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedNewUserMessage,
+                                   passIsMessageAdded, passSetIsMessageAdded
+                               }) => {
     const [toImages, setToImages] = useState([]);
     const [messages, setMessages] = useState([]);
     const [chatId, setChatId] = useState();
     const [toEmail, setToEmail] = useState();
-    const [latestMessages, setLatestMessages] = useState([]);
     const chatUsersRole = localStorage.getItem("role");
-    const [citizenName, setCitizenName] = useState('');
-    const [searchOn, setSearchOn] = useState(false);
-
     const token = localStorage.getItem("token")
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
     const getChatPersons = () => {
-        return getChatUsersByRole(token, chatUsersRole, citizenName, (result, status, err) => {
+        return getChatUsersByRole(token, chatUsersRole, '', (result, status, err) => {
                 if (result !== null && status === 200) {
                     console.log(result);
                     setToImages([]);
@@ -67,7 +57,7 @@ export default function MyChat({
 
     useEffect(() => {
         getChatPersons();
-    }, [passReceivedNewUserMessage, searchOn])
+    }, [passReceivedNewUserMessage])
 
     return (
         <div style={{paddingTop: "55px"}}>
@@ -88,14 +78,7 @@ export default function MyChat({
                                                     <ChatPersons passChatId={chatId} passSetChatId={setChatId}
                                                                  passSetToEmail={setToEmail}
                                                                  passIsAddedMessage={passIsMessageAdded}
-                                                                 passSetIsAddedMessage={passSetIsMessageAdded}
-                                                                 passChatLatestMessages={latestMessages}
-                                                                 passPersons={passPersons}
-                                                                 passSetPersons={passSetPersons}
-                                                                 passReceivedNewUserMessage={passReceivedNewUserMessage}
-                                                                 passSetReceivedNewUserMessage={passSetReceivedNewUserMessage}
-                                                                 messages={messages}
-                                                                 passIsMessageAdded={passIsMessageAdded}
+                                                                 passPersons={passPersons} messages={messages}
                                                     />
                                                 </div>
                                             </MDBCol>
@@ -104,7 +87,6 @@ export default function MyChat({
                                                     <ChatMessages passChatId={chatId} passToEmail={toEmail}
                                                                   passIsAddedMessage={passIsMessageAdded}
                                                                   passSetIsAddedMessage={passSetIsMessageAdded}
-                                                                  passPersons={passPersons}
                                                                   passToImages={toImages}
                                                                   messages={messages} setMessages={setMessages}
                                                     />}
@@ -120,3 +102,5 @@ export default function MyChat({
         </div>
     );
 }
+
+export default MyChat;

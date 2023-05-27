@@ -7,7 +7,7 @@ import classes from "./AddForm.module.css";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {addImage} from "../../api/issue-image-api";
 import Checkbox from '@mui/material/Checkbox';
-import {convertAPITypesToUI, convertUITypesToAPI, getCurrentDate} from "../../common/utils";
+import {convertAPITypesToUI, convertUITypesToAPI, getCurrentDate, getNumberFromIndex} from "../../common/utils";
 import {getAddressFromCoordinates} from "../../api/address-api";
 import {Link} from "react-router-dom";
 import {registerCitizen} from "../../api/citizen-api";
@@ -58,11 +58,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 addAnImage(result);
                 const content = `Sesizarea cu numărul ${result}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost înregistrată cu succes.`
                     + `\nVă mulțumim pentru contribuția dumneavoastră la menținerea si dezvoltarea orașului Oradea!`;
-                sendAnEmail({
-                    subject: "Sesizare Primăria Oradea",
-                    toEmail: currentMail,
-                    content: content,
-                    issueId: result
+                sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: currentMail, content: content, issueId: result
                 });
             } else if (status === 403) {
                 setForbidden(true);
@@ -97,14 +93,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                 }
             }
         )
-    }
-
-    const getNumberFromIndex = (index) => {
-        if (index === 0)
-            return "FIRST";
-        if (index === 1)
-            return "SECOND";
-        return "THIRD";
     }
 
     const addAnImage = (id) => {

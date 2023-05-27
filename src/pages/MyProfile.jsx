@@ -243,8 +243,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                                 <Col key={issue.id}
                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                                 >
-                                    <CardItem3 issue={issue} passBackgroundColor={passBackgroundColor}
-                                               passIsUpdated={passIsUpdated}/>
+                                    <CardItem3 issue={issue} passBackgroundColor={passBackgroundColor}/>
                                 </Col>
                             ))}
                         </Row>

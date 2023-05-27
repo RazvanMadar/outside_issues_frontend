@@ -250,9 +250,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         setCurrentPage(0);
     };
 
-    // Avoid a navbar jump when reaching the last page with empty rows.
-    const emptyRows =
-        currentPage > 0 ? Math.max(0, (1 + currentPage) * citizensPerPage - totalElements) : 0;
+    const emptyRows = currentPage > 0 ? Math.max(0, (1 + currentPage) * citizensPerPage - totalElements) : 0;
 
     return (
         <div style={{margin: "1rem 1rem 0 1rem"}}>

@@ -7,7 +7,6 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
     const userId = localStorage.getItem("userId")
     const [fromImage, setFromImage] = useState(null);
     const myDivRef = useRef(null);
-
     const token = localStorage.getItem("token")
 
     const getFromImage = () => {
