@@ -12,7 +12,7 @@ import {getCitizenImage} from "../api/citizen-image";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passBackgroundColor}) => {
+const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passBackgroundColor, passSetFirstName, passSetLastName}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
@@ -39,6 +39,8 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                 if (result !== null && status === 200) {
                     console.log("AICI ", result);
                     setCitizen(result)
+                    passSetFirstName(result.firstName)
+                    passSetLastName(result.lastName)
                 } else {
                     console.log(err);
                 }

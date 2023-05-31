@@ -22,8 +22,8 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
     const isLogged = localStorage.getItem("isLogged");
     const email = localStorage.getItem("email");
     const isBlocked = localStorage.getItem("isBlocked");
-    const firstName = localStorage.getItem("firstName");
-    const lastName = localStorage.getItem("lastName");
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const userId = localStorage.getItem("userId");
     const isAdmin = "ROLE_ADMIN" === localStorage.getItem("role") ? true : false;
     const isUser = "ROLE_USER" === localStorage.getItem("role") ? true : false;
@@ -47,6 +47,17 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
 
     const showSidebar = () => setSidebar(!sidebar);
 
+    // const getCredentials = () => {
+    //     const firstNameLocalStorage = localStorage.getItem("firstName");
+    //     const lastNameLocalStorage = localStorage.getItem("lastName");
+    //     if (firstNameLocalStorage !== null) {
+    //         setFirstName(firstNameLocalStorage)
+    //     }
+    //     if (lastNameLocalStorage !== null) {
+    //         setLastName(lastNameLocalStorage)
+    //     }
+    // }
+
     const handleChangeColor = () => {
         setIsLightMode((prev) => !prev);
         const newColor = backgroundColor === '#A9AAB4' ? 'white' : '#A9AAB4';
@@ -68,6 +79,11 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
             window.removeEventListener('resize', handleResize);
         };
     }, [backgroundColor, isLoggedIn, isBlocked])
+
+    // useEffect(() => {
+    //     getCredentials();
+    //     console.log("se apeleaza??")
+    // }, [passIsIssueUpdated])
 
     const onConnected = () => {
         console.log("Connected!!!");
@@ -129,6 +145,8 @@ const Navbar3 = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssue
                         passIsIssueUpdated={passIsIssueUpdated}
                         passIsIssueDeleted={passIsIssueDeleted}
                         passBackgroundColor={backgroundColor}
+                        passSetFirstName={setFirstName}
+                        passSetLastName={setLastName}
                     />}
                 </div>
                 <nav style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}

@@ -126,7 +126,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                 lastName: lastNameInputRef.current.value
             }, (result, status, err) => {
                 if (result !== null && status === 201) {
-                    console.log(result);
                     if (newImage != null) {
                         deleteImage();
                         addImage();

@@ -63,6 +63,7 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
 
         useEffect(() => {
             filterAlIssues();
+            console.log("Nu intra aici??")
         }, [passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated]);
 
         return (
