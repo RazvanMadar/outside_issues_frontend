@@ -27,18 +27,4 @@ const getLatestChatMessage = (token, from, to, callback) => {
     restApi.makeRequest(request, callback);
 }
 
-const sendMessage = (token, data, callback) => {
-    const request = new Request(backend_api + endpoint.message, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token
-        },
-        body: JSON.stringify(data),
-    });
-
-    restApi.makeRequest(request, callback);
-}
-
-
-export {getChatMessages, sendMessage, getLatestChatMessage};
+export {getChatMessages, getLatestChatMessage};

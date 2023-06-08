@@ -5,7 +5,7 @@ import {filterIssues} from "../api/issue-api";
 import {Button} from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import classes from "./Issues.module.css";
-import FilterMap from "../modal/FilterMap";
+import FilterMap from "../components/modal/FilterMap";
 import Pagination from '@mui/material/Pagination';
 import {addCitizenReaction} from "../api/citizen-reactions-api";
 import {Input} from "reactstrap";

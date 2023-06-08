@@ -7,11 +7,11 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {TextField} from "@mui/material";
 import classes from "./FilterMap.module.css";
-import {CategoryData} from "../staticdata/CategoryData";
-import {StateData} from "../staticdata/StateData";
+import {CategoryData} from "../../staticdata/CategoryData";
+import {StateData} from "../../staticdata/StateData";
 import {Input} from "reactstrap";
-import {filterIssues} from "../api/issue-api";
-import {convertUIStatesToAPI, convertUITypesToAPI} from "../common/utils";
+import {filterIssues} from "../../api/issue-api";
+import {convertUIStatesToAPI, convertUITypesToAPI} from "../../common/utils";
 
 const FilterMap = ({
                        show,
@@ -121,7 +121,7 @@ const FilterMap = ({
                             <DatePicker
                                 disableFuture
                                 label="Responsive"
-                                label="Selectează dată de început"
+                                label="Selectează data de început"
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={fromDate}
@@ -136,7 +136,7 @@ const FilterMap = ({
                             <DatePicker
                                 disableFuture
                                 label="Responsive"
-                                label="Selectează dată de final"
+                                label="Selectează data de final"
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={toDate}

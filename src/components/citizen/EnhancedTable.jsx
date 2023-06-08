@@ -16,8 +16,8 @@ import {TextField} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {addCitizenToBlacklist, deleteCitizenFromBlacklist, getBasicStatistics} from "../../api/blacklist-api";
 import Button from "@mui/material/Button";
-import BasicChart from "../../chart/BasicChart";
-import JSONDataChart from "../../chart/JSONDataChart";
+import BasicChart from "../chart/BasicChart";
+import JSONDataChart from "../chart/JSONDataChart";
 import {getAllRejected} from "../../api/rejected-issues-api";
 
 function descendingComparator(a, b, orderBy) {

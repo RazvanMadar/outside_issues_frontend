@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from "react";
-import ImageBox from "../../imagebox/ImageBox";
+import ImageBox from "../imagebox/ImageBox";
 import {registerCitizen} from "../../api/citizen-api";
 import {addCitizenImage} from "../../api/citizen-image";
 import classes from "./Login.module.css";

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {getBasicStatistics, getTypeStatistics, getYearStatistics} from "../api/issue-api";
-import SliderComponent from "../slider/SliderComponent";
-import SimpleArray from "../chart/SimpleArray";
+import SliderComponent from "../components/slider/SliderComponent";
+import SimpleArray from "../components/chart/SimpleArray";
 import {convertAPIStatesToUI, convertAPITypesToUI, getMonthFromIndex} from "../common/utils";
-import FilledPieChart from "../chart/FilledPieChart";
+import FilledPieChart from "../components/chart/FilledPieChart";
 import Typical from 'react-typical'
 import {Navigate} from "react-router-dom";
 

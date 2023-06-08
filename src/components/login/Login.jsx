@@ -4,7 +4,7 @@ import classes from "./Login.module.css";
 import {authenticate} from "../../api/auth";
 import {AuthContext} from "../../context/AuthContext";
 import {registerCitizen} from "../../api/citizen-api";
-import ImageBox from "../../imagebox/ImageBox";
+import ImageBox from "../imagebox/ImageBox";
 import {addCitizenImage} from "../../api/citizen-image";
 import {isCorrectEmail, isCorrectPhoneNumber} from "../../common/utils";
 

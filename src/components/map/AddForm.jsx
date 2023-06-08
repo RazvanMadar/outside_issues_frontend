@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Form, FormGroup, Input, Label, Row} from "reactstrap";
 import Button from "@mui/material/Button";
 import {addIssue} from "../../api/issue-api";
-import ImageBox from "../../imagebox/ImageBox";
+import ImageBox from "../imagebox/ImageBox";
 import classes from "./AddForm.module.css";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {addImage} from "../../api/issue-image-api";

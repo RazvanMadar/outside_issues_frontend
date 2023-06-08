@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
-import {findCitizenById} from "../api/citizen-api";
+import {findCitizenById} from "../../api/citizen-api";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import classes from "./ProfileModal.module.css";
 import BasicChart from "../chart/BasicChart";
-import {getTypeStatistics} from "../api/issue-api";
-import {convertAPITypesToUI} from "../common/utils";
-import noPhoto from "../pages/images/no_photo.png";
-import {getCitizenImage} from "../api/citizen-image";
+import {getTypeStatistics} from "../../api/issue-api";
+import {convertAPITypesToUI} from "../../common/utils";
+import noPhoto from "../../pages/images/no_photo.png";
+import {getCitizenImage} from "../../api/citizen-image";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import classes from "./SliderComponent.module.css";
 
-import {sliderImages} from "../staticdata/SliderData";
+import {sliderImages} from "../../staticdata/SliderData";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;

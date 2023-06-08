@@ -4,15 +4,15 @@ import {Form, FormGroup, Input, Label} from "reactstrap";
 import {addCitizenImage, deleteCitizenImage, getCitizenImage} from "../api/citizen-image";
 import {filterIssuesByCitizenEmail, getBasicStatistics} from "../api/issue-api";
 import {convertAPIStatesToUI} from "../common/utils";
-import SimpleArray from "../chart/SimpleArray";
+import SimpleArray from "../components/chart/SimpleArray";
 import {Col, Row} from "react-bootstrap";
 import Pagination from "@mui/material/Pagination";
 import CardItem3 from "../components/issue/CardItem3";
 import Button from "@mui/material/Button";
-import ImageBoxProfile from "../imagebox/ImageBoxProfile";
+import ImageBoxProfile from "../components/imagebox/ImageBoxProfile";
 import {Navigate, useNavigate} from "react-router-dom";
 import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
-import JSONDataChart from "../chart/JSONDataChart";
+import JSONDataChart from "../components/chart/JSONDataChart";
 
 const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIsIssueUpdated}) => {
     const userId = localStorage.getItem("userId");

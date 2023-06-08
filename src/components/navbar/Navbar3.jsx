@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {SidebarData} from "../../staticdata/SidebarData";
 import "./Navbar3.css";
 import {IconContext} from "react-icons";
-import ProfileModal from "../../modal/ProfileModal";
+import ProfileModal from "../modal/ProfileModal";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import Switch from '@mui/material/Switch';

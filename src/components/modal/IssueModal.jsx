@@ -1,21 +1,21 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import React, {useEffect, useRef, useState} from "react";
-import {getFirstImage, getSecondImage, getThirdImage} from "../api/issue-image-api";
-import noPhoto from "../pages/images/no_photo.png";
+import {getFirstImage, getSecondImage, getThirdImage} from "../../api/issue-image-api";
+import noPhoto from "../../pages/images/no_photo.png";
 import classes from "./IssueModal.module.css"
 import {Input} from "reactstrap";
-import {CategoryData} from "../staticdata/CategoryData";
-import {StateData} from "../staticdata/StateData";
+import {CategoryData} from "../../staticdata/CategoryData";
+import {StateData} from "../../staticdata/StateData";
 import {
     computeDateForPopup,
     convertAPIStatesToUI,
     convertAPITypesToUI,
     convertUIStatesToAPI,
     convertUITypesToAPI
-} from "../common/utils";
-import {updateIssue} from "../api/issue-api";
-import {sendEmail} from "../api/email-api";
+} from "../../common/utils";
+import {updateIssue} from "../../api/issue-api";
+import {sendEmail} from "../../api/email-api";
 
 const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);

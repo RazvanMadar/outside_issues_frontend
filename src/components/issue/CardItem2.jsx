@@ -3,7 +3,13 @@ import {Card, CardBody, CardSubtitle, CardText, CardTitle, Input,} from "reactst
 import {getFirstImage} from "../../api/issue-image-api";
 import DateFormat from "./DateFormat";
 import classes from "./CardItem.module.css";
-import {convertAPIStatesToUI, convertAPITypesToUI, cutFromDescription, getBackgroundColorForState, getImageRegardingIssueType} from "../../common/utils";
+import {
+    convertAPIStatesToUI,
+    convertAPITypesToUI,
+    cutFromDescription,
+    getBackgroundColorForState,
+    getImageRegardingIssueType
+} from "../../common/utils";
 import Checkbox from '@mui/material/Checkbox';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -22,7 +28,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import {sendEmail} from "../../api/email-api";
 import {addRejected} from "../../api/rejected-issues-api";
-import IssueModal from "../../modal/IssueModal";
+import IssueModal from "../modal/IssueModal";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -83,15 +89,20 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
 
     const deleteAnIssue = () => {
         return deleteIssueById(token, issue.id, (result, status, err) => {
+            console.log(issue.id)
             if (result !== null && status === 200) {
-                console.log(result);
-                rejectIssue();
-                let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost ștearsă.`;
-                if (deleteReasonInputRef.current.value.length > 0)
-                    content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
-                sendAnEmail({
-                    subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id
-                });
+                if (issue.citizenEmail !== null) {
+                    rejectIssue();
+                    let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost ștearsă.`;
+                    if (deleteReasonInputRef.current.value.length > 0)
+                        content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
+                    sendAnEmail({
+                        subject: "Sesizare Primăria Oradea",
+                        toEmail: issue.citizenEmail,
+                        content: content,
+                        issueId: issue.id
+                    });
+                }
             }
         });
     };
@@ -174,8 +185,11 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
         <div className={classes.bigWrapper}>
             <Card
                 accessKey={issue.id}
-                style={{width: "18rem", height: "22rem",
-                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8", boxShadow: "7px 5px 5px grey"
+                style={{
+                    width: "18rem",
+                    height: "22rem",
+                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
+                    boxShadow: "7px 5px 5px grey"
                 }}
             >
                 <img alt="" className={classes.mainImage}
@@ -187,8 +201,10 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                     <CardSubtitle className="mb-2 text-muted" tag="h6" style={{textAlign: "center"}}>
                         {issue.actualLocation}
                     </CardSubtitle>
-                    {issue.citizenEmail !== null ? <CardText style={{textAlign: "center"}}>{cutFromDescription(issue.description)}</CardText> :
-                        <CardText style={{textAlign: "center", color: "red", fontWeight: "bold"}}>SENZOR PLATFORMĂ</CardText>}
+                    {issue.citizenEmail !== null ?
+                        <CardText style={{textAlign: "center"}}>{cutFromDescription(issue.description)}</CardText> :
+                        <CardText style={{textAlign: "center", color: "red", fontWeight: "bold"}}>SENZOR
+                            PLATFORMĂ</CardText>}
                     <div className={classes.date}>
                         <DateFormat
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
@@ -197,7 +213,8 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                     {isLogged && role === "ROLE_ADMIN" ?
                         <div>
                             <div className={classes.state}
-                                 style={{position: "absolute", textAlign: "center", bottom: "10px", left: "5px",
+                                 style={{
+                                     position: "absolute", textAlign: "center", bottom: "10px", left: "5px",
                                      fontWeight: "bold", backgroundColor: backgroundColor
                                  }}>
                                 {convertAPIStatesToUI(issue.state).toLowerCase()}
@@ -236,7 +253,8 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                             </Dialog>
                         </div> :
                         <div className={classes.state}
-                             style={{position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold",
+                             style={{
+                                 position: "absolute", textAlign: "center", bottom: "10px", fontWeight: "bold",
                                  backgroundColor: backgroundColor
                              }}>
                             {convertAPIStatesToUI(issue.state).toLowerCase()}
@@ -287,7 +305,8 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                 </CardBody>
             </Card>
             {isAdmin && modalShow && <IssueModal show={modalShow} issue={issue} onHide={() => setModalShow(false)}
-                                    passIsUpdated={passIsUpdated} passBackgroundColor={passBackgroundColor}/>}
+                                                 passIsUpdated={passIsUpdated}
+                                                 passBackgroundColor={passBackgroundColor}/>}
         </div>
     );
 };

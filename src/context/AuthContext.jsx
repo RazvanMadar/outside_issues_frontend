@@ -20,7 +20,6 @@ const AuthProvider = ({ children }) => {
         setToken(token);
         setUserId(userId);
         setIsLogged(true);
-        console.log("mai intra aici?")
     };
 
     const logout = () => {
