@@ -1,8 +1,7 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import classes from "./Login.module.css";
 import {authenticate} from "../../api/auth";
-import {AuthContext} from "../../context/AuthContext";
 import {registerCitizen} from "../../api/citizen-api";
 import ImageBox from "../imagebox/ImageBox";
 import {addCitizenImage} from "../../api/citizen-image";
@@ -22,7 +21,6 @@ const Login = ({onLogin}) => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(true);
     const [isValidPhone, setIsValidPhone] = useState(true);
-    const {login} = useContext(AuthContext);
     const navigate = useNavigate();
     const [photos, setPhotos] = useState([]);
     const [deleteImage, setDeleteImage] = useState(false);
@@ -36,8 +34,28 @@ const Login = ({onLogin}) => {
             setIsValidAccount(true);
         } else {
             setIsIncomplete(false);
-            const data = {email: enteredEmail, password: enteredPassword};
-            authenticate(data, login, navigate, onLogin, setIsValidAccount);
+            return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
+                if (status === 200 && result !== null) {
+                    localStorage.removeItem("isBlocked");
+                    onLogin(true);
+                    localStorage.setItem("userId", result.userId);
+                    localStorage.setItem("email", result.email);
+                    localStorage.setItem("firstName", result.firstName);
+                    localStorage.setItem("lastName", result.lastName);
+                    localStorage.setItem("token", result.accessToken);
+                    localStorage.setItem("isLogged", "true");
+                    localStorage.setItem("role", result.role);
+                    setIsValidAccount(true);
+                    if (result.blocked === false) {
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("isBlocked", "true");
+                        navigate("/blocked");
+                    }
+                } else {
+                    setIsValidAccount(false);
+                }
+            });
         }
     };
 
@@ -76,29 +94,25 @@ const Login = ({onLogin}) => {
             setIsValidEmail(true);
             setIsValidPassword(true);
             setIsValidPhone(true);
-        }
-        else if (!isCorrectEmail(enteredEmail)) {
+        } else if (!isCorrectEmail(enteredEmail)) {
             setIsValidEmail(false);
             setIsIncomplete(false);
             setIsValidAccount(true);
             setIsValidPassword(true);
             setIsValidPhone(true);
-        }
-        else if (enteredPassword.length < 8) {
+        } else if (enteredPassword.length < 8) {
             setIsValidPassword(false);
             setIsIncomplete(false);
             setIsValidEmail(true);
             setIsValidAccount(true);
             setIsValidPhone(true);
-        }
-        else if (!isCorrectPhoneNumber(enteredPhone)) {
+        } else if (!isCorrectPhoneNumber(enteredPhone)) {
             setIsValidPhone(false);
             setIsValidPassword(true);
             setIsIncomplete(false);
             setIsValidEmail(true);
             setIsValidAccount(true);
-        }
-        else {
+        } else {
             const data = {
                 email: enteredEmail,
                 phoneNumber: enteredPhone[0] === "+" ? enteredPhone : "+4" + enteredPhone,

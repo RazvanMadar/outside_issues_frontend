@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Col, Container, Row} from "react-bootstrap";
 import CardItem2 from "../components/issue/CardItem2";
 import {filterIssues} from "../api/issue-api";
 import {Button} from "@mui/material";
@@ -8,7 +7,7 @@ import classes from "./Issues.module.css";
 import FilterMap from "../components/modal/FilterMap";
 import Pagination from '@mui/material/Pagination';
 import {addCitizenReaction} from "../api/citizen-reactions-api";
-import {Input} from "reactstrap";
+import {Col, Container, Input, Row} from "reactstrap";
 import {SortData} from "../staticdata/SortData";
 import {convertUISortDataToAPI} from "../common/utils";
 import Checkbox from "@mui/material/Checkbox";
@@ -112,7 +111,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
     }, [currentPage, isFiltered, isDeleted, isUpdated, sort, order, isAdded]);
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {!isBlocked ?
                 <Container>
                     <br/>

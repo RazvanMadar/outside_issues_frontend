@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 import {getAllRejected} from "../../api/rejected-issues-api";
+import {CitizensTableData} from "../../staticdata/CitizensTableData";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -36,10 +37,6 @@ function getComparator(order, orderBy) {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -51,51 +48,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-const headCells = [
-    {
-        id: 'email',
-        numeric: false,
-        disablePadding: false,
-        label: 'Email',
-    },
-    {
-        id: 'firstName',
-        numeric: false,
-        disablePadding: false,
-        label: 'Prenume',
-    },
-    {
-        id: 'lastName',
-        numeric: false,
-        disablePadding: false,
-        label: 'Nume',
-    },
-    {
-        id: 'phoneNumber',
-        numeric: false,
-        disablePadding: false,
-        label: 'Nr tel',
-    },
-    {
-        id: 'totalReported',
-        numeric: false,
-        disablePadding: false,
-        label: 'Raportate',
-    },
-    {
-        id: 'totalRejected',
-        numeric: false,
-        disablePadding: false,
-        label: 'Respinse',
-    },
-    {
-        id: 'state',
-        numeric: false,
-        disablePadding: false,
-        label: 'Stare',
-    }
-];
 
 function EnhancedTableHead(props) {
     const {order, orderBy, onRequestSort} =
@@ -109,7 +61,7 @@ function EnhancedTableHead(props) {
             <TableRow>
                 <TableCell>
                 </TableCell>
-                {headCells.map((headCell) => (
+                {CitizensTableData.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
@@ -306,12 +258,6 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
                                                     <Button variant="outlined" color="success"
                                                             onClick={() => unblockCitizenHandler(row.id)}>
                                                         Deblochează</Button>}
-                                                    {/*{row.firstName == null && row.lastName == null ?*/}
-                                                    {/*    <div*/}
-                                                    {/*    style={{position: "relative",*/}
-                                                    {/*        textAlign: "center",*/}
-                                                    {/*        fontWeight: "bold"}}*/}
-                                                    {/*    >Vizitator </div> : null}*/}
                                                 </TableCell>
                                             </TableRow>
                                         );

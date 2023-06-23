@@ -1,18 +1,25 @@
 import React, {useEffect, useState} from "react";
-import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import {findCitizenById} from "../../api/citizen-api";
-import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import classes from "./ProfileModal.module.css";
 import BasicChart from "../chart/BasicChart";
 import {getTypeStatistics} from "../../api/issue-api";
 import {convertAPITypesToUI} from "../../common/utils";
 import noPhoto from "../../pages/images/no_photo.png";
 import {getCitizenImage} from "../../api/citizen-image";
+import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
-ChartJS.register(ArcElement, Tooltip, Legend)
-
-const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passBackgroundColor, passSetFirstName, passSetLastName}) => {
+const ProfileModal = ({
+                          show,
+                          onHide,
+                          userId,
+                          passIsIssueAdded,
+                          passIsIssueDeleted,
+                          passIsIssueUpdated,
+                          passBackgroundColor,
+                          passSetFirstName,
+                          passSetLastName
+                      }) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
@@ -22,7 +29,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
     const token = localStorage.getItem("token");
 
     const getAllTypesStatistics = () => {
-        return getTypeStatistics(token, email,(result, status, err) => {
+        return getTypeStatistics(token, email, (result, status, err) => {
             if (status === 200 && result !== null) {
                 result.forEach(res => {
                     res.state = convertAPITypesToUI(res.state);
@@ -80,17 +87,15 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
 
     return (
         <Modal
-            show={show}
+            isOpen={show}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header style={{backgroundColor: passBackgroundColor}}>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Profilul dumneavoastră
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{backgroundColor: passBackgroundColor}}>
+            <ModalHeader style={{backgroundColor: passBackgroundColor}}>
+                Profilul dumneavoastră
+            </ModalHeader>
+            <ModalBody style={{backgroundColor: passBackgroundColor}}>
                 {
                     citizen ?
                         <div>
@@ -119,14 +124,14 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                         </div>
                         : ""
                 }
-            </Modal.Body>
-            <Modal.Footer style={{backgroundColor: passBackgroundColor}}>
+            </ModalBody>
+            <ModalFooter style={{backgroundColor: passBackgroundColor}}>
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
                         onClick={onHide}>Închide
                 </Button>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 };

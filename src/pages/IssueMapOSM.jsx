@@ -67,7 +67,7 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
         }, [passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated]);
 
         return (
-            <div style={{paddingTop: "55px"}}>
+            <div style={{paddingTop: "28px"}}>
                 {!isBlocked ?
                     <div>
                         <MapContainer

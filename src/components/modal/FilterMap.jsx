@@ -1,15 +1,13 @@
 import React, {useRef, useState} from "react";
-import Modal from 'react-bootstrap/Modal';
 import Button from "@mui/material/Button";
-import Form from 'react-bootstrap/Form';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import {TextField} from "@mui/material";
+import {FormLabel, TextField} from "@mui/material";
 import classes from "./FilterMap.module.css";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {StateData} from "../../staticdata/StateData";
-import {Input} from "reactstrap";
+import {Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {filterIssues} from "../../api/issue-api";
 import {convertUIStatesToAPI, convertUITypesToAPI} from "../../common/utils";
 
@@ -87,36 +85,33 @@ const FilterMap = ({
 
     return (
         <Modal
-            show={show}
+            isOpen={show}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header style={{backgroundColor: passBackgroundColor}}>
-                <Modal.Title id="contained-modal-title-vcenter">
+            <ModalHeader style={{backgroundColor: passBackgroundColor}}>
                     Caută sesizările dorite
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{backgroundColor: passBackgroundColor}}>
+            </ModalHeader>
+            <ModalBody style={{backgroundColor: passBackgroundColor}}>
                 <Form style={{display: "flex", flexWrap: "wrap"}}>
-                    <Form.Group className="mb-3" style={{width: "45%"}} controlId="exampleForm.ControlInput1">
-                        <Form.Label>Categoria sesizării</Form.Label>
+                    <FormGroup className="mb-3" style={{width: "45%"}}>
+                        <FormLabel>Categoria sesizării</FormLabel>
                         <Input style={{backgroundColor: passBackgroundColor}} type="select" name="category"
                                id="category" innerRef={typeInputRef}>
                             {CategoryData.map((cat) => <option key={cat.id}
                                                                style={{maxWidth: "1rem"}}>{cat.title}</option>)}
                         </Input>
-                    </Form.Group>
-                    <Form.Group className="mb-3" style={{marginLeft: "2rem", width: "45%"}}
-                                controlId="exampleForm.ControlInput1">
-                        <Form.Label>Starea sesizării</Form.Label>
+                    </FormGroup>
+                    <FormGroup className="mb-3" style={{marginLeft: "2rem", width: "45%"}}>
+                        <FormLabel>Starea sesizării</FormLabel>
                         <Input style={{backgroundColor: passBackgroundColor}} type="select" name="state" id="category"
                                innerRef={stateInputRef}>
                             {StateData.map((st) => <option key={st.id}
                                                            style={{maxWidth: "1rem"}}>{st.title}</option>)}
                         </Input>
-                    </Form.Group>
-                    <Form.Group>
+                    </FormGroup>
+                    <FormGroup>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 disableFuture
@@ -147,10 +142,10 @@ const FilterMap = ({
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </LocalizationProvider>
-                    </Form.Group>
+                    </FormGroup>
                 </Form>
-            </Modal.Body>
-            <Modal.Footer style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
+            </ModalBody>
+            <ModalFooter style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
                 <Button variant="contained"
                         color="primary"
                         className={classes.filterButton}
@@ -164,7 +159,7 @@ const FilterMap = ({
                         className={classes.cancelButton}
                         onClick={closeHandle}>Închide
                 </Button>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 };

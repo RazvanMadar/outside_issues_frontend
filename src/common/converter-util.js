@@ -1,7 +1,4 @@
-import Geocode from "react-geocode";
 import L from "leaflet";
-
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_KEY);
 
 const createIcon = (icon, type, isWorkingIcon) =>
     new L.Icon({

@@ -3,22 +3,6 @@ import { AccountContext } from "./accountContext";
 import LoginMobile from "./LoginMobile";
 import RegisterMobile from "./RegisterMobile";
 import classes from "./Login.module.css";
-import { motion } from "framer-motion";
-
-const variants = {
-    expanded: {
-        width: "233%",
-        height: "1050px",
-        borderRadius: "20%",
-        transform: "rotate(60deg)",
-    },
-    collapsed: {
-        width: "160%",
-        height: "550px",
-        borderRadius: "50%",
-        transform: "rotate(60deg)",
-    },
-};
 
 const transition = {
     type: "spring",
@@ -57,13 +41,7 @@ const MobileForm = ({ onLogin }) => {
         <AccountContext.Provider value={contextValue}>
             <div className={classes.bigAuthContainer}>
                 <div className={classes.bigSecondContainer}>
-                    <motion.div
-                        className={classes.drop}
-                        initial={false}
-                        animate={isExpanded ? "expanded" : "collapsed"}
-                        variants={variants}
-                        transition={transition}
-                    />
+                    <div className={`${classes.motionDiv} ${isExpanded ? classes.expanded : classes.collapsed}`}/>
                     {active === "signin" && (
                         <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
                             <h2 className={classes.upperText}>Bine</h2>

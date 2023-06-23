@@ -7,7 +7,7 @@ const UnauthorizedPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             <div style={{position: "absolute", left: "50%", transform: "translate(-50%, 0)", marginTop: "3rem"}}>
                 <h1 style={{color: "black", textAlign: "center"}}>
                     Trebuie să fii logat pentru această pagină!

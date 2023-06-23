@@ -8,7 +8,7 @@ import roadSignPlaceholder from "../pages/images/roadSignPlaceholder.jpg";
 import animalPlaceholder from "../pages/images/animalPlaceholder.jpg";
 import publicOrderPlaceholder from "../pages/images/publicOrderPlaceholder.png";
 import noPhoto from "../pages/images/no_photo.png";
-import {createIcon} from "./geo-converter";
+import {createIcon} from "./converter-util";
 import REGISTERED_ROAD from "../pages/images/REGISTERED_ROAD.png";
 import REGISTERED_LIGHTNING from "../pages/images/REGISTERED_LIGHTNING.png";
 import REGISTERED_PUBLIC_DISORDER from "../pages/images/REGISTERED_PUBLIC_DISORDER.png";

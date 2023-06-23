@@ -4,7 +4,6 @@ import SliderComponent from "../components/slider/SliderComponent";
 import SimpleArray from "../components/chart/SimpleArray";
 import {convertAPIStatesToUI, convertAPITypesToUI, getMonthFromIndex} from "../common/utils";
 import FilledPieChart from "../components/chart/FilledPieChart";
-import Typical from 'react-typical'
 import {Navigate} from "react-router-dom";
 
 // react-typical FROM https://www.youtube.com/watch?v=t7ePHIsKnnI
@@ -76,7 +75,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
     }, [isAdded, isUpdated, isDeleted]);
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {
                 !isBlocked ?
                 <div>

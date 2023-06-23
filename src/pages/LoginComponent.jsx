@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Login from "../components/login/Login";
 import MobileForm from "../components/login/MobileForm";
 
-const LoginComponent = ({onLogin}) => {
+const LoginComponent = ({login, onLogin}) => {
     const [width, setWidth] = useState(window.innerWidth);
     const [component, setComponent] = useState(width > 768 ? <Login onLogin={onLogin}/> : <MobileForm onLogin={onLogin}/>);
 
@@ -16,6 +16,7 @@ const LoginComponent = ({onLogin}) => {
     localStorage.removeItem("lastName");
 
     useEffect(() => {
+        console.log(login);
         onLogin(false);
 
         const handleResize = () => {
@@ -31,7 +32,7 @@ const LoginComponent = ({onLogin}) => {
     }, []);
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {component}
         </div>
     );

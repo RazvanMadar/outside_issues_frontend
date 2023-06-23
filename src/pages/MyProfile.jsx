@@ -1,11 +1,10 @@
 import {findCitizenById, updateCitizen} from "../api/citizen-api";
 import React, {useEffect, useRef, useState} from "react";
-import {Form, FormGroup, Input, Label} from "reactstrap";
+import {Col, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import {addCitizenImage, deleteCitizenImage, getCitizenImage} from "../api/citizen-image";
 import {filterIssuesByCitizenEmail, getBasicStatistics} from "../api/issue-api";
 import {convertAPIStatesToUI} from "../common/utils";
 import SimpleArray from "../components/chart/SimpleArray";
-import {Col, Row} from "react-bootstrap";
 import Pagination from "@mui/material/Pagination";
 import CardItem3 from "../components/issue/CardItem3";
 import Button from "@mui/material/Button";
@@ -172,7 +171,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     return (<div>
         {isBlocked ? <Navigate to={"/blocked"} replace/> :
             citizen !== null &&
-                <div style={{paddingTop: "55px"}}>
+                <div style={{paddingTop: "28px"}}>
                     <div style={{
                         margin: "1rem",
                         display: desktopScreen && "flex",

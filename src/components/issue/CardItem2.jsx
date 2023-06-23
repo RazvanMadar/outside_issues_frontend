@@ -259,7 +259,7 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                              }}>
                             {convertAPIStatesToUI(issue.state).toLowerCase()}
                         </div>}
-                    {nrOfLikes > 0 && issue.state !== 'SOLVED' ?
+                    {nrOfLikes > 2 && issue.state !== 'SOLVED' ?
                         <div className={classes.urgent} style={{
                             position: "absolute", top: "10px", left: "10px", fontWeight: "bold"
                         }}>

@@ -2,12 +2,10 @@ import React, {useContext, useRef, useState} from "react";
 import {AccountContext} from "./accountContext";
 import {authenticate} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
-import {AuthContext} from "../../context/AuthContext";
 import classes from "./Login.module.css";
 
 const LoginMobile = ({onLogin}) => {
     const { switchToSignup } = useContext(AccountContext);
-    const {login} = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const navigate = useNavigate();
@@ -24,8 +22,28 @@ const LoginMobile = ({onLogin}) => {
         }
         else {
             setIsIncomplete(false);
-            const data = {email: enteredEmail, password: enteredPassword};
-            authenticate(data, login, navigate, onLogin, setIsValidAccount);
+            return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
+                if (result !== null && status === 200) {
+                    localStorage.removeItem("isBlocked");
+                    onLogin(true);
+                    localStorage.setItem("userId", result.userId);
+                    localStorage.setItem("email", result.email);
+                    localStorage.setItem("firstName", result.firstName);
+                    localStorage.setItem("lastName", result.lastName);
+                    localStorage.setItem("token", result.accessToken);
+                    localStorage.setItem("isLogged", "true");
+                    localStorage.setItem("role", result.role);
+                    setIsValidAccount(true);
+                    if (result.blocked === false) {
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("isBlocked", "true");
+                        navigate("/blocked");
+                    }
+                } else {
+                    setIsValidAccount(false);
+                }
+            });
         }
     };
 

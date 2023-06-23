@@ -60,9 +60,9 @@ const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedN
     }, [passReceivedNewUserMessage])
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {!isBlocked ?
-                <div style={{height: "calc(100vh - 55px)"}}>
+                <div style={{height: "calc(100vh - 28px)"}}>
                     <MDBContainer fluid className="py-5" style={{
                         backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
                         height: "100%"

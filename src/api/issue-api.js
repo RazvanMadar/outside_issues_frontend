@@ -129,17 +129,6 @@ const addIssue = (token, issue, callback) => {
     restApi.makeRequest(request, callback);
 };
 
-const findIssueById = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.issue + "/" + id, {
-        method: "GET",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    });
-
-    restApi.makeRequest(request, callback);
-};
-
 const updateIssue = (token, id, type, state, callback) => {
     let urlPath = backend_api + endpoint.issue + `/${id}?`;
     if (type != null) {
@@ -173,7 +162,6 @@ const deleteIssueById = (token, id, callback) => {
 export {
     filterIssues,
     addIssue,
-    findIssueById,
     updateIssue,
     deleteIssueById,
     getBasicStatistics,

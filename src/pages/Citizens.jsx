@@ -6,7 +6,7 @@ const Citizens = ({passIsDeleted, passBackgroundColor}) => {
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {!isBlocked ? <EnhancedTable passIsDeleted={passIsDeleted} passBackgroundColor={passBackgroundColor}/> : <Navigate to={"/blocked"} replace/>}
         </div>
     );

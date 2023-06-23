@@ -53,7 +53,7 @@ const CardItem3 = ({issue, passBackgroundColor}) => {
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
                         />
                     </div>
-                    {nrOfLikes > 0 && issue.state !== 'SOLVED' ?
+                    {nrOfLikes > 2 && issue.state !== 'SOLVED' ?
                         <div className={classes.urgent}
                              style={{position: "absolute", top: "10px", left: "10px", fontWeight: "bold"}}>
                             prioritar

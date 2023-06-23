@@ -1,10 +1,9 @@
-import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import React, {useEffect, useRef, useState} from "react";
 import {getFirstImage, getSecondImage, getThirdImage} from "../../api/issue-image-api";
 import noPhoto from "../../pages/images/no_photo.png";
 import classes from "./IssueModal.module.css"
-import {Input} from "reactstrap";
+import {Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {StateData} from "../../staticdata/StateData";
 import {
@@ -85,7 +84,12 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                     if (enteredState !== undefined && issue.state !== enteredState) {
                         content += `\nStarea a fost trecută în: ${stateInputRef.current.value}`;
                     }
-                    sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: issue.citizenEmail, content: content, issueId: issue.id});
+                    sendAnEmail({
+                        subject: "Sesizare Primăria Oradea",
+                        toEmail: issue.citizenEmail,
+                        content: content,
+                        issueId: issue.id
+                    });
                 }
                 onHide();
             } else if (status === 403) {
@@ -114,17 +118,16 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
 
     return (
         <Modal
-            show={show}
+            isOpen={show}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header style={{backgroundColor: passBackgroundColor}}>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Editați sesizarea
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{backgroundColor: passBackgroundColor, maxHeight: 520, width: "100%", overflowY: 'auto'}}>
+            <ModalHeader style={{backgroundColor: passBackgroundColor}}>
+                Editați sesizarea
+            </ModalHeader>
+            <ModalBody
+                style={{backgroundColor: passBackgroundColor, maxHeight: 520, width: "100%", overflowY: 'auto'}}>
                 <img src={mainImage} style={{width: "100%"}} className={classes.imageContainer} alt=""/>
                 <div style={{marginTop: "10px", display: "flex", justifyContent: "space-between"}}>
                     <img src={secondImage} style={{width: "49%"}} className={classes.imageContainer} alt=""/>
@@ -154,7 +157,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                         <br/>
                         Data: {computeDateForPopup(issue.reportedDate)}
                         <br/>
-                        Raportat de: {issue.citizenEmail !== null ? issue.citizenEmail: "Senzorii platformei"}
+                        Raportat de: {issue.citizenEmail !== null ? issue.citizenEmail : "Senzorii platformei"}
                     </div>
                     <div style={{width: "49%"}}>
                         {issue.hasLocation && <iframe style={{width: "100%", height: "100%"}} title="Map"
@@ -170,8 +173,9 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                        value={issue.description}
                        disabled
                 />
-            </Modal.Body>
-            <Modal.Footer style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
+            </ModalBody>
+            <ModalFooter
+                style={{backgroundColor: passBackgroundColor, display: "flex", justifyContent: "space-between"}}>
                 <Button variant="contained"
                         color="primary"
                         className={classes.filterButton}
@@ -183,7 +187,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                         className={classes.cancelButton}
                         onClick={onHide}>Închide
                 </Button>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 }

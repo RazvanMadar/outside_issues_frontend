@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useState} from "react";
 import {Marker} from "react-leaflet";
-import {createIcon} from "../../common/geo-converter";
+import {createIcon} from "../../common/converter-util";
 import marker from "../../pages/images/gps.png";
 import L from 'leaflet';
 import {booleanPointInPolygon} from '@turf/turf';
@@ -14,7 +14,7 @@ const flagIcon = createIcon(marker, true);
 
 const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
   const [position, setPosition] = useState(center);
-  const [lastValidPosition, setLastValidPosition] = useState(center);
+  const centerPosition = useState(center);
   const markerRef = useRef(null);
 
   const eventHandlers = useMemo(
@@ -26,9 +26,9 @@ const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
           const point = [newMarkerPosition.lng, newMarkerPosition.lat];
           const polygon = L.polygon(polygonCoordinates).toGeoJSON();
           if (!booleanPointInPolygon(point, polygon)) {
-            marker.setLatLng(lastValidPosition);
-            setPosition(lastValidPosition);
-            passMarkerPosition(lastValidPosition);
+            marker.setLatLng(centerPosition);
+            setPosition(centerPosition);
+            passMarkerPosition(centerPosition);
           } else {
             setPosition(newMarkerPosition);
             passMarkerPosition(newMarkerPosition);
