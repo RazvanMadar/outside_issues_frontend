@@ -79,8 +79,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
             {
                 !isBlocked ?
                 <div>
-                    <h1 style={{textAlign: "center", marginTop: "1rem", marginBottom: "3rem"}}>Sesizări municipiul
-                        Oradea</h1>
+                    <h1 style={{textAlign: "center", marginTop: "1rem", marginBottom: "3rem"}}>Problemele de afară</h1>
                     <h5 style={{padding: '0 1rem'}}>
                         <span
                             style={{padding: '0 2rem'}}>Aceasta este o aplicaţie pentru telefonul mobil sau tabletă</span>
@@ -88,10 +87,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
                         cu spirit civic să transmită diverse sesizări şi incidente către Primăria Oradea şi operatorii
                         serviciilor publice locale (Compania de Apă Oradea, Oradea Transport Local, Termoficare Oradea,
                         Poliţia
-                        Locală Oradea, Luxten Lighting Company, RER Ecologic Service).{'\nBeneficiile pe care le ai'}
-                        {/*<Typical loop={Infinity} wrapper="b" steps={[*/}
-                        {/*    'comunitate mai frumoasa👻', 5000, 'feedback🏌️', 5000*/}
-                        {/*]}/>*/}
+                        Locală Oradea, Luxten Lighting Company, RER Ecologic Service).{'\nBeneficiile pe care le ai'} BAAAAAA MODIFICAAAA
                     </h5>
                     <div style={{
                         display: desktopScreen && "flex",

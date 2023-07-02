@@ -19,9 +19,8 @@ import {Navigate} from "react-router-dom";
 
 const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsUpdated, isAdded}) => {
     const [issues, setIssues] = useState([]);
-    const [forbidden, setForbidden] = useState(false);
     const [modalShow, setModalShow] = useState(false);
-    const [issuesPerPage, setIssuesPerPage] = useState(12);
+    const issuesPerPage = 12;
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFiltered, setIsFiltered] = useState(false);
@@ -29,7 +28,6 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
     const [state, setState] = useState(null);
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
-    const [reactions, setReactions] = useState([]);
     const sortInputRef = useRef();
     const [sort, setSort] = useState('reported_date');
     const [order, setOrder] = useState('desc');
@@ -54,7 +52,6 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
             order,
             (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log(result.content);
                     setIssues(result.content);
                     setTotalPages(result.totalPages);
                 } else {
@@ -66,11 +63,8 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
 
     const addCitizensReactions = (reactions) => {
         return addCitizenReaction(token, reactions, (result, status, err) => {
-            if (result !== null && status === 201) {
-                console.log(result);
-            } else if (status === 403) {
-                setForbidden(true);
-            } else {
+            if (result !== null && status === 201) {}
+            else {
                 console.log(err);
             }
         });

@@ -1,9 +1,8 @@
-import "./App.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Issues from "./pages/Issues";
 import IssueMapOSM from "./pages/IssueMapOSM";
-import Navbar3 from "./components/navbar/Navbar3";
+import Navbar from "./components/navbar/Navbar";
 import LoginComponent from "./pages/LoginComponent";
 import {useState} from "react";
 import Logout from "./components/login/Logout";
@@ -37,10 +36,10 @@ function App() {
     const role = localStorage.getItem('role');
 
     return (
-        <BrowserRouter>  // Componenta care înglobează rutarea
-            <Navbar3 passBackgroundColor={setBackgroundColor} passSetIsMessageAdded={setIsMessageAdded}  // Componenta bării de navigare cu proprietățile transmise
-                     passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated} isLoggedIn={isLoggedIn} passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded}
-                     passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted} passPersons={persons} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
+        <BrowserRouter>
+            <Navbar passBackgroundColor={setBackgroundColor} passSetIsMessageAdded={setIsMessageAdded}  // Componenta bării de navigare cu proprietățile transmise
+                    passIsIssueAdded={isIssueAdded} passIsIssueUpdated={isIssueUpdated} isLoggedIn={isLoggedIn} passIsIssueDeleted={isIssueDeleted} passSetIsIssueAdded={setIsIssueAdded}
+                    passSetIsIssueUpdated={setIsIssueUpdated} passSetIsIssueDeleted={setIsIssueDeleted} passPersons={persons} passSetReceivedNewUserMessage={setReceivedNewUserMessage}/>
             <Routes>  // înglobează toate rutele disponibile în aplicație
                 <Route element={<RequireAuthentication allowedRoles={[ROLES.UNNECESSARY]} isBlocked={isBlocked} role={role}/>}>  // Ruta nu necesită ca utilizatorul să aibe rol
                     <Route path="/" element={<Home isDeleted={isIssueDeleted} isAdded={isIssueAdded} isUpdated={isIssueUpdated}/>}/>  // Ruta pentru pagina principală și proprietățile ei

@@ -24,10 +24,7 @@ const ChatPersonElement = ({person, passSetChatId, passChatId, passSetToEmail, p
     const getImage = () => {
         return getCitizenImage(token, person.citizenId, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log("image", result)
                 setImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 console.log(err)
             }

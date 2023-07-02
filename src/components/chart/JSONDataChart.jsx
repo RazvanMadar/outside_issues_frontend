@@ -11,10 +11,6 @@ import Chart, {
 } from 'devextreme-react/chart';
 
 const JSONDataChart = ({data, desktopScreen}) => {
-    const customizeText = (e) => {
-        return `${e.value}`;
-    }
-
     return (
         <div style={{width: desktopScreen ? "50%" : "100%"}}>
             <Chart
@@ -25,7 +21,7 @@ const JSONDataChart = ({data, desktopScreen}) => {
             >
 
                 <ArgumentAxis>
-                    <Label customizeText={customizeText}/>
+                    <Label/>
                 </ArgumentAxis>
 
                 <ValueAxis>

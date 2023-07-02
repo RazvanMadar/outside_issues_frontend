@@ -76,7 +76,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
         return updateIssue(token, issue.id, enteredType, enteredState, (result, status, err) => {
             if (result !== null && status === 200) {
                 passIsUpdated((prev) => !prev)
-                if (issue.state !== enteredState || issue.type !== enteredType) {
+                if (issue.citizenEmail !== null && (issue.state !== enteredState || issue.type !== enteredType)) {
                     let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost modificată.`;
                     if (enteredType !== undefined && issue.type !== enteredType) {
                         content += `\nTipul a fost schimbat în: ${typeInputRef.current.value}`;

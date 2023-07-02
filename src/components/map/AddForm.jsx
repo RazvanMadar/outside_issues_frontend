@@ -117,7 +117,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         setIssueAdr("Fără adresă");
         return getAddressFromCoordinates(address, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 let issueAddress = "";
                 let moreThanOneWord = false;
                 if (result.address.road != null) {
@@ -136,6 +135,12 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                         issueAddress += ", "
                     }
                     issueAddress += result.address.suburb;
+                }
+                if (result.address.village != null) {
+                    if (moreThanOneWord === true) {
+                        issueAddress += ", "
+                    }
+                    issueAddress += result.address.village;
                 }
                 setIssueAdr(issueAddress);
             } else if (status === 403) {

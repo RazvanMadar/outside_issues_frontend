@@ -13,8 +13,6 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
         return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 setFromImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 console.log(err)
             }

@@ -29,10 +29,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
     const getFromImage = () => {
         return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setFromImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 setFromImage("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp")
             }
@@ -50,8 +47,6 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                 if (result != null && status == 200) {
                     passSetIsAddedMessage((prev) => !prev);
                     setMessage("");
-                } else if (status === 403) {
-                    // setForbidden(true);
                 } else {
                     console.log(err);
                 }

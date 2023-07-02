@@ -4,12 +4,6 @@ import PieChart, {Connector, Format, Label, Legend, Series, Tooltip,} from 'deve
 
 // COPY PASTE DEVEXPRESS DOUGHNUT
 const BasicChart = ({data, title, desktopScreen}) => {
-    const customizeTooltip = (arg) => {
-        return {
-            text: `${arg.valueText} - ${(arg.percent * 100).toFixed(2)}%`,
-        };
-    }
-
     return (
         <div style={{width: desktopScreen ? "50%" : "100%"}}>
             <PieChart
@@ -29,7 +23,7 @@ const BasicChart = ({data, title, desktopScreen}) => {
                     horizontalAlignment="right"
                     verticalAlignment="top"
                 />
-                <Tooltip enabled={true} customizeTooltip={customizeTooltip}>
+                <Tooltip enabled={true}>
                     <Format/>
                 </Tooltip>
             </PieChart>

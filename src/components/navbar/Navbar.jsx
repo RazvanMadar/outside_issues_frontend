@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {SidebarData} from "../../staticdata/SidebarData";
-import "./Navbar3.css";
+import classes from "./Navbar.module.css";
 import ProfileModal from "../modal/ProfileModal";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
@@ -13,18 +13,18 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Navbar3 = ({
-                     isLoggedIn,
-                     passBackgroundColor,
-                     passIsIssueAdded,
-                     passIsIssueDeleted,
-                     passIsIssueUpdated,
-                     passPersons,
-                     passSetIsIssueAdded,
-                     passSetIsIssueUpdated,
-                     passSetReceivedNewUserMessage,
-                     passSetIsMessageAdded
-                 }) => {
+const Navbar = ({
+                    isLoggedIn,
+                    passBackgroundColor,
+                    passIsIssueAdded,
+                    passIsIssueDeleted,
+                    passIsIssueUpdated,
+                    passPersons,
+                    passSetIsIssueAdded,
+                    passSetIsIssueUpdated,
+                    passSetReceivedNewUserMessage,
+                    passSetIsMessageAdded
+                }) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
@@ -108,10 +108,8 @@ const Navbar3 = ({
                 onDisconnect={() => console.log("Disconnected!")}
                 onMessage={(message) => onMessageReceived(message)}
             />}
-            {/*<IconContext.Provider value={{color: "undefined"}}>*/}
-            <div className="navbar" style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}>
-                <Link to="#" className="menu-bars">
-                    {/*<FaIcons.FaBars onClick={showSidebar} style={{color: "black"}}/>*/}
+            <div className={classes.navbar} style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}>
+                <Link to="#" className={classes.menuLines}>
                     <MenuIcon onClick={showSidebar} style={{color: "black", fontSize: "35px"}}/>
                 </Link>
                 {!isBlocked && <div style={{position: "absolute", marginLeft: desktopScreen ? "12rem" : "4rem"}}>
@@ -120,12 +118,12 @@ const Navbar3 = ({
                             checkedIcon={<LightModeIcon/>}
                             onClick={handleChangeColor}/>
                 </div>}
-                {((isLoggedIn || isLogged) && isUser) && !isBlocked && <button className="email"
+                {((isLoggedIn || isLogged) && isUser) && !isBlocked && <button className={classes.email}
                                                                                onClick={() => setModalShow(true)}
                 >{firstName} {lastName}
                 </button>}
-                {isBlocked && <div className="admin">CONT BLOCAT</div>}
-                {((isLoggedIn || isLogged) && isAdmin) && <div className="admin">ADMINISTRATOR</div>}
+                {isBlocked && <div className={classes.admin}>CONT BLOCAT</div>}
+                {((isLoggedIn || isLogged) && isAdmin) && <div className={classes.admin}>ADMINISTRATOR</div>}
                 {isUser && <ProfileModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
@@ -139,10 +137,10 @@ const Navbar3 = ({
                 />}
             </div>
             <nav style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}}
-                 className={sidebar ? "nav-menu active" : "nav-menu"}>
-                <ul className="nav-menu-items" onClick={showSidebar}>
-                    <li style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}} className="navbar-toggle">
-                        <Link to="#" className="menu-bars">
+                 className={sidebar ? `${classes.mainMenu} ${classes.active}` : classes.mainMenu}>
+                <ul className={classes.options} onClick={showSidebar}>
+                    <li style={{backgroundColor: isAdmin ? "#E8D5C4" : "#AEBDCA"}} className={classes.switch}>
+                        <Link to="#" className={classes.menuLines}>
                             <CloseIcon style={{color: "black", fontSize: "35px"}}/>
                         </Link>
                     </li>
@@ -150,45 +148,46 @@ const Navbar3 = ({
                         if (isLogged && !isBlocked && item.title !== "Autentificare") {
                             if (isUser && item.title !== 'Cetățeni') {
                                 return (
-                                    <li key={index} className={item.cName}>
+                                    <li key={index} className={classes.mainInfo}>
                                         <Link to={item.path} style={{color: "black"}}>
                                             {item.icon}
-                                            <span className="span" style={{color: "black"}}>{item.title}</span>
+                                            <span className={classes.span} style={{color: "black"}}>{item.title}</span>
                                         </Link>
                                     </li>)
                             } else if (isAdmin && item.title !== 'Profil') {
                                 return (
-                                    <li key={index} className={item.cName}>
+                                    <li key={index} className={classes.mainInfo}>
                                         <Link to={item.path} style={{color: "black"}}>
                                             {item.icon}
-                                            <span className="span" style={{color: "black"}}>{item.title}</span>
+                                            <span className={classes.span} style={{color: "black"}}>{item.title}</span>
                                         </Link>
                                     </li>)
                             }
                         } else if (!isLogged && item.title !== "Deconectare" && item.title !== "Profil" && item.title !== "Cetățeni" && item.title !== "Chat") {
                             return (
-                                <li key={index} className={item.cName}>
+                                <li key={index} className={classes.mainInfo}>
                                     <Link to={item.path} style={{color: "black"}}>
                                         {item.icon}
-                                        <span className="span" style={{color: "black"}}>{item.title}</span>
+                                        <span className={classes.span} style={{color: "black"}}>{item.title}</span>
                                     </Link>
                                 </li>
                             )
                         }
                     })}
                     {isBlocked &&
-                        <li key={8} className={"nav-text"}>
-                            <Link to={"/login"} style={{color: "black"}}>
-                                <VpnKeyIcon/>
-                                <span className="span" style={{color: "black"}}>Deconectare</span>
-                            </Link>
-                        </li>}
+                    <li key={8} className={classes.mainInfo}>
+                        <Link to={"/login"} style={{color: "black"}}>
+                            <VpnKeyIcon/>
+                            <span className={classes.span} style={{color: "black"}}>Deconectare</span>
+                        </Link>
+                    </li>
+                    }
                 </ul>
             </nav>
-            {/*</IconContext.Provider>*/}
         </>
     );
-};
+}
+    ;
 
-export default Navbar3;
+    export default Navbar;
 

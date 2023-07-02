@@ -155,7 +155,6 @@ const getChatMessageFormat = (date) => {
 }
 
 const convertUITypesToAPI = (type) => {
-    // return type.split(' ').length < 2 ? type.toUpperCase() : type.replaceAll(' ', '_').toUpperCase();
     for (const [key, value] of typesMap) {
         if (type === value) {
             return key;
@@ -172,13 +171,6 @@ const getRomanianMonth = (month) => {
             return value;
         }
     }
-}
-
-const replaceAt = (str, index, newCharacter) => {
-    const replacer = (originalCharacter, strIndex) => {
-        return strIndex === index ? newCharacter : originalCharacter;
-    }
-    return str.replace(/./g, replacer);
 }
 
 const convertAPITypesToUI = (type) => {
@@ -208,17 +200,6 @@ const getMonthFromIndex = (index) => {
     for (const [key, value] of monthsMap) {
         if (index == key) {
             return value;
-        }
-    }
-}
-
-const getMonthFromIndexes = (array) => {
-    for (const [key, value] of monthsMap) {
-        for (const [key2, value2] of array) {
-            let newKey = key2.length == 1 ? "0" + key2 : key2;
-            if (newKey == key) {
-                return value;
-            }
         }
     }
 }
@@ -429,6 +410,25 @@ const getMarkerImage = (type, state) => {
     return null;
 }
 
+const getElementsInDescendingOrder = (elem1, elem2, criterion) => {
+    if (elem2[criterion] < elem1[criterion])
+        return -1;
+    return elem2[criterion] > elem1[criterion] ? 1 : 0;
+}
+
+const getCurrentOrder = (currentOrder, criterion) => {
+    return currentOrder === 'desc' ? (elem1, elem2) => getElementsInDescendingOrder(elem1, elem2, criterion) : (elem1, elem2) => -getElementsInDescendingOrder(elem1, elem2, criterion);
+}
+
+const sortElementsByCriterion = (array, criterion) => {
+    const arrayData = array.map((elem, idx) => [elem, idx]);
+    arrayData.sort((elem1, elem2) => {
+        const currentOrder = criterion(elem1[0], elem2[0]);
+        return currentOrder !== 0 ? currentOrder : elem1[1] - elem2[1];
+    });
+    return arrayData.map((elem) => elem[0]);
+}
+
 export {
     getCurrentDate,
     convertUITypesToAPI,
@@ -443,11 +443,12 @@ export {
     computeDateForPopup,
     computeDescriptionForPopup,
     getMonthFromIndex,
-    getMonthFromIndexes,
     getRomanianMonth,
     isCorrectEmail,
     isCorrectPhoneNumber,
     getElapsedTime,
     getNumberFromIndex,
-    getMarkerImage
+    getMarkerImage,
+    sortElementsByCriterion,
+    getCurrentOrder
 }

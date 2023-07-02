@@ -9,16 +9,11 @@ import Chart, {
 import {Format} from "devextreme-react/pie-chart";
 
 const SimpleArray = ({data, desktopScreen, title}) => {
-    const onPointClick = (e) => {
-        e.target.select();
-    }
-
     return (
         <div style={{width: desktopScreen ? "45%" : "98%"}}>
             <Chart id="chart"
                    title={title}
                    dataSource={data}
-                   onPointClick={(e) => onPointClick(e)}
             >
                 <CommonSeriesSettings
                     argumentField="state"

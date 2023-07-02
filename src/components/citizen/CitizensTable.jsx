@@ -5,12 +5,9 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import {visuallyHidden} from '@mui/utils';
 import {getCitizens} from "../../api/citizen-api";
 import {TextField} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,75 +16,10 @@ import Button from "@mui/material/Button";
 import BasicChart from "../chart/BasicChart";
 import JSONDataChart from "../chart/JSONDataChart";
 import {getAllRejected} from "../../api/rejected-issues-api";
-import {CitizensTableData} from "../../staticdata/CitizensTableData";
+import CitizensTableTop from "./CitizensTableTop";
+import {getCurrentOrder, sortElementsByCriterion} from "../../common/utils";
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
-
-function EnhancedTableHead(props) {
-    const {order, orderBy, onRequestSort} =
-        props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>
-                </TableCell>
-                {CitizensTableData.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
+const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('email');
     const [citizens, setCitizens] = useState([]);
@@ -100,26 +32,13 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 878);
     const [rejected, setRejected] = useState();
     const emailInputRef = useRef();
-
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
 
     const getAllCitizens = () => {
         return getCitizens(token, emailInputRef != null ? emailInputRef.current.value : null, true, currentPage, citizensPerPage, (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log(result.content)
                     setCitizens(result.content);
                     setTotalElements(result.totalElements);
-                } else {
-                    console.log(err);
-                }
-            }
-        );
-    };
-
-    const addToBlacklist = (id) => {
-        return addCitizenToBlacklist(token, id, (result, status, err) => {
-                if (result !== null && status === 201) {
-
                 } else {
                     console.log(err);
                 }
@@ -131,7 +50,6 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         return getBasicStatistics(token, (result, status, err) => {
             if (status === 200 && result !== null) {
                 setData(result);
-                console.log("statistics", result);
             } else {
                 console.log(err);
             }
@@ -149,7 +67,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         });
     };
 
-    const blockCitizenHandler = (id) => {
+    const blockCitizen = (id) => {
         return addCitizenToBlacklist(token, id, (result, status, err) => {
                 if (result !== null && status === 201) {
                     setNewBlocked((prev) => !prev);
@@ -160,7 +78,7 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         );
     }
 
-    const unblockCitizenHandler = (id) => {
+    const unblockCitizen = (id) => {
         return deleteCitizenFromBlacklist(token, id, (result, status, err) => {
                 if (result !== null && status === 200) {
                     setNewUnblocked((prev) => !prev);
@@ -187,27 +105,28 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
         };
     }, [currentPage, citizensPerPage, newBlocked, newUnlocked, passIsDeleted])
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
+    const getRequestSort = (e, direction) => {
+        const ascending = orderBy === direction && order === 'asc';
+        setOrder(ascending ? 'desc' : 'asc');
+        setOrderBy(direction);
     };
 
-    const handleChangePage = (e, p) => {
+    const changeThePage = (e, p) => {
         setCurrentPage(p);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const changeTheRowsOnPage = (event) => {
         setCitizensPerPage(parseInt(event.target.value, 10));
         setCurrentPage(0);
     };
 
-    const emptyRows = currentPage > 0 ? Math.max(0, (1 + currentPage) * citizensPerPage - totalElements) : 0;
-
     return (
         <div style={{margin: "1rem 1rem 0 1rem"}}>
             <Box sx={{width: '100%'}}>
-                <TextField id="outlined-basic" label="Căutați după email..." variant="outlined" style={{width: "15%", backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
+                <TextField id="outlined-basic" label="Căutați după email..." variant="outlined" style={{
+                    width: "15%",
+                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"
+                }}
                            inputRef={emailInputRef}/>
                 <SearchIcon style={{marginTop: "5px", marginLeft: "5px"}} fontSize="large"
                             onClick={() => getAllCitizens()}/>
@@ -218,17 +137,15 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
                             aria-labelledby="tableTitle"
                             style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                         >
-                            <EnhancedTableHead
+                            <CitizensTableTop
                                 order={order}
                                 orderBy={orderBy}
-                                onRequestSort={handleRequestSort}
+                                onRequestSort={getRequestSort}
                                 rowCount={totalElements}
                             />
                             <TableBody style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}>
-                                {stableSort(citizens, getComparator(order, orderBy))
-                                    .map((row, index) => {
-                                        const labelId = `enhanced-table-${index}`;
-
+                                {sortElementsByCriterion(citizens, getCurrentOrder(order, orderBy))
+                                    .map((row, idx) => {
                                         return (
                                             <TableRow
                                                 hover
@@ -239,9 +156,8 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
                                                 </TableCell>
                                                 <TableCell
                                                     component="th"
-                                                    id={labelId}
+                                                    id={idx}
                                                     scope="row"
-                                                    // padding="none"
                                                 >
                                                     {row.email}
                                                 </TableCell>
@@ -252,41 +168,42 @@ export default function EnhancedTable({passIsDeleted, passBackgroundColor}) {
                                                 <TableCell>{row.totalRejected}</TableCell>
                                                 <TableCell>{!row.blocked ?
                                                     <Button variant="contained" color="error"
-                                                            onClick={() => blockCitizenHandler(row.id)}>
+                                                            onClick={() => blockCitizen(row.id)}>
                                                         Blochează
                                                     </Button> :
                                                     <Button variant="outlined" color="success"
-                                                            onClick={() => unblockCitizenHandler(row.id)}>
+                                                            onClick={() => unblockCitizen(row.id)}>
                                                         Deblochează</Button>}
                                                 </TableCell>
                                             </TableRow>
                                         );
                                     })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                    >
-                                        <TableCell colSpan={6}/>
-                                    </TableRow>
-                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
+                        rowsPerPageOptions={[5, 10]}
                         component="div"
                         count={totalElements}
                         rowsPerPage={citizensPerPage}
                         page={currentPage}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        onPageChange={changeThePage}
+                        onRowsPerPageChange={changeTheRowsOnPage}
                         style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                     />
                 </Paper>
             </Box>
-            <div style={{display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center", marginBottom: "1rem"}}>
+            <div style={{
+                display: desktopScreen && "flex",
+                flexDirection: desktopScreen && "row",
+                justifyContent: desktopScreen && "center",
+                marginBottom: "1rem"
+            }}>
                 <JSONDataChart desktopScreen={desktopScreen} data={rejected}/>
                 <BasicChart title={'Grafic cetățeni blocați'} desktopScreen={desktopScreen} data={data}/>
             </div>
         </div>
     );
 }
+
+export default CitizensTable;

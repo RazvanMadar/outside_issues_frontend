@@ -24,7 +24,6 @@ const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedN
     const getChatPersons = () => {
         return getChatUsersByRole(token, chatUsersRole, '', (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log(result);
                     setToImages([]);
                     getImages(result);
                     passSetPersons(result);
@@ -43,8 +42,6 @@ const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedN
                         id: person.citizenId,
                         image: URL.createObjectURL(result)
                     }]);
-                } else if (status === 403) {
-                    // setForbidden(true);
                 } else {
                     setToImages(images => [...images, {
                         id: person.citizenId,

@@ -8,7 +8,7 @@ const BlockedPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "28px"}}>
             {isBlocked ?
                 <div>
                     <div style={{position: "absolute", left: "50%", transform: "translate(-50%, 0)", marginTop: "3rem"}}>
