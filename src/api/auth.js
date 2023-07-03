@@ -1,4 +1,4 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
 const authenticate = (data, callback) => {
     const request = new Request("http://localhost:8080/login", {
@@ -9,7 +9,7 @@ const authenticate = (data, callback) => {
         body: JSON.stringify(data),
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 }
 
 export {authenticate}

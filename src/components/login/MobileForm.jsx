@@ -10,7 +10,7 @@ const transition = {
     stiffness: 30,
 };
 
-const MobileForm = ({ onLogin }) => {
+const MobileForm = ({login, onLogin}) => {
     const [isExpanded, setExpanded] = useState(false);
     const [active, setActive] = useState("signin");
 
@@ -58,8 +58,8 @@ const MobileForm = ({ onLogin }) => {
                     )}
                 </div>
                 <div className={classes.footerContainer}>
-                    {active === "signup" && <RegisterMobile onLogin={onLogin} />}
-                    {active === "signin" && <LoginMobile onLogin={onLogin} />}
+                    {active === "signup" && <RegisterMobile login={login} onLogin={onLogin} />}
+                    {active === "signin" && <LoginMobile login={login} onLogin={onLogin} />}
                 </div>
             </div>
         </AccountContext.Provider>

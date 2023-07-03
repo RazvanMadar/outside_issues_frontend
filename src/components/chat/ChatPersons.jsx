@@ -7,7 +7,6 @@ const ChatPersons = ({passChatId, passSetChatId, passSetToEmail, passIsAddedMess
     return (
         <div>
             <div style={{position: "relative", height: "400px", overflowY: "auto"}}>
-
                 <MDBTypography listUnStyled className="mb-0">
                     {passPersons.map((person) => {
                         return <li key={person.email} className="p-2 border-bottom">

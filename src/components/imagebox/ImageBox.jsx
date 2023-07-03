@@ -60,12 +60,7 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
                                 <div key={image} className={classes.image}>
                                     <img src={image} height="80" width="80" alt="upload"/>
                                     <RemoveCircleIcon
-                                        style={{
-                                            position: "absolute",
-                                            left: "65px",
-                                            top: "-13px",
-                                            color: "red"
-                                        }}
+                                        style={{position: "absolute", left: "65px", top: "-13px", color: "red"}}
                                         onClick={() => deleteHandler(image, index)}
                                     />
                                 </div>

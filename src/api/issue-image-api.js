@@ -1,23 +1,23 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     image: "/api/images",
 };
 
 const addImage = (id, image, number, callback) => {
     const formData = new FormData();
     formData.append("image", image);
-    const request = new Request(backend_api + endpoint.image + "/" + id + "?number=" + number, {
+    const request = new Request(be_path + path_end.image + "/" + id + "?number=" + number, {
         method: "POST",
         body: formData,
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getFirstImage = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.image + "/" + id + "/first", {
+    const request = new Request(be_path + path_end.image + "/" + id + "/first", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
@@ -25,29 +25,29 @@ const getFirstImage = (token, id, callback) => {
         responseType: "arraybuffer"
     });
 
-    restApi.makeBlobRequest(request, callback);
+    callerApi.callBlobMethod(request, callback);
 };
 
 const getSecondImage = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.image + "/" + id + "/second", {
+    const request = new Request(be_path + path_end.image + "/" + id + "/second", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeBlobRequest(request, callback);
+    callerApi.callBlobMethod(request, callback);
 };
 
 const getThirdImage = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.image + "/" + id + "/third", {
+    const request = new Request(be_path + path_end.image + "/" + id + "/third", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeBlobRequest(request, callback);
+    callerApi.callBlobMethod(request, callback);
 };
 
 export {addImage, getFirstImage, getSecondImage, getThirdImage};

@@ -1,12 +1,12 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     reaction: "/api/citizen-reactions",
 };
 
 const getReactionsForSomeCitizenAndIssue = (token, citizenId, issueId, callback) => {
-    let urlPath = backend_api + endpoint.reaction + "?";
+    let urlPath = be_path + path_end.reaction + "?";
     if (citizenId !== null) {
         urlPath = urlPath + "citizenId=" + citizenId + "&";;
     }
@@ -21,11 +21,11 @@ const getReactionsForSomeCitizenAndIssue = (token, citizenId, issueId, callback)
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const addCitizenReaction = (token, reactions, callback) => {
-    const request = new Request(backend_api + endpoint.reaction, {
+    const request = new Request(be_path + path_end.reaction, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const addCitizenReaction = (token, reactions, callback) => {
         body: JSON.stringify(reactions),
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 export {getReactionsForSomeCitizenAndIssue, addCitizenReaction};

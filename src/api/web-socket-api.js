@@ -1,9 +1,9 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
+const be_path = "http://localhost:8080";
 
 const sendMessageViaWebSocket = (token, message, callback) => {
-    const request = new Request(backend_api + "/send-message", {
+    const request = new Request(be_path + "/send-message", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -12,7 +12,7 @@ const sendMessageViaWebSocket = (token, message, callback) => {
         body: JSON.stringify(message),
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 export {

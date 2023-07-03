@@ -4,7 +4,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import classes from "./AddMapIssue.module.css";
 import AddForm from "./AddForm";
 
-const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
+const AddMapIssue = ({passIsIssueAdded, markerPosition, setAll}) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ const AddMapIssue = ({passIsIssueAdded, markerPosition}) => {
           Înregistrează o sesizare
         </Button>
       )}
-      {isShown && <AddForm passIsShown={setIsShown} passIsIssueAdded={passIsIssueAdded} markerPosition={markerPosition}/>}
+      {isShown && <AddForm passIsShown={setIsShown} passIsIssueAdded={passIsIssueAdded} markerPosition={markerPosition} setAll={setAll}/>}
     </div>
   );
 };

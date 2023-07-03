@@ -9,23 +9,12 @@ import noPhoto from "../../pages/images/no_photo.png";
 import {getCitizenImage} from "../../api/citizen-image";
 import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
-const ProfileModal = ({
-                          show,
-                          onHide,
-                          userId,
-                          passIsIssueAdded,
-                          passIsIssueDeleted,
-                          passIsIssueUpdated,
-                          passBackgroundColor,
-                          passSetFirstName,
-                          passSetLastName
-                      }) => {
+const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passBackgroundColor, passSetFirstName, passSetLastName}) => {
     const [citizen, setCitizen] = useState(null);
     const [data, setData] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 991);
     const [image, setImage] = useState()
     const email = localStorage.getItem("email");
-
     const token = localStorage.getItem("token");
 
     const getAllTypesStatistics = () => {
@@ -44,7 +33,6 @@ const ProfileModal = ({
     const findAnCitizenById = () => {
         return findCitizenById(token, userId, (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log("AICI ", result);
                     setCitizen(result)
                     passSetFirstName(result.firstName)
                     passSetLastName(result.lastName)
@@ -58,10 +46,7 @@ const ProfileModal = ({
     const getImage = () => {
         return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 setImage(noPhoto);
             }

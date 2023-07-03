@@ -429,6 +429,11 @@ const sortElementsByCriterion = (array, criterion) => {
     return arrayData.map((elem) => elem[0]);
 }
 
+const formatDate = (date) => {
+    const correctDate = date.split('/');
+    return `${correctDate[2]}-${correctDate[0]}-${correctDate[1]}`;
+}
+
 export {
     getCurrentDate,
     convertUITypesToAPI,
@@ -450,5 +455,6 @@ export {
     getNumberFromIndex,
     getMarkerImage,
     sortElementsByCriterion,
-    getCurrentOrder
+    getCurrentOrder,
+    formatDate
 }

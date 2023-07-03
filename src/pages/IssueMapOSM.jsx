@@ -5,13 +5,7 @@ import Legend from "../components/map/Legend";
 import AddMapIssue from "../components/map/AddMapIssue";
 import DraggableMarker from "../components/map/DraggableMarker";
 import {filterIssues} from "../api/issue-api";
-import {
-    computeDateForPopup,
-    computeDescriptionForPopup,
-    convertAPIStatesToUI,
-    convertAPITypesToUI,
-    getMarkerImage
-} from "../common/utils";
+import {computeDateForPopup, computeDescriptionForPopup, convertAPIStatesToUI, convertAPITypesToUI, getMarkerImage} from "../common/utils";
 import CategoryIcon from '@mui/icons-material/Category';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -46,12 +40,12 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
         const isAdmin = localStorage.getItem("role") === "ROLE_ADMIN";
         const token = localStorage.getItem("token");
         const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
+        const [all, setAll] = useState(false);
 
         const filterAlIssues = () => {
             return filterIssues(token, null, null, null, null, true, false,
                 null, 1000, null, null, (result, status, err) => {
                     if (result !== null && status === 200) {
-                        console.log(result.content);
                         setIssues(result.content);
                     }
                 }
@@ -63,11 +57,10 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
 
         useEffect(() => {
             filterAlIssues();
-            console.log("Nu intra aici??")
         }, [passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated]);
 
         return (
-            <div style={{paddingTop: "28px"}}>
+            <div style={{paddingTop: "55px"}}>
                 {!isBlocked ?
                     <div>
                         <MapContainer
@@ -111,8 +104,8 @@ const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded,
                                 <DraggableMarker passMarkerPosition={setMarkerPosition}
                                                  polygonCoordinates={polygonCoordinates}/>}
                         </MapContainer>
-                        <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol}/>
-                        {!isAdmin && <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition}/>}
+                        <Legend passFilteredIssues={setIssues} passBackgroundCol={passBackgroundCol} all={all} setAll={setAll}/>
+                        {!isAdmin && <AddMapIssue passIsIssueAdded={passSetIsIssuesAdded} markerPosition={markerPosition} setAll={setAll}/>}
                     </div> : <Navigate to={"/blocked"} replace/>
                 }
             </div>

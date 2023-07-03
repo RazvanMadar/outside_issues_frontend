@@ -8,13 +8,12 @@ import {filterIssues} from "../../api/issue-api";
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import ExtendedLegend from "./ExtendedLegend";
 
-const Legend = ({passFilteredIssues, passBackgroundCol}) => {
+const Legend = ({passFilteredIssues, passBackgroundCol, all, setAll}) => {
     const [isExtended, setIsExtended] = useState(false);
     const [boldButton, setBoldButton] = useState(null);
     const [buttonId, setButtonId] = useState();
     const [type, setType] = useState(null);
     const [state, setState] = useState(null);
-    const [all, setAll] = useState(false);
 
     const token = localStorage.getItem("token")
 

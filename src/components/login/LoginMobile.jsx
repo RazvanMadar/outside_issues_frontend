@@ -4,7 +4,7 @@ import {authenticate} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
 import classes from "./Login.module.css";
 
-const LoginMobile = ({onLogin}) => {
+const LoginMobile = ({login, onLogin}) => {
     const { switchToSignup } = useContext(AccountContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -25,7 +25,9 @@ const LoginMobile = ({onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (result !== null && status === 200) {
                     localStorage.removeItem("isBlocked");
-                    onLogin(true);
+                    if (!login) {
+                        onLogin((prev) => !prev);
+                    }
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);

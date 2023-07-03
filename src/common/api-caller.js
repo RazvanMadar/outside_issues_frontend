@@ -1,4 +1,4 @@
-const makeRequest = (request, callback) => {
+const callHttpMethod = (request, callback) => {
   fetch(request)
     .then(function (response) {
       if (response.ok) {
@@ -12,7 +12,7 @@ const makeRequest = (request, callback) => {
     });
 };
 
-const makeBlobRequest = (request, callback) => {
+const callBlobMethod = (request, callback) => {
     fetch(request)
         .then(function (response) {
             if (response.ok) {
@@ -27,5 +27,5 @@ const makeBlobRequest = (request, callback) => {
 }
 
 export default {
-  makeRequest, makeBlobRequest
+    callHttpMethod, callBlobMethod
 };

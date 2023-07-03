@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import CardItem2 from "../components/issue/CardItem2";
+import IssueCard from "../components/issue/IssueCard";
 import {filterIssues} from "../api/issue-api";
 import {Button} from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
@@ -33,7 +33,6 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
     const [order, setOrder] = useState('desc');
     const [orderAsc, setOrderAsc] = useState(false);
     const [orderDesc, setOrderDesc] = useState(true);
-
     const token = localStorage.getItem("token")
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
@@ -105,7 +104,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
     }, [currentPage, isFiltered, isDeleted, isUpdated, sort, order, isAdded]);
 
     return (
-        <div style={{paddingTop: "28px"}}>
+        <div style={{paddingTop: "55px"}}>
             {!isBlocked ?
                 <Container>
                     <br/>
@@ -157,7 +156,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
                                 <Col key={issue.id}
                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                                 >
-                                    <CardItem2 issue={issue} passIsDeleted={setIsDeleted}
+                                    <IssueCard issue={issue} passIsDeleted={setIsDeleted}
                                                passBackgroundColor={passBackgroundColor} passIsUpdated={setIsUpdated}/>
                                 </Col>
                             ))}

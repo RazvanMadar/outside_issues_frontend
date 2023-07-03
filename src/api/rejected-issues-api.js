@@ -1,41 +1,41 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     rejected: "/api/rejected",
 };
 
 const addRejected = (token, email, callback) => {
-    const request = new Request(backend_api + endpoint.rejected + "?email=" + email, {
+    const request = new Request(be_path + path_end.rejected + "?email=" + email, {
         method: "POST",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getAllRejected = (token, callback) => {
-    const request = new Request(backend_api + endpoint.rejected, {
+    const request = new Request(be_path + path_end.rejected, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getAllRejectedForCitizen = (token, id, email, callback) => {
-    const request = new Request(backend_api + endpoint.rejected + "/citizen?id=" + id + "&email=" + email, {
+    const request = new Request(be_path + path_end.rejected + "/citizen?id=" + id + "&email=" + email, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 

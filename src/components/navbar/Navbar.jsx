@@ -13,18 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Navbar = ({
-                    isLoggedIn,
-                    passBackgroundColor,
-                    passIsIssueAdded,
-                    passIsIssueDeleted,
-                    passIsIssueUpdated,
-                    passPersons,
-                    passSetIsIssueAdded,
-                    passSetIsIssueUpdated,
-                    passSetReceivedNewUserMessage,
-                    passSetIsMessageAdded
-                }) => {
+const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passPersons, passSetIsIssueAdded, passSetIsIssueUpdated, passSetReceivedNewUserMessage, passSetIsMessageAdded}) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
@@ -58,7 +47,6 @@ const Navbar = ({
     const handleChangeColor = () => {
         setIsLightMode((prev) => !prev);
         const newColor = backgroundColor === '#A9AAB4' ? 'white' : '#A9AAB4';
-        console.log(backgroundColor)
         setBackgroundColor(newColor);
         passBackgroundColor(newColor);
         localStorage.setItem("dark_mode", newColor)
@@ -67,6 +55,7 @@ const Navbar = ({
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
+        console.log("isLoggedIn = ", isLoggedIn)
 
         const handleResize = () => {
             setDesktopScreen(window.innerWidth > 767);
@@ -75,7 +64,6 @@ const Navbar = ({
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-        console.log("isLoggedIn = ", isLoggedIn)
     }, [backgroundColor, isLoggedIn, JSON.parse(localStorage.getItem('isLogged')), isBlocked])
 
     const onConnected = () => {

@@ -1,31 +1,31 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     image: "/api/citizen/images",
 };
 
 const addCitizenImage = (id, image, callback) => {
     let request;
     if (image == null) {
-        request = new Request(backend_api + endpoint.image + "/" + id, {
+        request = new Request(be_path + path_end.image + "/" + id, {
             method: "POST",
         });
     }
     else {
         const formData = new FormData();
         formData.append("image", image);
-        request = new Request(backend_api + endpoint.image + "/" + id, {
+        request = new Request(be_path + path_end.image + "/" + id, {
             method: "POST",
             body: formData
         });
     }
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getCitizenImage = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.image + "/" + id, {
+    const request = new Request(be_path + path_end.image + "/" + id, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
@@ -33,18 +33,18 @@ const getCitizenImage = (token, id, callback) => {
         responseType: "arraybuffer"
     });
 
-    restApi.makeBlobRequest(request, callback);
+    callerApi.callBlobMethod(request, callback);
 };
 
 const deleteCitizenImage = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.image + "/" + id, {
+    const request = new Request(be_path + path_end.image + "/" + id, {
         method: "DELETE",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 }
 
 export {addCitizenImage, getCitizenImage, deleteCitizenImage};

@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Card, CardBody, CardSubtitle, CardText, CardTitle, Input,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import DateFormat from "./DateFormat";
-import classes from "./CardItem.module.css";
+import classes from "./IssueCard.module.css";
 import {
     convertAPIStatesToUI,
     convertAPITypesToUI,
@@ -34,9 +34,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) => {
+const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) => {
     const [mainImage, setMainImage] = useState(null);
-    const [forbidden, setForbidden] = useState(null);
     const [likeButton, setLikeButton] = useState(false);
     const [dislikeButton, setDislikeButton] = useState(false);
     const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
@@ -71,8 +70,6 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
         return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 setMainImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 setMainImage(getImageRegardingIssueType(issue.type));
             }
@@ -81,9 +78,6 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
 
     const sendAnEmail = (data) => {
         return sendEmail(token, data, (result, status, err) => {
-            if (status === 403) {
-                setForbidden(true);
-            }
         })
     }
 
@@ -97,7 +91,7 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                     if (deleteReasonInputRef.current.value.length > 0)
                         content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
                     sendAnEmail({
-                        subject: "Sesizare Primăria Oradea",
+                        subject: "Sesizare Problemele de afară",
                         toEmail: issue.citizenEmail,
                         content: content,
                         issueId: issue.id
@@ -110,7 +104,6 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
     const rejectIssue = () => {
         return addRejected(token, issue.citizenEmail, (result, status, err) => {
             if (result !== null && status === 201) {
-                console.log(result);
                 passIsDeleted((prev) => !prev)
             }
         });
@@ -203,8 +196,9 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                     </CardSubtitle>
                     {issue.citizenEmail !== null ?
                         <CardText style={{textAlign: "center"}}>{cutFromDescription(issue.description)}</CardText> :
-                        <CardText style={{textAlign: "center", color: "red", fontWeight: "bold"}}>SENZOR
-                            PLATFORMĂ</CardText>}
+                        <CardText style={{textAlign: "center", color: "red", fontWeight: "bold"}}>SENZOR PLATFORMĂ
+                        </CardText>
+                    }
                     <div className={classes.date}>
                         <DateFormat
                             date={new Date(issue.reportedDate.replace(" ", "T"))}
@@ -311,4 +305,4 @@ const CardItem2 = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
     );
 };
 
-export default CardItem2;
+export default IssueCard;

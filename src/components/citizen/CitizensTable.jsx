@@ -115,8 +115,8 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
         setCurrentPage(p);
     };
 
-    const changeTheRowsOnPage = (event) => {
-        setCitizensPerPage(parseInt(event.target.value, 10));
+    const changeTheRowsOnPage = (e) => {
+        setCitizensPerPage(parseInt(e.target.value, 10));
         setCurrentPage(0);
     };
 
@@ -124,16 +124,13 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
         <div style={{margin: "1rem 1rem 0 1rem"}}>
             <Box sx={{width: '100%'}}>
                 <TextField id="outlined-basic" label="Căutați după email..." variant="outlined" style={{
-                    width: "15%",
-                    backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"
+                    width: "15%", backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"
                 }}
                            inputRef={emailInputRef}/>
-                <SearchIcon style={{marginTop: "5px", marginLeft: "5px"}} fontSize="large"
-                            onClick={() => getAllCitizens()}/>
+                <SearchIcon style={{marginTop: "5px", marginLeft: "5px"}} fontSize="large" onClick={() => getAllCitizens()}/>
                 <Paper sx={{width: '100%', mb: 2}}>
                     <TableContainer>
-                        <Table
-                            sx={{minWidth: 750}}
+                        <Table sx={{minWidth: 750}}
                             aria-labelledby="tableTitle"
                             style={{backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8"}}
                         >
@@ -147,20 +144,9 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                                 {sortElementsByCriterion(citizens, getCurrentOrder(order, orderBy))
                                     .map((row, idx) => {
                                         return (
-                                            <TableRow
-                                                hover
-                                                tabIndex={-1}
-                                                key={row.id}
-                                            >
-                                                <TableCell>
-                                                </TableCell>
-                                                <TableCell
-                                                    component="th"
-                                                    id={idx}
-                                                    scope="row"
-                                                >
-                                                    {row.email}
-                                                </TableCell>
+                                            <TableRow hover tabIndex={-1} key={row.id}>
+                                                <TableCell></TableCell>
+                                                <TableCell component="th" id={idx} scope="row">{row.email}</TableCell>
                                                 <TableCell>{row.firstName}</TableCell>
                                                 <TableCell>{row.lastName}</TableCell>
                                                 <TableCell>{row.phoneNumber}</TableCell>
@@ -194,10 +180,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                 </Paper>
             </Box>
             <div style={{
-                display: desktopScreen && "flex",
-                flexDirection: desktopScreen && "row",
-                justifyContent: desktopScreen && "center",
-                marginBottom: "1rem"
+                display: desktopScreen && "flex", flexDirection: desktopScreen && "row", justifyContent: desktopScreen && "center", marginBottom: "1rem"
             }}>
                 <JSONDataChart desktopScreen={desktopScreen} data={rejected}/>
                 <BasicChart title={'Grafic cetățeni blocați'} desktopScreen={desktopScreen} data={data}/>

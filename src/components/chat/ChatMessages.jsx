@@ -5,14 +5,11 @@ import {getCitizenImage} from "../../api/citizen-image";
 import {sendMessageViaWebSocket} from "../../api/web-socket-api";
 import ChatMessageElement from "./ChatMessageElement";
 
-const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages,
-                          messages, setMessages
-                      }) => {
+const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAddedMessage, passToImages, messages, setMessages}) => {
     const [message, setMessage] = useState("");
     const [fromImage, setFromImage] = useState();
     const userId = localStorage.getItem("userId");
     const email = localStorage.getItem("email");
-
     const token = localStorage.getItem("token")
 
     const getAllChatMessages = () => {
@@ -36,7 +33,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
         });
     };
 
-    const handleInputChange = (event) => {
+    const triggerWhenInputChanges = (event) => {
         setMessage(event.target.value);
     }
 
@@ -54,7 +51,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
         }
     }
 
-    const handleKeyDown = (event) => {
+    const triggerWhenEnterIsPressed = (event) => {
         if (event.key === 'Enter') {
             sendMessageToUser();
         }
@@ -70,7 +67,6 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
             <div key={passChatId}>
                 <ChatMessageElement messages={messages} chatId={passChatId} passToImages={passToImages} />
             </div>
-
             <div
                 className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
                 <img
@@ -85,10 +81,10 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                        className="form-control form-control-lg"
                        id="exampleFormControlInput2"
                        placeholder="Scrie un mesaj..."
-                       onChange={handleInputChange}
+                       onChange={triggerWhenInputChanges}
                        maxLength={255}
                        value={message}
-                       onKeyDown={handleKeyDown}
+                       onKeyDown={triggerWhenEnterIsPressed}
                 />
                 <a className="ms-3" href={`#${passChatId}`}>
                     <MDBIcon fas icon="paper-plane"

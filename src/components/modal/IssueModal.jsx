@@ -6,13 +6,7 @@ import classes from "./IssueModal.module.css"
 import {Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {StateData} from "../../staticdata/StateData";
-import {
-    computeDateForPopup,
-    convertAPIStatesToUI,
-    convertAPITypesToUI,
-    convertUIStatesToAPI,
-    convertUITypesToAPI
-} from "../../common/utils";
+import {computeDateForPopup, convertAPIStatesToUI, convertAPITypesToUI, convertUIStatesToAPI, convertUITypesToAPI} from "../../common/utils";
 import {updateIssue} from "../../api/issue-api";
 import {sendEmail} from "../../api/email-api";
 
@@ -20,7 +14,6 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
     const [mainImage, setMainImage] = useState(null);
     const [secondImage, setSecondImage] = useState(null);
     const [thirdImage, setThirdImage] = useState(null);
-    const [forbidden, setForbidden] = useState(null);
     const typeInputRef = useRef();
     const stateInputRef = useRef();
     const type = convertAPITypesToUI(issue.type);
@@ -34,10 +27,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
     const getMainIssueImage = () => {
         return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setMainImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 setMainImage(noPhoto);
             }
@@ -47,10 +37,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
     const getSecondIssueImage = () => {
         return getSecondImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setSecondImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 setSecondImage(noPhoto);
             }
@@ -60,10 +47,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
     const getThirdIssueImage = () => {
         return getThirdImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setThirdImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 setThirdImage(noPhoto);
             }
@@ -85,15 +69,13 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                         content += `\nStarea a fost trecută în: ${stateInputRef.current.value}`;
                     }
                     sendAnEmail({
-                        subject: "Sesizare Primăria Oradea",
+                        subject: "Sesizare Problemele de afară",
                         toEmail: issue.citizenEmail,
                         content: content,
                         issueId: issue.id
                     });
                 }
                 onHide();
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 console.log(err);
             }
@@ -101,13 +83,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
     }
 
     const sendAnEmail = (data) => {
-        return sendEmail(token, data, (result, status, err) => {
-            if (status === 403) {
-                setForbidden(true);
-            } else {
-                console.log(err);
-            }
-        })
+        return sendEmail(token, data, (result, status, err) => {})
     }
 
     useEffect(() => {

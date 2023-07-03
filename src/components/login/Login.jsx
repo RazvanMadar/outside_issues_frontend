@@ -7,7 +7,7 @@ import ImageBox from "../imagebox/ImageBox";
 import {addCitizenImage} from "../../api/citizen-image";
 import {isCorrectEmail, isCorrectPhoneNumber} from "../../common/utils";
 
-const Login = ({onLogin}) => {
+const Login = ({login, onLogin}) => {
     const [isSignUp, setSignUp] = useState(false);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -37,7 +37,9 @@ const Login = ({onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (status === 200 && result !== null) {
                     localStorage.removeItem("isBlocked");
-                    onLogin(true);
+                    if (!login) {
+                        onLogin((prev) => !prev);
+                    }
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);

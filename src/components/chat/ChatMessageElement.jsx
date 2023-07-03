@@ -31,8 +31,7 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
     }, [messages]);
 
 
-    return (<div ref={myDivRef}
-                 style={{position: "relative", height: "65vh", overflowY: "auto"}}>
+    return (<div ref={myDivRef} style={{position: "relative", height: "65vh", overflowY: "auto"}}>
         {messages.map((msg) => (
             msg.fromCitizen == email ?
                 <div className="d-flex flex-row justify-content-end" key={msg.date}>

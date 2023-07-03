@@ -6,10 +6,10 @@ import {filterIssuesByCitizenEmail, getBasicStatistics} from "../api/issue-api";
 import {convertAPIStatesToUI} from "../common/utils";
 import SimpleArray from "../components/chart/SimpleArray";
 import Pagination from "@mui/material/Pagination";
-import CardItem3 from "../components/issue/CardItem3";
+import ProfileIssueCard from "../components/issue/ProfileIssueCard";
 import Button from "@mui/material/Button";
 import ImageBoxProfile from "../components/imagebox/ImageBoxProfile";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {getAllRejectedForCitizen} from "../api/rejected-issues-api";
 import JSONDataChart from "../components/chart/JSONDataChart";
 
@@ -22,12 +22,12 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     const [data, setData] = useState()
     const [data2, setData2] = useState()
     const [issues, setIssues] = useState([])
-    const [issuesPerPage, setIssuesPerPage] = useState(4);
-    const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 768);
+    const issuesPerPage = 4;
+    const desktopScreen = window.innerWidth > 768;
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-    const [sort, setSort] = useState('reportedDate');
-    const [order, setOrder] = useState('desc');
+    const sort = 'reportedDate';
+    const order = 'desc';
     const firstNameInputRef = useRef();
     const lastNameInputRef = useRef();
 
@@ -37,10 +37,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     const findCitizenDetailsById = () => {
         return findCitizenById(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
-                console.log(result);
                 setCitizen(result);
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 console.log(err);
             }
@@ -51,8 +48,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
         return getCitizenImage(token, userId, (result, status, err) => {
             if (result !== null && status === 200) {
                 setImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                // setForbidden(true);
             } else {
                 console.log(err)
             }
@@ -66,7 +61,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                     res.state = convertAPIStatesToUI(res.state);
                 })
                 setData(result);
-                console.log(result);
             } else {
                 console.log(err);
             }
@@ -83,7 +77,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
             order,
             (result, status, err) => {
                 if (result !== null && status === 200) {
-                    console.log(result.content);
                     setIssues(result.content);
                     setTotalPages(result.totalPages);
                 } else {
@@ -95,9 +88,8 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
 
     const deleteImage = () => {
         return deleteCitizenImage(token, userId, (result, status, err) => {
-                if (result !== null && status === 200) {
-                    console.log("SUCCESS")
-                } else {
+                if (result !== null && status === 200) {}
+                else {
                     console.log(err);
                 }
             }
@@ -106,9 +98,8 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
 
     const addImage = () => {
         return addCitizenImage(userId, newImage, (result, status, err) => {
-                if (result !== null && status === 201) {
-                    console.log(result)
-                } else {
+                if (result !== null && status === 201) {}
+                else {
                     console.log(err);
                 }
             }
@@ -171,7 +162,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     return (<div>
         {isBlocked ? <Navigate to={"/blocked"} replace/> :
             citizen !== null &&
-                <div style={{paddingTop: "28px"}}>
+                <div style={{paddingTop: "55px"}}>
                     <div style={{
                         margin: "1rem",
                         display: desktopScreen && "flex",
@@ -196,7 +187,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                                 </FormGroup>
                                 <Button variant="contained"
                                         color="primary"
-                                    // className={classes.filterButton}
                                         onClick={updateAnCitizen}
                                 >Actualizează profilul
                                 </Button>
@@ -241,7 +231,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                                 <Col key={issue.id}
                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}
                                 >
-                                    <CardItem3 issue={issue} passBackgroundColor={passBackgroundColor}/>
+                                    <ProfileIssueCard issue={issue} passBackgroundColor={passBackgroundColor}/>
                                 </Col>
                             ))}
                         </Row>

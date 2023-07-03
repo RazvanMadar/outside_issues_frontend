@@ -1,12 +1,12 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     issue: "/api/issues",
 };
 
 const getBasicStatistics = (token, email, callback) => {
-    let urlPath = backend_api + endpoint.issue + "/basic-statistics?";
+    let urlPath = be_path + path_end.issue + "/basic-statistics?";
     if (email) {
         urlPath = urlPath + "email=" + email;
     }
@@ -17,22 +17,22 @@ const getBasicStatistics = (token, email, callback) => {
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getYearStatistics = (token, callback) => {
-    const request = new Request(backend_api + endpoint.issue + "/year-statistics?", {
+    const request = new Request(be_path + path_end.issue + "/year-statistics?", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const getTypeStatistics = (token, email, callback) => {
-    let urlPath = backend_api + endpoint.issue + "/type-statistics?";
+    let urlPath = be_path + path_end.issue + "/type-statistics?";
     if (email !== null) {
         urlPath = urlPath + "email=" + email;
     }
@@ -43,11 +43,11 @@ const getTypeStatistics = (token, email, callback) => {
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, page, size, sort, order, callback) => {
-    let urlPath = backend_api + endpoint.issue + "/filtered?";
+    let urlPath = be_path + path_end.issue + "/filtered?";
     if (type !== null) {
         urlPath += "type=" + type + "&";
     }
@@ -87,11 +87,11 @@ const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, pa
         }
     );
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callback) => {
-    let urlPath = backend_api + endpoint.issue + "/email/" + email + "?";
+    let urlPath = be_path + path_end.issue + "/email/" + email + "?";
     if (page != null) {
         urlPath += "page=" + page + "&";
     }
@@ -113,11 +113,11 @@ const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callb
         }
     );
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const addIssue = (token, issue, callback) => {
-    const request = new Request(backend_api + endpoint.issue, {
+    const request = new Request(be_path + path_end.issue, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -126,11 +126,11 @@ const addIssue = (token, issue, callback) => {
         body: JSON.stringify(issue),
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const updateIssue = (token, id, type, state, callback) => {
-    let urlPath = backend_api + endpoint.issue + `/${id}?`;
+    let urlPath = be_path + path_end.issue + `/${id}?`;
     if (type != null) {
         urlPath += "type=" + type + "&";
     }
@@ -144,18 +144,18 @@ const updateIssue = (token, id, type, state, callback) => {
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 const deleteIssueById = (token, id, callback) => {
-    const request = new Request(backend_api + endpoint.issue + "/" + id, {
+    const request = new Request(be_path + path_end.issue + "/" + id, {
         method: "DELETE",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 };
 
 

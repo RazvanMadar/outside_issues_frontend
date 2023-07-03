@@ -6,14 +6,11 @@ import {convertAPIStatesToUI, convertAPITypesToUI, getMonthFromIndex} from "../c
 import FilledPieChart from "../components/chart/FilledPieChart";
 import {Navigate} from "react-router-dom";
 
-// react-typical FROM https://www.youtube.com/watch?v=t7ePHIsKnnI
-
 const Home = ({isAdded, isUpdated, isDeleted}) => {
     const [data, setData] = useState();
     const [data2, setData2] = useState();
     const [data3, setData3] = useState();
     const [desktopScreen, setDesktopScreen] = useState(window.innerWidth > 878);
-
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
     const token = localStorage.getItem("token");
 
@@ -75,20 +72,17 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
     }, [isAdded, isUpdated, isDeleted]);
 
     return (
-        <div style={{paddingTop: "28px"}}>
+        <div style={{paddingTop: "55px"}}>
             {
                 !isBlocked ?
                 <div>
                     <h1 style={{textAlign: "center", marginTop: "1rem", marginBottom: "3rem"}}>Problemele de afară</h1>
-                    <h5 style={{padding: '0 1rem'}}>
-                        <span
-                            style={{padding: '0 2rem'}}>Aceasta este o aplicaţie pentru telefonul mobil sau tabletă</span>
-                        gratuită, simplă şi intuitivă, care permite cetăţenilor
-                        cu spirit civic să transmită diverse sesizări şi incidente către Primăria Oradea şi operatorii
-                        serviciilor publice locale (Compania de Apă Oradea, Oradea Transport Local, Termoficare Oradea,
-                        Poliţia
-                        Locală Oradea, Luxten Lighting Company, RER Ecologic Service).{'\nBeneficiile pe care le ai'} BAAAAAA MODIFICAAAA
+                    <h5 style={{padding: "0 1rem", textAlign: "center"}}>
+                        <span>Bine ați venit! Această aplicaţie are ca scop rezolvarea problemelor din Oradea într-un mod cât mai eficient și plăcut pentru cetățeni.</span>
                     </h5>
+                    <h6 style={{padding: "0 1rem 0.5rem 0", textAlign: "center"}}>
+                        <span>Vă mulțumim pentru contribuție, doar împreună putem face acest oraș mai frumos!</span>
+                    </h6>
                     <div style={{
                         display: desktopScreen && "flex",
                         flexDirection: desktopScreen && "row",

@@ -1,30 +1,30 @@
-import restApi from "../common/rest-api";
+import callerApi from "../common/api-caller";
 
-const backend_api = "http://localhost:8080";
-const endpoint = {
+const be_path = "http://localhost:8080";
+const path_end = {
     message: "/api/messages",
 };
 
 const getChatMessages = (token, from, to, callback) => {
-    const request = new Request(backend_api + endpoint.message + "?from=" + from + "&to=" + to, {
+    const request = new Request(be_path + path_end.message + "?from=" + from + "&to=" + to, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 }
 
 const getLatestChatMessage = (token, from, to, callback) => {
-    const request = new Request(backend_api + endpoint.message + "/latest?fromId=" + from + "&toId=" + to, {
+    const request = new Request(be_path + path_end.message + "/latest?fromId=" + from + "&toId=" + to, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    restApi.makeRequest(request, callback);
+    callerApi.callHttpMethod(request, callback);
 }
 
 export {getChatMessages, getLatestChatMessage};

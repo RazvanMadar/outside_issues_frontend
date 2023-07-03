@@ -4,7 +4,7 @@ import MobileForm from "../components/login/MobileForm";
 
 const LoginComponent = ({login, onLogin}) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const [component, setComponent] = useState(width > 768 ? <Login onLogin={onLogin}/> : <MobileForm onLogin={onLogin}/>);
+    const [component, setComponent] = useState(width > 768 ? <Login login={login} onLogin={onLogin}/> : <MobileForm login={login} onLogin={onLogin}/>);
 
     localStorage.removeItem("userId");
     localStorage.removeItem("email");
@@ -32,7 +32,7 @@ const LoginComponent = ({login, onLogin}) => {
     }, []);
 
     return (
-        <div style={{paddingTop: "28px"}}>
+        <div style={{paddingTop: "55px"}}>
             {component}
         </div>
     );

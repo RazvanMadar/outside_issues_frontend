@@ -10,9 +10,7 @@ import {Navigate} from "react-router-dom";
 // COD LUAT DUPA https://mdbootstrap.com/docs/react/extended/chat/#!
 //
 
-const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedNewUserMessage,
-                                   passIsMessageAdded, passSetIsMessageAdded
-                               }) => {
+const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedNewUserMessage, passIsMessageAdded, passSetIsMessageAdded}) => {
     const [toImages, setToImages] = useState([]);
     const [messages, setMessages] = useState([]);
     const [chatId, setChatId] = useState();
@@ -57,17 +55,15 @@ const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedN
     }, [passReceivedNewUserMessage])
 
     return (
-        <div style={{paddingTop: "28px"}}>
+        <div style={{paddingTop: "55px"}}>
             {!isBlocked ?
-                <div style={{height: "calc(100vh - 28px)"}}>
+                <div>
                     <MDBContainer fluid className="py-5" style={{
-                        backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8",
-                        height: "100%"
+                        backgroundColor: passBackgroundColor === 'white' ? 'white' : "#BCBEC8", height: "100%"
                     }}>
                         <MDBRow>
                             <MDBCol md="12">
-                                <MDBCard id="chat3"
-                                         style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>
+                                <MDBCard id="chat3" style={{borderRadius: "15px", height: "100%", backgroundColor: "#F4F4F4"}}>
                                     <MDBCardBody>
                                         <MDBRow>
                                             <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">

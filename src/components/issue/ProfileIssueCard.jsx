@@ -2,13 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardSubtitle, CardText, CardTitle,} from "reactstrap";
 import {getFirstImage} from "../../api/issue-image-api";
 import DateFormat from "./DateFormat";
-import classes from "./CardItem.module.css";
+import classes from "./IssueCard.module.css";
 import {convertAPIStatesToUI, convertAPITypesToUI, cutFromDescription, getBackgroundColorForState, getImageRegardingIssueType} from "../../common/utils";
 
-const CardItem3 = ({issue, passBackgroundColor}) => {
+const ProfileIssueCard = ({issue, passBackgroundColor}) => {
     const [mainImage, setMainImage] = useState(null);
-    const [forbidden, setForbidden] = useState(null);
-    const [nrOfLikes, setNrOfLikes] = useState(issue.likesNumber);
+    const nrOfLikes = issue.likesNumber;
     const backgroundColor = getBackgroundColorForState(issue.state);
     const token = localStorage.getItem("token")
 
@@ -16,8 +15,6 @@ const CardItem3 = ({issue, passBackgroundColor}) => {
         return getFirstImage(token, issue.id, (result, status, err) => {
             if (result !== null && status === 200) {
                 setMainImage(URL.createObjectURL(result));
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 setMainImage(getImageRegardingIssueType((issue.type)));
             }
@@ -71,4 +68,4 @@ const CardItem3 = ({issue, passBackgroundColor}) => {
     );
 };
 
-export default CardItem3;
+export default ProfileIssueCard;

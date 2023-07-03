@@ -7,18 +7,16 @@ import classes from "./AddForm.module.css";
 import {CategoryData} from "../../staticdata/CategoryData";
 import {addImage} from "../../api/issue-image-api";
 import Checkbox from '@mui/material/Checkbox';
-import {convertAPITypesToUI, convertUITypesToAPI, getCurrentDate, getNumberFromIndex} from "../../common/utils";
+import {convertAPITypesToUI, convertUITypesToAPI, getCurrentDate, getNumberFromIndex, isCorrectEmail} from "../../common/utils";
 import {getAddressFromCoordinates} from "../../api/address-api";
 import {Link} from "react-router-dom";
 import {registerCitizen} from "../../api/citizen-api";
 import {sendEmail} from "../../api/email-api";
 
-const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
+const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
     const descriptionInputRef = useRef();
     const categoryInputRef = useRef();
     const emailInputRef = useRef();
-    const [forbidden, setForbidden] = useState(false);
-    const [authorized, setAuthorized] = useState(false);
     const [issueAdr, setIssueAdr] = useState('');
     const [photos, setPhotos] = useState([]);
     const [isChecked, setIsChecked] = useState(true);
@@ -29,39 +27,27 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         localStorage.getItem("email") ? localStorage.getItem("email") : "");
     const [citizenExists, setCitizenExists] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(true);
-
     const token = localStorage.getItem("token");
 
     const sendAnEmail = (data) => {
         return sendEmail(token, data, (result, status, err) => {
-            if (result !== null && status === 200) {
-                setAuthorized(true);
-            } else if (status === 403) {
-                setForbidden(true);
-            } else {
+            if (result !== null && status === 200) {}
+            else {
                 console.log(err);
             }
         })
     }
 
-    const isCorrectEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
     const addAnIssue = (issue) => {
         return addIssue(token, issue, (result, status, err) => {
             if (result !== null && status === 201) {
-                console.log(result);
-                setAuthorized(true);
                 passIsIssueAdded((prev) => !prev);
+                setAll(false);
                 addAnImage(result);
                 const content = `Sesizarea cu numărul ${result}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost înregistrată cu succes.`
                     + `\nVă mulțumim pentru contribuția dumneavoastră la menținerea si dezvoltarea orașului Oradea!`;
-                sendAnEmail({subject: "Sesizare Primăria Oradea", toEmail: currentMail, content: content, issueId: result
+                sendAnEmail({subject: "Sesizare Problemele de afară", toEmail: currentMail, content: content, issueId: result
                 });
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 console.log(err);
             }
@@ -69,10 +55,8 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     };
 
     const registerAnCitizen = (citizen) => {
-        console.log(citizen);
         return registerCitizen(citizen, false,(result, status, err) => {
                 if (result !== null && status === 201) {
-                    console.log(result);
                     setCitizenExists(false);
                     const currentEmail = !isLogged ? emailInputRef.current.value : null
                     addAnIssue({
@@ -99,10 +83,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
         photos.map((img, index) => {
             return addImage(id, img, getNumberFromIndex(index), (result, status, err) => {
                 if (result !== null && status === 201) {
-                    console.log(result);
-                    setAuthorized(true);
-                } else if (status === 403) {
-                    setForbidden(true);
                 }
             })
         });
@@ -111,7 +91,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
     const checkIfLocation = () => {
         return checkbox.current.checked ? markerPosition : {lat: null, lng: null};
     }
-
 
     const computeAddressFromCoordinates = (address) => {
         setIssueAdr("Fără adresă");
@@ -143,8 +122,6 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition}) => {
                     issueAddress += result.address.village;
                 }
                 setIssueAdr(issueAddress);
-            } else if (status === 403) {
-                setForbidden(true);
             } else {
                 console.log(err);
             }

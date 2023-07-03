@@ -13,25 +13,17 @@
 }
 
 .card {
-  /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2); */
-  /* border-radius: 5px; */
-  /* display: flex;
-  flex-wrap: wrap; */
   width: 30%;
   margin: 10px 10px 10px 10px;
-  /* height: 45vh; */
 }
 
 .maincard {
   padding: 10px;
-  /* margin: auto; */
-  /* margin: 10px 10px 10px 10px; */
   width: 100%;
   border-radius: 20px;
 }
 
 .uppercard span {
-  /* padding: 1rem; */
   margin: 10px;
   font-weight: bold;
 }
@@ -58,13 +50,11 @@
 }
 
 .cardbody {
-  /* display: inline; */
   position: relative;
 }
 
 .date {
   position: absolute;
-  /*bottom: 9rem;*/
   bottom: 10rem;
   right: 3px;
 }

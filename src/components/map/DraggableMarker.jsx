@@ -33,7 +33,6 @@ const DraggableMarker = ({passMarkerPosition, polygonCoordinates}) => {
             setPosition(newMarkerPosition);
             passMarkerPosition(newMarkerPosition);
           }
-          console.log(marker.getLatLng());
         }
       },
     }),

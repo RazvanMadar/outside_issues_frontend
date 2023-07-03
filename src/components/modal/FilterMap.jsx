@@ -9,37 +9,16 @@ import {CategoryData} from "../../staticdata/CategoryData";
 import {StateData} from "../../staticdata/StateData";
 import {Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {filterIssues} from "../../api/issue-api";
-import {convertUIStatesToAPI, convertUITypesToAPI} from "../../common/utils";
+import {convertUIStatesToAPI, convertUITypesToAPI, formatDate} from "../../common/utils";
 
-const FilterMap = ({
-                       show,
-                       onHide,
-                       passFilteredIssues,
-                       passSetCurrentPage,
-                       passSetTotalPages,
-                       passIssuesPerPage,
-                       passSetIsFiltered,
-                       passSetType,
-                       passSetState,
-                       passSetFromDate,
-                       passSetToDate,
-                       passSort,
-                       passOrder,
-                       passBackgroundColor
-                   }) => {
+const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSetTotalPages, passIssuesPerPage, passSetIsFiltered, passSetType, passSetState, passSetFromDate, passSetToDate, passSort, passOrder, passBackgroundColor}) => {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const typeInputRef = useRef();
     const stateInputRef = useRef();
     let fromDateInputRef = useRef();
     const toDateInputRef = useRef();
-
     const token = localStorage.getItem("token");
-
-    const formatDate = (date) => {
-        const correctDate = date.split('/');
-        return `${correctDate[2]}-${correctDate[0]}-${correctDate[1]}`;
-    }
 
     const filterAllIssues = () => {
         const enteredType = convertUITypesToAPI(typeInputRef.current.value);
