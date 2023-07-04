@@ -3,7 +3,7 @@ import callerApi from "../common/api-caller";
 const be_path = "http://localhost:8080";
 
 const sendMessageViaWebSocket = (token, message, callback) => {
-    const request = new Request(be_path + "/send-message", {
+    const httpCall = new Request(be_path + "/send-message", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -12,7 +12,7 @@ const sendMessageViaWebSocket = (token, message, callback) => {
         body: JSON.stringify(message),
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 export {

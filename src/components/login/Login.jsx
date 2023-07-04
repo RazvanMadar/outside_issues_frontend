@@ -37,9 +37,7 @@ const Login = ({login, onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (status === 200 && result !== null) {
                     localStorage.removeItem("isBlocked");
-                    if (!login) {
-                        onLogin((prev) => !prev);
-                    }
+                    onLogin(true)
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);

@@ -1,30 +1,27 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    message: "/api/messages",
-};
+const be_path = "http://localhost:8080/api/messages";
 
 const getChatMessages = (token, from, to, callback) => {
-    const request = new Request(be_path + path_end.message + "?from=" + from + "&to=" + to, {
+    const httpCall = new Request(be_path + "?from=" + from + "&to=" + to, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 const getLatestChatMessage = (token, from, to, callback) => {
-    const request = new Request(be_path + path_end.message + "/latest?fromId=" + from + "&toId=" + to, {
+    const httpCall = new Request(be_path + "/latest?fromId=" + from + "&toId=" + to, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 export {getChatMessages, getLatestChatMessage};

@@ -1,53 +1,50 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    issue: "/api/issues",
-};
+const be_path = "http://localhost:8080/api/issues";
 
 const getBasicStatistics = (token, email, callback) => {
-    let urlPath = be_path + path_end.issue + "/basic-statistics?";
+    let urlPath = be_path + "/basic-statistics?";
     if (email) {
         urlPath = urlPath + "email=" + email;
     }
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const getYearStatistics = (token, callback) => {
-    const request = new Request(be_path + path_end.issue + "/year-statistics?", {
+    const httpCall = new Request(be_path + "/year-statistics?", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const getTypeStatistics = (token, email, callback) => {
-    let urlPath = be_path + path_end.issue + "/type-statistics?";
+    let urlPath = be_path + "/type-statistics?";
     if (email !== null) {
         urlPath = urlPath + "email=" + email;
     }
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, page, size, sort, order, callback) => {
-    let urlPath = be_path + path_end.issue + "/filtered?";
+    let urlPath = be_path + "/filtered?";
     if (type !== null) {
         urlPath += "type=" + type + "&";
     }
@@ -79,7 +76,7 @@ const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, pa
         urlPath += "," + order;
     }
     urlPath += "&sort=id,desc"
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token,
@@ -87,11 +84,11 @@ const filterIssues = (token, type, state, fromDate, toDate, hasLocation, all, pa
         }
     );
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callback) => {
-    let urlPath = be_path + path_end.issue + "/email/" + email + "?";
+    let urlPath = be_path + "/email/" + email + "?";
     if (page != null) {
         urlPath += "page=" + page + "&";
     }
@@ -104,8 +101,7 @@ const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callb
     if (order != null) {
         urlPath += "," + order;
     }
-    console.log(urlPath)
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token,
@@ -113,11 +109,11 @@ const filterIssuesByCitizenEmail = (token, email, page, size, sort, order, callb
         }
     );
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const addIssue = (token, issue, callback) => {
-    const request = new Request(be_path + path_end.issue, {
+    const httpCall = new Request(be_path, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -126,36 +122,36 @@ const addIssue = (token, issue, callback) => {
         body: JSON.stringify(issue),
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const updateIssue = (token, id, type, state, callback) => {
-    let urlPath = be_path + path_end.issue + `/${id}?`;
+    let urlPath = be_path + `/${id}?`;
     if (type != null) {
         urlPath += "type=" + type + "&";
     }
     if (state != null) {
         urlPath += "state=" + state;
     }
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
         method: "PUT",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const deleteIssueById = (token, id, callback) => {
-    const request = new Request(be_path + path_end.issue + "/" + id, {
+    const httpCall = new Request(be_path + "/" + id, {
         method: "DELETE",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 

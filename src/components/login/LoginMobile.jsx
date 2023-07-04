@@ -25,9 +25,7 @@ const LoginMobile = ({login, onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (result !== null && status === 200) {
                     localStorage.removeItem("isBlocked");
-                    if (!login) {
-                        onLogin((prev) => !prev);
-                    }
+                    onLogin(true)
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);

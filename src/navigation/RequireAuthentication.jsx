@@ -3,7 +3,6 @@ import React from 'react';
 
 const RequireAuthentication = ({allowedRoles, isBlocked, role}) => {
     const location = useLocation();
-
     return (
         allowedRoles[0] === 'ALL' ? <Outlet/>
             :

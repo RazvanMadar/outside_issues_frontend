@@ -1,31 +1,28 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    image: "/api/citizen/images",
-};
+const be_path = "http://localhost:8080/api/citizen/images";
 
 const addCitizenImage = (id, image, callback) => {
-    let request;
+    let httpCall;
     if (image == null) {
-        request = new Request(be_path + path_end.image + "/" + id, {
+        httpCall = new Request(be_path + "/" + id, {
             method: "POST",
         });
     }
     else {
         const formData = new FormData();
         formData.append("image", image);
-        request = new Request(be_path + path_end.image + "/" + id, {
+        httpCall = new Request(be_path + "/" + id, {
             method: "POST",
             body: formData
         });
     }
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const getCitizenImage = (token, id, callback) => {
-    const request = new Request(be_path + path_end.image + "/" + id, {
+    const httpCall = new Request(be_path + "/" + id, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
@@ -33,18 +30,18 @@ const getCitizenImage = (token, id, callback) => {
         responseType: "arraybuffer"
     });
 
-    callerApi.callBlobMethod(request, callback);
+    callerApi.callBlobMethod(httpCall, callback);
 };
 
 const deleteCitizenImage = (token, id, callback) => {
-    const request = new Request(be_path + path_end.image + "/" + id, {
+    const httpCall = new Request(be_path + "/" + id, {
         method: "DELETE",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 export {addCitizenImage, getCitizenImage, deleteCitizenImage};

@@ -1,23 +1,20 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    image: "/api/images",
-};
+const be_path = "http://localhost:8080/api/images";
 
 const addImage = (id, image, number, callback) => {
     const formData = new FormData();
     formData.append("image", image);
-    const request = new Request(be_path + path_end.image + "/" + id + "?number=" + number, {
+    const httpCall = new Request(be_path + "/" + id + "?number=" + number, {
         method: "POST",
         body: formData,
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const getFirstImage = (token, id, callback) => {
-    const request = new Request(be_path + path_end.image + "/" + id + "/first", {
+    const httpCall = new Request(be_path + "/" + id + "/first", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
@@ -25,29 +22,29 @@ const getFirstImage = (token, id, callback) => {
         responseType: "arraybuffer"
     });
 
-    callerApi.callBlobMethod(request, callback);
+    callerApi.callBlobMethod(httpCall, callback);
 };
 
 const getSecondImage = (token, id, callback) => {
-    const request = new Request(be_path + path_end.image + "/" + id + "/second", {
+    const httpCall = new Request(be_path + "/" + id + "/second", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callBlobMethod(request, callback);
+    callerApi.callBlobMethod(httpCall, callback);
 };
 
 const getThirdImage = (token, id, callback) => {
-    const request = new Request(be_path + path_end.image + "/" + id + "/third", {
+    const httpCall = new Request(be_path + "/" + id + "/third", {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callBlobMethod(request, callback);
+    callerApi.callBlobMethod(httpCall, callback);
 };
 
 export {addImage, getFirstImage, getSecondImage, getThirdImage};

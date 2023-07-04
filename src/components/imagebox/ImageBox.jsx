@@ -24,7 +24,7 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
         event.target.value = "";
     };
 
-    function deleteHandler(image, index) {
+    const deleteHandler = (image, index) => {
         setSelectedImages(selectedImages.filter((e) => e !== image));
         passIsPhoto((previousImages) => {
             const img = previousImages[index];

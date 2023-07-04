@@ -1,28 +1,28 @@
-const callHttpMethod = (request, callback) => {
-  fetch(request)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then((json) => callback(json, response.status, null));
+const callHttpMethod = (httpCall, callback) => {
+  fetch(httpCall)
+    .then(function (res) {
+      if (res.ok) {
+          res.json().then((data) => callback(data, res.status, null));
       } else {
-        response.json().then((err) => callback(null, response.status, err));
+          res.json().then((error) => callback(null, res.status, error));
       }
     })
-    .catch(function (err) {
-      callback(null, 1, err);
+    .catch(function (error) {
+      callback(null, 1, error);
     });
 };
 
-const callBlobMethod = (request, callback) => {
-    fetch(request)
-        .then(function (response) {
-            if (response.ok) {
-                response.blob().then((json) => callback(json, response.status, null));
+const callBlobMethod = (httpCall, callback) => {
+    fetch(httpCall)
+        .then(function (res) {
+            if (res.ok) {
+                res.blob().then((data) => callback(data, res.status, null));
             } else {
-                response.blob().then((err) => callback(null, response.status, err));
+                res.blob().then((error) => callback(null, res.status, error));
             }
         })
-        .catch(function (err) {
-            callback(null, 1, err);
+        .catch(function (error) {
+            callback(null, 1, error);
         });
 }
 

@@ -1,23 +1,20 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    citizen: "/api/citizens",
-};
+const be_path = "http://localhost:8080/api/citizens";
 
 const findCitizenById = (token, id, callback) => {
-    const request = new Request(be_path + path_end.citizen + "/" + id, {
+    const httpCall = new Request(be_path + "/" + id, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const getCitizens = (token, email, isFiltered, page, size, callback) => {
-    let urlPath = be_path + path_end.citizen + "?";
+    let urlPath = be_path + "?";
     if (email != null && email != '') {
         urlPath = urlPath + "email=" + email + "&";
     }
@@ -30,18 +27,18 @@ const getCitizens = (token, email, isFiltered, page, size, callback) => {
     if (size != null) {
         urlPath += "size=" + size;
     }
-    const request = new Request(urlPath, {
+    const httpCall = new Request(urlPath, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 const registerCitizen = (data, isAuth, callback) => {
-    const request = new Request(be_path + path_end.citizen + "/auth/?isAuth=" + isAuth, {
+    const httpCall = new Request(be_path + "/auth/?isAuth=" + isAuth, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -49,11 +46,11 @@ const registerCitizen = (data, isAuth, callback) => {
         body: JSON.stringify(data),
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 const updateCitizen = (token, data, callback) => {
-    const request = new Request(be_path + path_end.citizen, {
+    const httpCall = new Request(be_path, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -62,18 +59,18 @@ const updateCitizen = (token, data, callback) => {
         body: JSON.stringify(data),
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 const getChatUsersByRole = (token, name, searchPerson, callback) => {
-    const request = new Request(be_path + path_end.citizen + "/role?name=" + name + "&searchPerson=" + searchPerson, {
+    const httpCall = new Request(be_path + "/role?name=" + name + "&searchPerson=" + searchPerson, {
         method: "GET",
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 };
 
 export {findCitizenById, registerCitizen, getCitizens, getChatUsersByRole, updateCitizen};

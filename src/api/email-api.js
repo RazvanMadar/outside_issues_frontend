@@ -1,12 +1,9 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
-const path_end = {
-    email: "/api/email",
-};
+const be_path = "http://localhost:8080/api/email";
 
 const sendEmail = (token, data, callback) => {
-    const request = new Request(be_path + path_end.email, {
+    const httpCall = new Request(be_path, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -15,7 +12,7 @@ const sendEmail = (token, data, callback) => {
         body: JSON.stringify(data),
     });
 
-    callerApi.callHttpMethod(request, callback);
+    callerApi.callHttpMethod(httpCall, callback);
 }
 
 export {sendEmail};

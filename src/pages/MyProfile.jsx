@@ -30,7 +30,6 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
     const order = 'desc';
     const firstNameInputRef = useRef();
     const lastNameInputRef = useRef();
-
     const token = localStorage.getItem("token");
     const isBlocked = localStorage.getItem("isBlocked") !== null ? true : false;
 
