@@ -1,0 +1,12 @@
+.filterButton {
+    width: 40%
+}
+
+.cancelButton {
+    width: 40%;
+}
+
+.state {
+    position: absolute;
+    top: 5%
+}

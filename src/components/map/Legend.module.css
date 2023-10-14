@@ -1,0 +1,91 @@
+.wrapper {
+  position: absolute;
+  top: 4rem;
+  right: 0.3rem;
+  z-index: 999;
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.extendedWrapper {
+  position: absolute;
+  top: 4.5rem;
+  right: 0.7rem;
+  z-index: 999;
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-weight: bold;
+  text-decoration-line: underline;
+  margin-bottom: 0.5rem;
+}
+
+.field {
+  padding-top: 0.1rem;
+  column-gap: 0.375;
+  align-items: center;
+  display: flex;
+}
+
+.icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.2rem;
+}
+
+.legendText {
+  background: none;
+  border: none
+}
+
+.legendText:hover {
+  color: purple;
+}
+
+.arrow {
+  position: absolute;
+  right: 3.7rem;
+  top: 16rem;
+  transform: translate(-50%, -50%);
+}
+
+.spanArrow {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-bottom: 5px solid #06A8FF;
+  border-right: 5px solid #06A8FF;
+  transform: rotate(45deg);
+  margin: -10px;
+  animation: scroll 2s infinite;
+}
+
+.spanArrow:nth-child(2) {
+  animation-delay: -.2s;
+}
+
+.spanArrow:nth-child(3) {
+  animation-delay: -.4s;
+}
+
+@keyframes scroll {
+  0% {
+    opacity: 1;
+    transform: rotate(45deg) translate(-15px, -15px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(15px, 15px);
+  }
+}
