@@ -1,9 +1,9 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
+const be_path = "http://localhost:8080/send-message";
 
 const sendMessageViaWebSocket = (token, message, callback) => {
-    const httpCall = new Request(be_path + "/send-message", {
+    const httpCall = new Request(be_path, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

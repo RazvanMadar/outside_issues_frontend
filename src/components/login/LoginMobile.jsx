@@ -12,7 +12,7 @@ const LoginMobile = ({login, onLogin}) => {
     const [isValidAccount, setIsValidAccount] = useState(true);
     const [isIncomplete, setIsIncomplete] = useState(false);
 
-    const submitHandler = (event) => {
+    const tryAuthenticate = (event) => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
@@ -25,7 +25,7 @@ const LoginMobile = ({login, onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (result !== null && status === 200) {
                     localStorage.removeItem("isBlocked");
-                    onLogin(true)
+                    onLogin((prev) => !prev)
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);
@@ -55,7 +55,7 @@ const LoginMobile = ({login, onLogin}) => {
             </form>
             {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
             {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
-            <button type="submit" className={classes.submitButton} onClick={submitHandler}>Autentificare</button>
+            <button type="submit" className={classes.submitButton} onClick={tryAuthenticate}>Autentificare</button>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div className={classes.firstLink} onClick={switchToSignup}>Nu ai încă un cont?{" "}</div>
                 <div onClick={switchToSignup} className={classes.secondLink}>Înregistrează-te</div>

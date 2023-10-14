@@ -60,7 +60,7 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                         setDislikeButton(true);
                     }
                 } else {
-                    console.log(err);
+
                 }
             });
         }
@@ -83,10 +83,9 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
 
     const deleteAnIssue = () => {
         return deleteIssueById(token, issue.id, (result, status, err) => {
-            console.log(issue.id)
             if (result !== null && status === 200) {
+                rejectIssue();
                 if (issue.citizenEmail !== null) {
-                    rejectIssue();
                     let content = `Sesizarea cu numărul ${issue.id}, făcută de dumneavoastră, de tipul ${convertAPITypesToUI(issue.type)} (${issue.actualLocation}) a fost ștearsă.`;
                     if (deleteReasonInputRef.current.value.length > 0)
                         content += `\nMotiv: ${deleteReasonInputRef.current.value}`;
@@ -102,22 +101,21 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
     };
 
     const rejectIssue = () => {
+        passIsDeleted((prev) => !prev)
         return addRejected(token, issue.citizenEmail, (result, status, err) => {
-            if (result !== null && status === 201) {
-                passIsDeleted((prev) => !prev)
-            }
+            if (result !== null && status === 201) {}
         });
     }
 
-    const handleOpenDialog = () => {
+    const openTheDialog = () => {
         setOpenDialog(true);
     }
 
-    const handleCloseDialog = () => {
+    const closeTheDialog = () => {
         setOpenDialog(false);
     }
 
-    const handleLike = () => {
+    const computeLikes = () => {
         if (likeButton) {
             setLikeButton(false);
             setNrOfLikes((prev) => prev - 1);
@@ -135,7 +133,7 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
         }
     }
 
-    const handleDislike = () => {
+    const computeDislikes = () => {
         if (dislikeButton) {
             setDislikeButton(false);
             setNrOfDislikes((prev) => prev - 1);
@@ -220,14 +218,14 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                             </IconButton>
                             <IconButton aria-label="delete"
                                         style={{position: "absolute", left: "120px", bottom: "7px"}}
-                                        onClick={handleOpenDialog}>
+                                        onClick={openTheDialog}>
                                 <DeleteIcon/>
                             </IconButton>
                             <Dialog
                                 open={openDialog}
                                 TransitionComponent={Transition}
                                 keepMounted
-                                onClose={handleCloseDialog}
+                                onClose={closeTheDialog}
                                 aria-describedby="alert-dialog-slide-description"
                             >
                                 <DialogTitle>{"Sunteți sigur că doriți să ștergeți această sesizare?"}</DialogTitle>
@@ -242,7 +240,7 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={deleteAnIssue}>Șterge</Button>
-                                    <Button onClick={handleCloseDialog}>Închide</Button>
+                                    <Button onClick={closeTheDialog}>Închide</Button>
                                 </DialogActions>
                             </Dialog>
                         </div> :
@@ -265,12 +263,12 @@ const IssueCard = ({issue, passIsDeleted, passBackgroundColor, passIsUpdated}) =
                             <div style={{position: "absolute", bottom: "5px", left: "9rem"}}>
                                 {nrOfLikes}
                                 <Checkbox icon={<ThumbUpOffAltIcon/>} checkedIcon={<ThumbUpIcon/>}
-                                          checked={likeButton} onClick={handleLike}/>
+                                          checked={likeButton} onClick={computeLikes}/>
                             </div>
                             <div style={{position: "absolute", bottom: "5px", right: "3px"}}>
                                 {nrOfDislikes}
                                 <Checkbox icon={<ThumbDownOffAltIcon/>} checkedIcon={<ThumbDownAltIcon/>}
-                                          checked={dislikeButton} onClick={handleDislike}/>
+                                          checked={dislikeButton} onClick={computeDislikes}/>
                             </div>
                         </div> : ""}
                     {isLogged && role === "ROLE_USER" && issue.state === "SOLVED" ?

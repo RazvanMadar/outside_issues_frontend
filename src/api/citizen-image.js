@@ -10,11 +10,11 @@ const addCitizenImage = (id, image, callback) => {
         });
     }
     else {
-        const formData = new FormData();
-        formData.append("image", image);
+        const imgData = new FormData();
+        imgData.append("image", image);
         httpCall = new Request(be_path + "/" + id, {
             method: "POST",
-            body: formData
+            body: imgData
         });
     }
 

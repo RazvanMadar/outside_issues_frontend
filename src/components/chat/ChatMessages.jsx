@@ -17,7 +17,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                 if (result !== null && status === 200) {
                     setMessages(result);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -45,7 +45,7 @@ const ChatMessages = ({passChatId, passToEmail, passIsAddedMessage, passSetIsAdd
                     passSetIsAddedMessage((prev) => !prev);
                     setMessage("");
                 } else {
-                    console.log(err);
+
                 }
             });
         }

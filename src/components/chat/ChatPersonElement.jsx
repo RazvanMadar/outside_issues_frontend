@@ -15,7 +15,7 @@ const ChatPersonElement = ({person, passSetChatId, passChatId, passSetToEmail, p
                 if (result !== null && status === 200) {
                     setLatestMessage(result);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -26,7 +26,7 @@ const ChatPersonElement = ({person, passSetChatId, passChatId, passSetToEmail, p
             if (result !== null && status === 200) {
                 setImage(URL.createObjectURL(result));
             } else {
-                console.log(err)
+
             }
         });
     }

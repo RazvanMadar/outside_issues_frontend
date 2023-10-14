@@ -77,7 +77,7 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                 }
                 onHide();
             } else {
-                console.log(err);
+
             }
         });
     }
@@ -141,7 +141,6 @@ const IssueModal = ({show, issue, onHide, passBackgroundColor, passIsUpdated}) =
                     </div>
                 </div>
                 <br/>
-                {/*Descriere: {issue.description}*/}
                 <Input style={{resize: "none"}}
                        id="description"
                        name="description"

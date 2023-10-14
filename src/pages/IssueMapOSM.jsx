@@ -30,10 +30,6 @@ const polygonCoordinates = [new LatLng(47.06269, 21.85967),
 
 const position = {lat: 47.05292, lng: 21.91375}
 
-//
-// http://overpass-turbo.eu/
-//
-
 const IssueMapOSM = ({passBackgroundCol, passIsIssueAdded, passSetIsIssuesAdded, passIsIssueDeleted, passIsIssueUpdated}) => {
         const [issues, setIssues] = useState([]);
         const [markerPosition, setMarkerPosition] = useState(position);

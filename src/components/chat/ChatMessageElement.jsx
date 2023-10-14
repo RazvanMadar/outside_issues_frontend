@@ -14,7 +14,7 @@ const ChatMessageElement = ({messages, chatId, passToImages}) => {
             if (result !== null && status === 200) {
                 setFromImage(URL.createObjectURL(result));
             } else {
-                console.log(err)
+
             }
         });
     };

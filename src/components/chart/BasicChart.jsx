@@ -2,7 +2,6 @@ import React from 'react';
 
 import PieChart, {Connector, Format, Label, Legend, Series, Tooltip} from 'devextreme-react/pie-chart';
 
-// COPY PASTE DEVEXPRESS DOUGHNUT
 const BasicChart = ({data, title, desktopScreen}) => {
     return (
         <div style={{width: desktopScreen ? "50%" : "100%"}}>

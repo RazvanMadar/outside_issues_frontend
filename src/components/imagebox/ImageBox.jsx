@@ -3,7 +3,6 @@ import classes from "./ImageBox.module.css";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-// luata de pe git -> https://www.youtube.com/watch?v=PDtW-XAshqs
 const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
     const [selectedImages, setSelectedImages] = useState([]);
 
@@ -18,13 +17,11 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
 
         if (selectedImages.length < numberOfPhotos)
             setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-        console.log(selectedImages)
 
-        // FOR BUG IN CHROME
         event.target.value = "";
     };
 
-    const deleteHandler = (image, index) => {
+    const deleteTheImage = (image, index) => {
         setSelectedImages(selectedImages.filter((e) => e !== image));
         passIsPhoto((previousImages) => {
             const img = previousImages[index];
@@ -34,7 +31,7 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
     }
 
     useEffect(() => {
-        deleteHandler(selectedImages[0], 1);
+        deleteTheImage(selectedImages[0], 1);
     }, [deleteImage])
 
     return (
@@ -61,7 +58,7 @@ const ImageBox = ({passIsPhoto, title, numberOfPhotos, deleteImage}) => {
                                     <img src={image} height="80" width="80" alt="upload"/>
                                     <RemoveCircleIcon
                                         style={{position: "absolute", left: "65px", top: "-13px", color: "red"}}
-                                        onClick={() => deleteHandler(image, index)}
+                                        onClick={() => deleteTheImage(image, index)}
                                     />
                                 </div>
                             );

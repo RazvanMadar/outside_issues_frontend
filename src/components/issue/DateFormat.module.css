@@ -1,4 +1,4 @@
-.date-format {
+.bigDate {
   display: flex;
   flex-direction: column;
   width: 2.4rem;
@@ -11,16 +11,16 @@
   justify-content: center;
 }
 
-.date-month-format {
-  font-size: 0.6rem;
-  font-weight: bold;
-}
-
-.date-year-format {
-  font-size: 0.6rem;
-}
-
-.date-day-format {
+.dayDate {
   font-size: 1rem;
   font-weight: bold;
+}
+
+.monthDate {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+.yearDate {
+  font-size: 0.6rem;
 }

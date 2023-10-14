@@ -50,13 +50,13 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                     passSetFromDate(enteredFromDate);
                     passSetToDate(enteredToDate);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
     };
 
-    const closeHandle = () => {
+    const closeModal = () => {
         setFromDate(null)
         setToDate(null)
         onHide();
@@ -136,7 +136,7 @@ const FilterMap = ({show, onHide, passFilteredIssues, passSetCurrentPage, passSe
                 <Button variant="contained"
                         color="error"
                         className={classes.cancelButton}
-                        onClick={closeHandle}>Închide
+                        onClick={closeModal}>Închide
                 </Button>
             </ModalFooter>
         </Modal>

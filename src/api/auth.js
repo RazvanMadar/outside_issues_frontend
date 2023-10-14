@@ -1,6 +1,6 @@
 import callerApi from "../common/api-caller";
 
-const be_path = "http://localhost:8080";
+const be_path = "http://localhost:8080/login";
 
 const authenticate = (data, callback) => {
     const httpCall = new Request(be_path, {

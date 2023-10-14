@@ -21,7 +21,7 @@ const RegisterMobile = () => {
     const [isValidPassword, setIsValidPassword] = useState(true);
     const [isValidPhone, setIsValidPhone] = useState(true);
 
-    const handleChangeContext = () => {
+    const changeTheContext = () => {
         firstNameInputRef.current.value = '';
         lastNameInputRef.current.value = '';
         emailInputRef.current.value = '';
@@ -37,7 +37,6 @@ const RegisterMobile = () => {
     }
 
     const addAnImage = (id) => {
-        console.log(id, photos[0])
         return addCitizenImage(id, photos[0], (result, status, err) => {
             if (status === 201) {
                 firstNameInputRef.current.value = "";
@@ -59,7 +58,7 @@ const RegisterMobile = () => {
         })
     };
 
-    const registerHandler = (event) => {
+    const tryToRegister = (event) => {
         event.preventDefault();
         const enteredFirstName = firstNameInputRef.current.value;
         const enteredLastName = lastNameInputRef.current.value;
@@ -131,10 +130,10 @@ const RegisterMobile = () => {
             {!isValidEmail && <p className={classes.invalid}>Emailul nu e valid!</p>}
             {!isValidPassword && <p className={classes.invalid}>Minim 8 caractere pentru parolă!</p>}
             {!isValidPhone && <p className={classes.invalid}>Numărul de telefon nu e valid!</p>}
-            <button className={classes.submitButton} type="submit" onClick={registerHandler}>Înregistrare</button>
+            <button className={classes.submitButton} type="submit" onClick={tryToRegister}>Înregistrare</button>
             <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div className={classes.firstLink} onClick={handleChangeContext}>Ai deja un cont?</div>
-                <div onClick={handleChangeContext} className={classes.secondLink}>Autentifică-te</div>
+                <div className={classes.firstLink} onClick={changeTheContext}>Ai deja un cont?</div>
+                <div onClick={changeTheContext} className={classes.secondLink}>Autentifică-te</div>
             </div>
             <br/>
         </div>

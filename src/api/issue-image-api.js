@@ -3,11 +3,11 @@ import callerApi from "../common/api-caller";
 const be_path = "http://localhost:8080/api/images";
 
 const addImage = (id, image, number, callback) => {
-    const formData = new FormData();
-    formData.append("image", image);
+    const imgData = new FormData();
+    imgData.append("image", image);
     const httpCall = new Request(be_path + "/" + id + "?number=" + number, {
         method: "POST",
-        body: formData,
+        body: imgData,
     });
 
     callerApi.callHttpMethod(httpCall, callback);

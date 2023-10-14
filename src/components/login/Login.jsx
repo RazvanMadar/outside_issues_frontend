@@ -25,7 +25,7 @@ const Login = ({login, onLogin}) => {
     const [photos, setPhotos] = useState([]);
     const [deleteImage, setDeleteImage] = useState(false);
 
-    const submitHandler = (event) => {
+    const tryAuthenticate = (event) => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
@@ -37,7 +37,7 @@ const Login = ({login, onLogin}) => {
             return authenticate({email: enteredEmail, password: enteredPassword}, (result, status, err) => {
                 if (status === 200 && result !== null) {
                     localStorage.removeItem("isBlocked");
-                    onLogin(true)
+                    onLogin((prev) => !prev)
                     localStorage.setItem("userId", result.userId);
                     localStorage.setItem("email", result.email);
                     localStorage.setItem("firstName", result.firstName);
@@ -81,7 +81,7 @@ const Login = ({login, onLogin}) => {
         })
     };
 
-    const registerHandler = (event) => {
+    const tryToRegister = (event) => {
         event.preventDefault();
         const enteredFirstName = firstNameRegisterInputRef.current.value;
         const enteredLastName = lastNameRegisterInputRef.current.value;
@@ -171,7 +171,7 @@ const Login = ({login, onLogin}) => {
                         {!isValidEmail && <p className={classes.invalid}>Emailul nu e valid!</p>}
                         {!isValidPassword && <p className={classes.invalid}>Minim 8 caractere pentru parolă!</p>}
                         {!isValidPhone && <p className={classes.invalid}>Numărul de telefon nu e valid!</p>}
-                        <button className={classes.button} onClick={registerHandler}>Înregistrare</button>
+                        <button className={classes.button} onClick={tryToRegister}>Înregistrare</button>
                     </form>
                 </div>
                 <div className={classes.formContainer + " " + classes.signInContainer}>
@@ -197,7 +197,7 @@ const Login = ({login, onLogin}) => {
                         <br/>
                         {!isValidAccount && <p className={classes.invalid}>Email sau parolă gresită!</p>}
                         {isIncomplete && <p className={classes.invalid}>Completează toate câmpurile!</p>}
-                        <button className={classes.button} onClick={submitHandler}>
+                        <button className={classes.button} onClick={tryAuthenticate}>
                             Autentificare
                         </button>
                     </form>

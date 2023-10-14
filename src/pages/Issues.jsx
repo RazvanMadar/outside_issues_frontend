@@ -54,7 +54,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
                     setIssues(result.content);
                     setTotalPages(result.totalPages);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -64,16 +64,16 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
         return addCitizenReaction(token, reactions, (result, status, err) => {
             if (result !== null && status === 201) {}
             else {
-                console.log(err);
+
             }
         });
     };
 
-    const handleChangePage = (e, p) => {
+    const changeThePage = (e, p) => {
         setCurrentPage(p - 1);
     }
 
-    const handleOrderAsc = () => {
+    const orderAscending = () => {
         if (!orderAsc) {
             setOrderAsc(true);
             setOrder('asc');
@@ -81,7 +81,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
         }
     }
 
-    const handleOrderDesc = () => {
+    const orderDescending = () => {
         if (!orderDesc) {
             setOrderAsc(false);
             setOrder('desc');
@@ -128,10 +128,10 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
                             </Input>
                         </div>
                         <Checkbox icon={<UploadOutlinedIcon/>} checkedIcon={<FileUploadIcon style={{color: "black"}}/>}
-                                  checked={orderAsc} onClick={handleOrderAsc}/>
+                                  checked={orderAsc} onClick={orderAscending}/>
                         <Checkbox icon={<DownloadOutlinedIcon/>}
                                   checkedIcon={<FileDownloadIcon style={{color: "black"}}/>}
-                                  checked={orderDesc} onClick={handleOrderDesc}/>
+                                  checked={orderDesc} onClick={orderDescending}/>
                         <FilterMap
                             show={modalShow}
                             onHide={() => setModalShow(false)}
@@ -164,7 +164,7 @@ const Issues = ({passBackgroundColor, isDeleted, setIsDeleted, isUpdated, setIsU
                     ) : ""}
                     <br/>
                     <Pagination count={totalPages} showFirstButton showLastButton color="primary"
-                                onChange={handleChangePage}/>
+                                onChange={changeThePage}/>
                     <br/>
                 </Container> : <Navigate to={"/blocked"} replace/>}
         </div>

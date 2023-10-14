@@ -40,7 +40,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                     setCitizens(result.content);
                     setTotalElements(result.totalElements);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -51,7 +51,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
             if (status === 200 && result !== null) {
                 setData(result);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -62,7 +62,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                 const second = {state: result[1].state, val2: result[1].val}
                 setRejected([result[0], second]);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -72,7 +72,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                 if (result !== null && status === 201) {
                     setNewBlocked((prev) => !prev);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -83,7 +83,7 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
                 if (result !== null && status === 200) {
                     setNewUnblocked((prev) => !prev);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -94,14 +94,14 @@ const CitizensTable = ({passIsDeleted, passBackgroundColor}) => {
         getStatistics();
         getRejected();
 
-        const handleResize = () => {
+        const resizeComponent = () => {
             setDesktopScreen(window.innerWidth > 878);
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', resizeComponent);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resizeComponent);
         };
     }, [currentPage, citizensPerPage, newBlocked, newUnlocked, passIsDeleted])
 

@@ -33,7 +33,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
         return sendEmail(token, data, (result, status, err) => {
             if (result !== null && status === 200) {}
             else {
-                console.log(err);
+
             }
         })
     }
@@ -49,7 +49,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
                 sendAnEmail({subject: "Sesizare Problemele de afară", toEmail: currentMail, content: content, issueId: result
                 });
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -123,7 +123,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
                 }
                 setIssueAdr(issueAddress);
             } else {
-                console.log(err);
+
             }
         });
     }
@@ -132,7 +132,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
         return !!checkbox.current.checked;
     }
 
-    const handleAddIssue = () => {
+    const addReportedIssue = () => {
         const currentEmail = !isLogged ? emailInputRef.current.value : null
         if (!isLogged) {
             if (currentEmail === null || currentEmail === '' || !isCorrectEmail(currentEmail)) {
@@ -222,7 +222,7 @@ const AddForm = ({passIsShown, passIsIssueAdded, markerPosition, setAll}) => {
                 variant="contained"
                 color="primary"
                 style={{position: "absolute", left: "1rem", width: "8rem"}}
-                onClick={handleAddIssue}
+                onClick={addReportedIssue}
             >
                 Adaugă
             </Button>

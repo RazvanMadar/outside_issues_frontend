@@ -25,7 +25,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                 })
                 setData(result);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -37,7 +37,7 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
                     passSetFirstName(result.firstName)
                     passSetLastName(result.lastName)
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -58,14 +58,14 @@ const ProfileModal = ({show, onHide, userId, passIsIssueAdded, passIsIssueDelete
         getAllTypesStatistics();
         getImage();
 
-        const handleResize = () => {
+        const resizeComponent = () => {
             setDesktopScreen(window.innerWidth > 991);
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', resizeComponent);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resizeComponent);
         };
     }, [userId, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated])
 

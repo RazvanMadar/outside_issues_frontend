@@ -16,18 +16,17 @@ const LoginComponent = ({login, onLogin}) => {
     localStorage.removeItem("lastName");
 
     useEffect(() => {
-        console.log(login);
-        onLogin(false);
+        onLogin((prev) => !prev)
 
-        const handleResize = () => {
+        const resizeComponent = () => {
             setWidth(window.innerWidth);
             setComponent(window.innerWidth > 768 ? <Login onLogin={onLogin}/> : <MobileForm onLogin={onLogin}/>);
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', resizeComponent);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resizeComponent);
         };
     }, []);
 

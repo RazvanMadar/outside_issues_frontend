@@ -13,7 +13,18 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const SOCKET_URL = 'http://localhost:8080/ws-message';
 
-const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueDeleted, passIsIssueUpdated, passPersons, passSetIsIssueAdded, passSetIsIssueUpdated, passSetReceivedNewUserMessage, passSetIsMessageAdded}) => {
+const Navbar = ({
+                    isLoggedIn,
+                    passBackgroundColor,
+                    passIsIssueAdded,
+                    passIsIssueDeleted,
+                    passIsIssueUpdated,
+                    passPersons,
+                    passSetIsIssueAdded,
+                    passSetIsIssueUpdated,
+                    passSetReceivedNewUserMessage,
+                    passSetIsMessageAdded
+                }) => {
     const [sidebar, setSidebar] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const isLogged = localStorage.getItem("isLogged");
@@ -44,7 +55,7 @@ const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueD
 
     const showSidebar = () => setSidebar(!sidebar);
 
-    const handleChangeColor = () => {
+    const changeTheColor = () => {
         setIsLightMode((prev) => !prev);
         const newColor = backgroundColor === '#A9AAB4' ? 'white' : '#A9AAB4';
         setBackgroundColor(newColor);
@@ -55,31 +66,30 @@ const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueD
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor;
         changeStateFromLocalStorage();
-        console.log("isLoggedIn = ", isLoggedIn)
 
-        const handleResize = () => {
+        const resizeComponent = () => {
             setDesktopScreen(window.innerWidth > 767);
         };
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', resizeComponent);
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resizeComponent);
         };
-    }, [backgroundColor, isLoggedIn, JSON.parse(localStorage.getItem('isLogged')), isBlocked])
+    }, [backgroundColor, isLoggedIn, isBlocked])
 
     const onConnected = () => {
         console.log("Connected!!!");
     };
 
     const onMessageReceived = (message) => {
-        if (message.to !== undefined && message.to === email) {  // Mesaj transmis pentru toți utilizatorii
-            passSetIsIssueAdded((prev) => !prev)  // Modificare variabilă sensibilă pentru actualizarea componentelor necesare
-            passSetIsIssueUpdated((prev) => !prev) // Modificare variabilă sensibilă pentru actualizarea componentelor necesare
-        } else if (message.fromEmail !== undefined && message.toEmail !== undefined) { // Mesaj transmis pentru participanții la chat
-            if (message.fromEmail === email || message.toEmail === email) { // Actualizare chat dacă este destinat mesajul utizatorului logat
-                if (!passPersons.some(item => item.email === message.fromEmail)) { // Pentru actualizarea listei de participanți pentru administrator
-                    passSetReceivedNewUserMessage((prev) => !prev) // Modificare variabilă sensibilă pentru actualizarea componentelor necesare
+        if (message.to !== undefined && message.to === email) {
+            passSetIsIssueAdded((prev) => !prev)
+            passSetIsIssueUpdated((prev) => !prev)
+        } else if (message.fromEmail !== undefined && message.toEmail !== undefined) {
+            if (message.fromEmail === email || message.toEmail === email) {
+                if (!passPersons.some(item => item.email === message.fromEmail)) {
+                    passSetReceivedNewUserMessage((prev) => !prev)
                 }
-                passSetIsMessageAdded((prev) => !prev) // Modificare variabilă sensibilă pentru actualizarea componentelor necesare
+                passSetIsMessageAdded((prev) => !prev)
             }
         }
     };
@@ -104,14 +114,14 @@ const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueD
                     <Switch checked={isLightMode} style={{color: "white"}} color={isAdmin ? "warning" : "primary"}
                             icon={<ModeNightIcon/>}
                             checkedIcon={<LightModeIcon/>}
-                            onClick={handleChangeColor}/>
+                            onClick={changeTheColor}/>
                 </div>}
-                {((isLoggedIn || isLogged) && isUser) && !isBlocked && <button className={classes.email}
+                {(isLogged && isUser) && !isBlocked && <button className={classes.email}
                                                                                onClick={() => setModalShow(true)}
                 >{firstName} {lastName}
                 </button>}
                 {isBlocked && <div className={classes.admin}>CONT BLOCAT</div>}
-                {((isLoggedIn || isLogged) && isAdmin) && <div className={classes.admin}>ADMINISTRATOR</div>}
+                {(isLogged && isAdmin) && <div className={classes.admin}>ADMINISTRATOR</div>}
                 {isUser && <ProfileModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
@@ -163,19 +173,17 @@ const Navbar = ({isLoggedIn, passBackgroundColor, passIsIssueAdded, passIsIssueD
                         }
                     })}
                     {isBlocked &&
-                    <li key={8} className={classes.mainInfo}>
-                        <Link to={"/login"} style={{color: "black"}}>
-                            <VpnKeyIcon/>
-                            <span className={classes.span} style={{color: "black"}}>Deconectare</span>
-                        </Link>
-                    </li>
+                        <li key={8} className={classes.mainInfo}>
+                            <Link to={"/login"} style={{color: "black"}}>
+                                <VpnKeyIcon/>
+                                <span className={classes.span} style={{color: "black"}}>Deconectare</span>
+                            </Link>
+                        </li>
                     }
                 </ul>
             </nav>
         </>
     );
-}
-    ;
+};
 
-    export default Navbar;
-
+export default Navbar;

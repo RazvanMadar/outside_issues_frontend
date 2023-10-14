@@ -6,10 +6,6 @@ import ChatMessages from "./ChatMessages";
 import {getChatUsersByRole} from "../../api/citizen-api";
 import {Navigate} from "react-router-dom";
 
-//
-// COD LUAT DUPA https://mdbootstrap.com/docs/react/extended/chat/#!
-//
-
 const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedNewUserMessage, passIsMessageAdded, passSetIsMessageAdded}) => {
     const [toImages, setToImages] = useState([]);
     const [messages, setMessages] = useState([]);
@@ -26,7 +22,7 @@ const MyChat = ({passBackgroundColor, passPersons, passSetPersons, passReceivedN
                     getImages(result);
                     passSetPersons(result);
                 } else {
-                    console.log(err);
+
                 }
             }
         );

@@ -13,7 +13,6 @@ const ImageBoxProfile = ({passIsPhoto, passSetNewImage, title}) => {
         });
         passIsPhoto(imagesArray[0])
 
-        // FOR BUG IN CHROME
         event.target.value = "";
     };
 

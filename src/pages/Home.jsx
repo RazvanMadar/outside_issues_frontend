@@ -23,7 +23,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
                 })
                 setData(updatedArray);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -36,7 +36,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
                 })
                 setData2(updatedArray);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -50,7 +50,7 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
                 })
                 setData3(updatedArray);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -60,14 +60,14 @@ const Home = ({isAdded, isUpdated, isDeleted}) => {
         getCurrentYearStatistics();
         getAllTypesStatistics();
 
-        const handleResize = () => {
+        const resizeComponent = () => {
             setDesktopScreen(window.innerWidth > 878);
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', resizeComponent);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resizeComponent);
         };
     }, [isAdded, isUpdated, isDeleted]);
 

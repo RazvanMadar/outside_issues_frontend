@@ -38,7 +38,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
             if (result !== null && status === 200) {
                 setCitizen(result);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -48,7 +48,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
             if (result !== null && status === 200) {
                 setImage(URL.createObjectURL(result));
             } else {
-                console.log(err)
+
             }
         });
     };
@@ -61,7 +61,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                 })
                 setData(result);
             } else {
-                console.log(err);
+
             }
         });
     };
@@ -79,7 +79,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                     setIssues(result.content);
                     setTotalPages(result.totalPages);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -89,7 +89,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
         return deleteCitizenImage(token, userId, (result, status, err) => {
                 if (result !== null && status === 200) {}
                 else {
-                    console.log(err);
+
                 }
             }
         );
@@ -97,9 +97,9 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
 
     const addImage = () => {
         return addCitizenImage(userId, newImage, (result, status, err) => {
-                if (result !== null && status === 201) {}
+                if (result !== null && status === 201) {passSetIsIssueUpdated((prev) => !prev);}
                 else {
-                    console.log(err);
+
                 }
             }
         );
@@ -119,9 +119,8 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                         deleteImage();
                         addImage();
                     }
-                    passSetIsIssueUpdated((prev) => !prev);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
@@ -133,13 +132,13 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                     const second = {state: result[1].state, val2: result[1].val}
                     setData2([result[0], second]);
                 } else {
-                    console.log(err);
+
                 }
             }
         );
     };
 
-    const handleChangePage = (e, p) => {
+    const changeThePage = (e, p) => {
         setCurrentPage(p - 1);
     }
 
@@ -173,12 +172,12 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                                 <FormGroup>
                                     <Label for="firstName">Prenume</Label>
                                     <Input type="text" name="firstname" id="firstName" defaultValue={citizen.firstName}
-                                           innerRef={firstNameInputRef}/>
+                                           innerRef={firstNameInputRef} style={{backgroundColor: passBackgroundColor}}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="lastName">Nume</Label>
                                     <Input type="text" name="lastname" id="lastName" defaultValue={citizen.lastName}
-                                           innerRef={lastNameInputRef}/>
+                                           innerRef={lastNameInputRef} style={{backgroundColor: passBackgroundColor}}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="email">Email</Label>
@@ -236,7 +235,7 @@ const MyProfile = ({passIsDeleted, passIsUpdated, passBackgroundColor, passSetIs
                         </Row>
                     ) : ""}
                     <Pagination count={totalPages} showFirstButton showLastButton color="primary"
-                                onChange={handleChangePage} style={{marginLeft: "1rem", marginTop: "1rem"}}/>
+                                onChange={changeThePage} style={{marginLeft: "1rem", marginTop: "1rem"}}/>
                     <br/>
                 </div>
         }
